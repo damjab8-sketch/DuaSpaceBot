@@ -60,59 +60,40 @@ QURAN_SURAHS = [
     "المسد", "الإخلاص", "الفلق", "الناس"
 ]
 
-# -------------------- حزمة الكتب المدمجة تلقائياً --------------------
+# -------------------- قائمة الكتب المضافة تلقائياً --------------------
 
 PRELOADED_BOOKS = [
-    # إسلامية
-    ("islamic", "الأربعون النووية", "الإمام النووي", "أهم الأحاديث الجامعة لقواعد وأصول الدين الإسلامي مع شرح ميسر."),
-    ("islamic", "رياض الصالحين", "الإمام النووي", "دليل المسلم العملي في الأخلاق والعبادات والمعاملات النبوية."),
-    ("islamic", "الرحيق المختوم", "صفي الرحمن المباركفوري", "من أروع وأشمل كتب السيرة النبوية المطهرة."),
-    
-    # طبية
-    ("medical", "دليل الإسعافات الأولية الشامل", "منظمة الصحة العالمية", "دليل عملي مصور للتعامل مع الحوادث والطوارئ الطبية وإنقاذ الحياة."),
-    ("medical", "مبادئ علم التشريح ووظائف الأعضاء", "د. خالد عمارة", "مدخل مبسط وأساسي لفهم أجهزة جسم الإنسان ووظائفها الحيوية."),
-    ("medical", "المرجع السريع في الأدوية الشائعة", "نخبة من الصيادلة", "كتيب إرشادي عن تصنيفات الأدوية، الاستخدامات، والجرعات الأساسية."),
-
-    # لغات
-    ("languages", "قواعد اللغة الإنجليزية الأساسية (English Grammar)", "Raymond Murphy", "المرجع العالمي الأشهر لتعلم وضبط قواعد الإنجليزية من الصفر."),
-    ("languages", "دليل المحادثة التركية اليومية", "إسطنبول لتعليم اللغات", "أهم المفردات والجمل الشائعة للمحادثة اليومية في تركيا."),
-    ("languages", "أساسيات اللغة الفرنسية للمبتدئين", "معهد اللغات", "مدخل مبسط للنطق السليم وأهم العبارات والقواعد الفرنسية."),
-
-    # علم نفس ومجتمع
-    ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة شيقة لكيفية عمل الذاكرة، التفكير، واتخاذ القرارات."),
-    ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الكلاسيكي الأهم في فهم السلوك الجمعي وحركة المجتمعات."),
-
-    # فكر وفلسفة
-    ("philosophy", "مقدمة ابن خلدون", "عبد الرحمن بن خلدون", "المرجع التأسيسي الأول في علم الاجتماع وفلسفة التاريخ والعمران البشري."),
-    ("philosophy", "قصة الفلسفة", "ويل ديورانت", "رحلة ممتعة وشاملة تستعرض حياة وأفكار كبار فلاسفة العالم عبر التاريخ."),
-
-    # تطوير ذات
-    ("selfdev", "العادات الذرية (Atomic Habits)", "جيمس كلير", "منهج عملي لبناء عادات إيجابية صغيرة والتخلص من العادات السلبية."),
-    ("selfdev", "فن إدارة الوقت والإنتاجية العالية", "برايان تريسي", "استراتيجيات عملية لتنظيم المهام، زيادة التركيز، والتغلب على التسويف."),
-
-    # روايات
-    ("novels", "البؤساء (Les Misérables)", "فيكتور هوجو", "ملحمة إنسانية خالدة تتحدث عن العدالة، الرحمة، والأمل في وجه المحن."),
-    ("novels", "الخيميائي", "باولو كويلو", "رواية رمزية ملهمة تحث الإنسان على اتباع شغفه والسعي لتحقيق أحلامه."),
-
-    # موضوعات
-    ("topics", "دليل الطالب الناجح للتفوق الدراسي", "Dua Space", "خطوات عملية واستراتيجيات مجربة لتنظيم الدراسة والمراجعة الذكية للشهادة."),
+    ("islamic", "الأربعون النووية", "الإمام النووي", "أهم الأحاديث الجامعة لقواعد وأصول الدين الإسلامي."),
+    ("islamic", "رياض الصالحين", "الإمام النووي", "دليل المسلم العملي في الأخلاق والعبادات."),
+    ("islamic", "الرحيق المختوم", "صفي الرحمن المباركفوري", "سيرة نبوية عطرة شاملة ومحققة."),
+    ("medical", "دليل الإسعافات الأولية الشامل", "منظمة الصحة العالمية", "دليل عملي مصور للتعامل مع الطوارئ الطبية."),
+    ("medical", "مبادئ علم التشريح ووظائف الأعضاء", "د. خالد عمارة", "مدخل مبسط لفهم أجهزة وأعضاء جسم الإنسان."),
+    ("medical", "المرجع السريع في الأدوية", "نخبة من الأطباء", "دليل مختصر عن تصنيفات واستخدامات الأدوية."),
+    ("languages", "قواعد اللغة الإنجليزية (English Grammar)", "Raymond Murphy", "المرجع العالمي الأشهر لتعلم قواعد الإنجليزية."),
+    ("languages", "دليل المحادثة التركية اليومية", "إسطنبول لتعليم اللغات", "أهم المفردات والجمل الشائعة للمحادثة اليومية."),
+    ("languages", "أساسيات الفرنسية للمبتدئين", "معهد اللغات", "مدخل لأساسيات وقواعد اللغة الفرنسية."),
+    ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة شيقة لكيفية عمل العقل والتفكير."),
+    ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الأهم في فهم حركة وسلوك المجتمعات."),
+    ("philosophy", "مقدمة ابن خلدون", "عبد الرحمن بن خلدون", "المرجع التأسيسي الأول في علم الاجتماع وفلسفة التاريخ."),
+    ("philosophy", "قصة الفلسفة", "ويل ديورانت", "رحلة ممتعة تستعرض حياة وأفكار كبار الفلاسفة عبر التاريخ."),
+    ("selfdev", "العادات الذرية (Atomic Habits)", "جيمس كلير", "منهج عملي لبناء عادات إيجابية والتخلص من السلبية."),
+    ("selfdev", "فن إدارة الوقت والإنتاجية العالية", "برايان تريسي", "استراتيجيات عملية لتنظيم المهام وزيادة التركيز."),
+    ("novels", "البؤساء (Les Misérables)", "فيكتور هوجو", "ملحمة إنسانية خالدة عن العدالة والرحمة والأمل."),
+    ("novels", "الخيميائي", "باولو كويلو", "رواية رمزية ملهمة عن السعي لتحقيق الأحلام."),
+    ("topics", "دليل الطالب الناجح للتفوق الدراسي", "Dua Space", "خطوات واستراتيجيات مجربة لتنظيم الدراسة والمراجعة."),
 ]
-
-# -------------------- بنك المنشورات التلقائية للقناة --------------------
 
 AUTO_POSTS = [
     "﴿أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ﴾ ✨\n\nسبحان الله، والحمد لله، ولا إله إلا الله، والله أكبر.",
-    "﴿وَتَوَكَّلْ عَلَى الْعَزِيزِ الرَّحِيمِ * الَّذِي يَرَاكَ حِينَ تَقُومُ﴾ 🪐\n\nاللهم نسألك علماً نافعاً، ورزقاً طيباً، وعملاً متقبلاً.",
+    "﴿وَتَوَكَّلْ عَلَى الْعَزِيزِ الرَّحِيمِ * الَّذِي يَرَاكَ حِينَ تَقُومُ﴾ 🪐",
     "قال رسول الله ﷺ: «مَن سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللَّهُ له به طَرِيقًا إلى الجَنَّةِ». 🌿",
     "قال رسول الله ﷺ: «إنَّ اللهَ يُحِبُّ إذا عمِلَ أحَدُكُم عمَلًا أنْ يُتْقِنَه». 💫",
     "«لا يقاس النجاح بالموقع الذي يتبوأه المرء في حياته، بقدر ما يقاس بالصعاب التي تغلب عليها.» — بوكر واشنطن",
     "«العقل الذي يتسع لفكرة جديدة لا يعود أبداً إلى حجمه الأصلي.» — أوليفر وندل هولمز 💡",
     "«كن أنت التغيير الذي تريد أن تراه في هذا العالم.» — غاندي ✨",
-    "﴿إِنَّ مَعَ الْعُسْرِ يُسْرًا﴾ 🌸\n\nاطمئن، فرج الله قريب وبشائر الخير قادمة.",
+    "﴿إِنَّ مَعَ الْعُسْرِ يُسْرًا﴾ 🌸",
     "«سَيِّدُ الاِسْتِغْفَارِ: اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ». 📿",
 ]
-
-# -------------------- اللغات والترجمة --------------------
 
 TEXTS = {
     "ar": {
@@ -149,8 +130,8 @@ TEXTS = {
         "rec_sent": "✅ شكراً جزيلاً! تم إرسال توصيتك للإدارة بنجاح.",
         "share_text": "🪐 أنصحكم بتجربة بوت Dua Space الشامل! القرآن كاملاً، ومكتبات إسلامية، طبية، لغات، روايات، واقتباسات ملهمة، وخدمات إبداعية:\n\nhttps://t.me/DuaSpaceHelperBot",
         "social_text": "🪐 **منصات وحسابات Dua Space الرسمية:**\n\n• القناة الرسمية: https://t.me/DuaSpace1\n• الإدارة والتواصل المباشر: @xdua1\n• ترقبوا قريباً بقية الروابط والمنصات التابعة لنا!",
-        "faq_text": "💡 **الأسئلة الشائعة حول خدمات Dua Space:**\n\n• **كيف أطلب تصميماً أو خدمة خاصة؟**\nمن قائمة الخدمات، تواصل مع الإدارة مباشرة.\n\n• **هل الكتب والمراجع مجانية؟**\nنعم، كافة الكتب والمراجع القرآنية والطبية مجانية بالكامل للقراءة والاطلاع.\n\n• **كيف أقترح كتباً جديدة؟**\nعبر زر «🌟 توصيات وترشيحات الأعضاء».",
-        "scholarships_text": "🎓 **دليل المنح والفرص التعليمية:**\n\n• مصادر موثوقة لأفضل المنح الدولية المجانية (تركيا، قطر، أوروبا).\n• أدلة واستراتيجيات اجتياز اختبارات اللغة الدولية (IELTS / TOEFL).\n• ترقبوا تحديثات مستمرة بفرص التعليم والتدريب 🪐",
+        "faq_text": "💡 **الأسئلة الشائعة حول خدمات Dua Space:**\n\n• **كيف أطلب خدمة؟**\nتواصل مباشرة مع الإدارة.\n\n• **هل الكتب مجانية؟**\nنعم، كافة الكتب والمراجع القرآنية والطبية مجانية بالكامل.",
+        "scholarships_text": "🎓 **دليل المنح والفرص التعليمية:**\n\n• مصادر موثوقة لأفضل المنح الدولية المجانية (تركيا، قطر، أوروبا).\n• أدلة واختبارات اللغة الدولية (IELTS / TOEFL).",
     },
     "en": {
         "welcome": "Welcome to Dua Space! 🪐\nYour complete space for creativity, learning, and growth.\nPlease select an option below:",
@@ -190,7 +171,7 @@ TEXTS = {
         "scholarships_text": "🎓 International scholarship guides & exam resources.",
     },
     "fr": {
-        "welcome": "Bienvenue sur Dua Space ! 🪐\nVotre espace dédié au savoir et à l'excellence.\nVeuillez choisir une section :",
+        "welcome": "Bienvenue sur Dua Space ! 🪐\nVeuillez choisir une section :",
         "must_subscribe": "⚠️ **Abonnement requis :** Rejoignez la chaîne officielle.",
         "sub_btn": "📢 Rejoindre la chaîne",
         "check_sub": "✅ Vérifier l'abonnement",
@@ -227,7 +208,7 @@ TEXTS = {
         "scholarships_text": "🎓 Guide des bourses d'études.",
     },
     "it": {
-        "welcome": "Benvenuto su Dua Space! 🪐\nIl tuo spazio dedicato alla conoscenza e alla crescita.\nScegli una sezione dai pulsanti qui sotto:",
+        "welcome": "Benvenuto su Dua Space! 🪐\nScegli una sezione dai pulsanti qui sotto:",
         "must_subscribe": "⚠️ **Iscrizione obbligatoria:** Unisciti al canale ufficiale.",
         "sub_btn": "📢 Unisciti al canale",
         "check_sub": "✅ Verifica iscrizione",
@@ -358,15 +339,15 @@ def init_db():
         )
         con.commit()
 
-        # إدراج الكتب التلقائية إذا كانت قاعدة البيانات فارغة
-        book_count = con.execute("SELECT COUNT(*) AS c FROM books").fetchone()["c"]
-        if book_count == 0:
-            for cat, b_title, b_auth, b_desc in PRELOADED_BOOKS:
+        # إدراج الكتب الجاهزة فوراً وتفادي التكرار
+        for cat, b_title, b_auth, b_desc in PRELOADED_BOOKS:
+            exists = con.execute("SELECT id FROM books WHERE title = ?", (b_title,)).fetchone()
+            if not exists:
                 con.execute(
                     "INSERT INTO books(category, title, author, description, file_id) VALUES(?, ?, ?, ?, NULL)",
                     (cat, b_title, b_auth, b_desc)
                 )
-            con.commit()
+        con.commit()
     finally:
         con.close()
 
@@ -437,21 +418,15 @@ def language_selection_keyboard():
 def main_menu_keyboard(user_id):
     return InlineKeyboardMarkup(
         [
-            # زر القرآن الكريم المميز
-            [
-                InlineKeyboardButton(get_t(user_id, "quran_btn"), callback_data="quran_groups"),
-            ],
-            # خدمات وإبداع
+            [InlineKeyboardButton(get_t(user_id, "quran_btn"), callback_data="quran_groups")],
             [
                 InlineKeyboardButton(get_t(user_id, "services"), callback_data="services"),
                 InlineKeyboardButton(get_t(user_id, "portfolio"), callback_data="portfolio"),
             ],
-            # منح ومؤقت بومودورو
             [
                 InlineKeyboardButton(get_t(user_id, "scholarships"), callback_data="scholarships_info"),
                 InlineKeyboardButton(get_t(user_id, "pomodoro"), callback_data="pomodoro_start"),
             ],
-            # مكتبات تخصصية
             [
                 InlineKeyboardButton(get_t(user_id, "islamic_lib"), callback_data="cat:islamic"),
                 InlineKeyboardButton(get_t(user_id, "medical_lib"), callback_data="cat:medical"),
@@ -468,12 +443,10 @@ def main_menu_keyboard(user_id):
                 InlineKeyboardButton(get_t(user_id, "novels_lib"), callback_data="cat:novels"),
                 InlineKeyboardButton(get_t(user_id, "topics_lib"), callback_data="cat:topics"),
             ],
-            # تفاعل وتسبيح
             [
                 InlineKeyboardButton(get_t(user_id, "quotes"), callback_data="quotes"),
                 InlineKeyboardButton(get_t(user_id, "tasbeeh"), callback_data="tasbeeh"),
             ],
-            # مشاركة وتوصيات ودعم
             [
                 InlineKeyboardButton(get_t(user_id, "recommendations"), callback_data="recommend"),
                 InlineKeyboardButton(get_t(user_id, "share"), callback_data="share_bot"),
@@ -614,7 +587,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = query.data or ""
     user_id = query.from_user.id
 
-    # تحديد وتغيير اللغة
     if data.startswith("setlang:"):
         lang_code = data.split(":", 1)[1]
         set_user_lang(user_id, lang_code)
@@ -640,7 +612,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    # فحص الاشتراك
     if data == "check_subscription":
         is_sub = await is_user_subscribed(context.bot, user_id)
         if is_sub:
@@ -664,7 +635,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    # الرئيسية
     if data == "home":
         context.user_data.pop("flow", None)
         await query.message.reply_text(
@@ -673,7 +643,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    # القرآن الكريم (114 سورة)
     if data == "quran_groups":
         await query.message.reply_text(
             "📖 **القرآن الكريم كاملاً (114 سورة):**\nيرجى اختيار المجموعة لتصفح السور والاستماع إليها مباشرة بجودة عالية:",
@@ -704,7 +673,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(f"✨ سورة **{s_name}** (رقمها في المصحف: {s_num})\nيمكنك الاستماع المباشر أو قراءة الآيات والتفسير عبر الروابط أدناه:", reply_markup=kb, parse_mode="Markdown")
         return
 
-    # مؤقت بومودورو للمذاكرة
     if data == "pomodoro_start":
         kb = InlineKeyboardMarkup(
             [
@@ -713,7 +681,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ]
         )
         await query.message.reply_text(
-            "⏱️ **مؤقت المذاكرة والتركيز (Pomodoro Timer):**\n\nتعتمد تقنية بومودورو على التركيز التام لمدة 25 دقيقة في المذاكرة بعيداً عن المشتتات، يليها 5 دقائق استراحة.\nاضغط أدناه للبدء:",
+            "⏱️ **مؤقت المذاكرة والتركيز (Pomodoro Timer):**\n\nتعتمد تقنية بومودورو على التركيز التام لمدة 25 دقيقة في المذاكرة، يليها 5 دقائق استراحة.\nاضغط أدناه للبدء:",
             reply_markup=kb,
             parse_mode="Markdown",
         )
@@ -724,7 +692,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         asyncio.create_task(run_pomodoro(query.message.chat_id, context))
         return
 
-    # المنح والأسئلة الشائعة
     if data == "scholarships_info":
         await query.message.reply_text(
             get_t(user_id, "scholarships_text"),
@@ -741,7 +708,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    # تصفح أقسام المكتبة
     if data.startswith("cat:"):
         cat_key = data.split(":", 1)[1]
         cat_names = {
@@ -768,7 +734,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             for r in rows
         ]
         buttons.append([InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")])
-        await query.message.reply_text(f"{name}\nيرجى اختيار الكتاب للتحميل:", reply_markup=InlineKeyboardMarkup(buttons))
+        await query.message.reply_text(f"{name}\nيرجى اختيار الكتاب لعرضه:", reply_markup=InlineKeyboardMarkup(buttons))
         return
 
     if data.startswith("open_book:"):
@@ -785,7 +751,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await query.message.reply_text(caption)
         return
 
-    # الاقتباسات والسبحة ومشاركة البوت
     if data == "quotes":
         quote = random.choice(AUTO_POSTS)
         kb = InlineKeyboardMarkup(
@@ -842,7 +807,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(get_t(user_id, "rec_prompt"))
         return
 
-    # المعرض
     if data == "portfolio":
         rows = db_all("SELECT id, title FROM portfolio ORDER BY id DESC LIMIT 15")
         if not rows:
@@ -874,7 +838,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await query.message.reply_text(f"🎨 **{item['title']}**\n\n{item['description']}")
         return
 
-    # -------------------- وظائف الإدارة --------------------
+    # وظائف الإدارة
     if not is_admin_user(user_id):
         return
 
@@ -960,8 +924,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["flow"] = {"kind": "p_title"}
         await query.message.reply_text("اكتبي عنوان العمل أو التصميم:")
 
-# -------------------- دالة مؤقت بومودورو --------------------
-
 async def run_pomodoro(chat_id, context):
     await asyncio.sleep(25 * 60)
     try:
@@ -972,8 +934,6 @@ async def run_pomodoro(chat_id, context):
         )
     except Exception:
         pass
-
-# -------------------- مهمة النشر التلقائي بالقناة (كل 4 ساعات) --------------------
 
 async def channel_auto_poster(bot):
     while True:
@@ -986,8 +946,6 @@ async def channel_auto_poster(bot):
         except Exception as e:
             logger.warning(f"Auto post error: {e}")
             await asyncio.sleep(300)
-
-# -------------------- معالجة النصوص والملفات --------------------
 
 async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
@@ -1084,8 +1042,6 @@ async def file_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.effective_message.reply_text("✅ تم حفظ ملف الكتاب وربطه بالقسم بنجاح!", reply_markup=admin_keyboard())
         return
 
-# -------------------- تشغيل خادم الويب --------------------
-
 async def handle_health(request):
     return web.Response(text="Dua Space Complete Ecosystem Live 🪐", status=200)
 
@@ -1113,4 +1069,21 @@ async def main():
 
     application.add_handler(CallbackQueryHandler(button_handler))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_router))
-    application.add_handler(MessageHandler(filters.AT
+    application.add_handler(MessageHandler(filters.ATTACHMENT, file_handler))
+
+    try:
+        await application.initialize()
+        await application.start()
+        await application.updater.start_polling(drop_pending_updates=False)
+        logger.info("Dua Space Complete Ecosystem is running.")
+
+        asyncio.create_task(channel_auto_poster(application.bot))
+
+        await asyncio.Event().wait()
+    finally:
+        await application.updater.stop()
+        await application.stop()
+        await runner.cleanup()
+
+if __name__ == "__main__":
+    asyncio.run(main())
