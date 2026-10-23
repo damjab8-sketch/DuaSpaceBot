@@ -29,7 +29,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     level=logging.INFO,
 )
-logger = logging.getLogger("DuaSpaceFullCMSBot")
+logger = logging.getLogger("DuaSpaceMasterPro")
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
 CHANNEL_ID = os.environ.get("CHANNEL_ID", "@DuaSpace1").strip()
@@ -63,22 +63,22 @@ QURAN_SURAHS = [
 ]
 
 OFFICIAL_LAUNCH_POST = (
-    "🪐 انطلاقة جديدة ومساحة متكاملة بين أيديكم!\n\n"
-    "يسرّنا أن نعلن لكم رسميًا عن إطلاق وتحديث بوت Dua Space الشامل | بوابتكم الذكية للمعرفة، الإبداع، والارتقاء ✨\n\n"
-    "سواء كنت تبحث عن مرجع دراسي، تطمح لتطوير لغاتك، تبحث عن حلول وتصاميم مميزة، أو تريد تحدي عقلك واختبار معلوماتك.. جمعنا كل ذلك في مكان واحد:\n\n"
-    "✨ ماذا ينتظركم داخل البوت؟\n"
+    "🪐 انطلاقة كبرى لمساحة صُممت لتصنع الفارق في مسيرتك!\n\n"
+    "يسرّنا أن نعلن لكم رسميًا عن إطلاق منصة وبوت Dua Space الشامل | بوابتكم الذكية نحو المعرفة، الإبداع، والارتقاء ✨\n\n"
+    "جمعنا لكم أدوات التعلم، والمراجع النادرة، وخدمات التصميم في بيئة تفاعلية صُممت خصيصاً لأصحاب الطموح العالي:\n\n"
+    "✨ ما ينتظركم داخل المنصة:\n"
     "• 📖 القرآن الكريم كاملاً (114 سورة) تلاوة وتفسيراً.\n"
-    "• 📐 الصرح الهندسي والتقني: طبية حيوية، برمجيات وذكاء اصطناعي، مدنية، كهربائية، وميكانيكية.\n"
-    "• 🩺 مكتبات تخصصية مجانية: طب، لغات، علم نفس شامل، فكر وفلسفة، وروايات عالمية.\n"
-    "• 🧠 بنك تحديات الذكاء، تدريب المخ، وألغاز الرياضيات وعلم النفس.\n"
+    "• 📐 الصرح الهندسي والتقني: مراجع معتمدة في الهندسة الطبية الحيوية، البرمجيات والذكاء الاصطناعي، المدنية، الكهربائية، والميكانيكية.\n"
+    "• 🩺 المكتبة الطبية والصيدلانية وعلم النفس الشامل.\n"
+    "• 🧠 بنك تحديات العقل، الذكاء، وألغاز الرياضيات والمنطق.\n"
     "• 🎓 دليل المنح الدراسية العالمية والفرص التعليمية بروابطها الرسمية.\n"
-    "• 🎌 عالم الأنمي والمانجا والروايات المترجمة.\n"
-    "• 🛍️ خدمات التصميم الإبداعي والحلول الرقمية.\n"
-    "• ⏱️ رفيق دراستك: مؤقت التركيز (Pomodoro) والسبحة الإلكترونية.\n\n"
-    "🌱 هذه خطوتنا الأولى فقط! المنصة في تحديث مستمر، ونعمل دوريًا على إضافة مراجع جديدة وتوسيع الأقسام.\n\n"
-    "🚀 جربوا البوت الآن وشاركوا الرابط مع أصدقائكم لتعم الفائدة:\n"
-    "🤖 الرابط المباشر: @DuaSpaceHelperBot\n\n"
-    "القادم أعظم وأجمل، وكونوا بالقرب دائمًا 🪐💫"
+    "• 🎌 واحة الأنمي والمانجا والروايات المترجمة.\n"
+    "• 🛍️ خدمات التصميم الإبداعي والحلول الرقمية والهويات البصرية.\n"
+    "• ⏱️ بيئة الإنجاز: مؤقت التركيز (Pomodoro) والسبحة الإلكترونية.\n\n"
+    "🌱 هذه البداية فقط! المنصة تتطور يومياً مع كتب وميزات جديدة باستمرار.\n\n"
+    "🚀 انطلق وجرب البوت الآن:\n"
+    "🤖 الرابط الرسمي: @DuaSpaceHelperBot\n\n"
+    "القادم أعظم، وكونوا بالقرب دائماً 🪐💫"
 )
 
 AUTO_POSTS = [
@@ -90,6 +90,13 @@ AUTO_POSTS = [
     "«العقل الذي يتسع لفكرة جديدة لا يعود أبداً إلى حجمه الأصلي.» — أوليفر وندل هولمز 💡",
     "«كن أنت التغيير الذي تريد أن تراه في هذا العالم.» — غاندي ✨",
     "﴿إِنَّ مَعَ الْعُسْرِ يُسْرًا﴾ 🌸",
+]
+
+DEFAULT_SERVICES = [
+    ("🎨 التصميم الجرافيكي والهويات البصرية", "تصميم شعارات احترافية، بطاقات وهوية بصرية متكاملة لمشروعك.", "حسب تفاصيل الطلب"),
+    ("🖼️ تصميم بوسترات وبنرات إعلانية", "تصاميم لمنصات التواصل الاجتماعي بجودة وإتقان عالي.", "حسب تفاصيل الطلب"),
+    ("💌 بطاقات التهنئة والدعوات الرقمية", "تصاميم مخصصة ومبتكرة للمناسبات الخاصة والاحتفالات.", "حسب تفاصيل الطلب"),
+    ("📦 طلب تصميم وحلول مخصصة", "أرسل فكرتك ومتطلباتك ليتم تقدير التكلفة والوقت المناسب.", "يحدد بعد مراجعة الطلب"),
 ]
 
 # -------------------- قاعدة البيانات --------------------
@@ -149,7 +156,6 @@ def init_db():
                 title TEXT NOT NULL,
                 content TEXT NOT NULL,
                 btn_url TEXT DEFAULT NULL,
-                is_system INTEGER DEFAULT 0,
                 position INTEGER DEFAULT 0
             );
 
@@ -222,7 +228,7 @@ def init_db():
         )
         con.commit()
 
-        # إعداد رسالة الترحيب
+        # إعداد رسالة الترحيب الافتراضية
         welcome_default = (
             "أهلًا بكم في Dua Space! 🪐\n"
             "مساحتكم الشاملة للإبداع، المعرفة، والارتقاء.\n"
@@ -231,53 +237,60 @@ def init_db():
         if not con.execute("SELECT key FROM settings WHERE key = 'welcome_msg'").fetchone():
             con.execute("INSERT INTO settings(key, value) VALUES('welcome_msg', ?)", (welcome_default,))
 
-        # الأقسام الشاملة (كلها مخزنة في الجدول وقابلة للتعديل والحذف وتغيير العناوين)
+        # الأقسام الرئيسية في المنصة
         default_sections = [
-            ("quran", "📖 القرآن الكريم كاملاً (114 سورة)", "📖 **القرآن الكريم كاملاً (114 سورة):**\nاستماع مباشر وقراءة وتفاسير ميسرة لجميع سور القرآن.", None, 1, 1),
-            ("engineering", "📐 الصرح الهندسي والتقني", "📐 **الصرح الهندسي والتقني الشامل 🪐**\nبوابتكم لأقوى مراجع الهندسة الطبية الحيوية، البرمجيات والذكاء الاصطناعي، المدنية، الكهربائية، والميكانيكية.", None, 1, 2),
-            ("quiz", "🧠 بنك تحديات الذكاء والمخ", "🧠 **تحديات وكويزات الذكاء وتدريب المخ:**\nمجموعة اختبارات لتنشيط الذاكرة، المنطق، والحساب الذهني.", None, 1, 3),
-            ("services", "🛍️ الخدمات والتصميم", "🛍️ **خدمات واستوديو Dua Space:**\nطلب تصاميم الهويات البصرية، البوسترات، وبطاقات الدعوة والحلول الإبداعية.", None, 1, 4),
-            ("scholarships", "🎓 دليل المنح والفرص الشامل", "🎓 **دليل المنح الدولية الشاملة:**\nأقوى المنح الحكومية الممولة بالكامل حول العالم مع روابط التقديم الرسمية.", None, 1, 5),
-            ("anime", "🎌 عالم الأنمي والمانجا", "🎌 **عالم الأنمي والمانجا والروايات المترجمة:**\nمساحتكم الترفيهية لمتابعة فصول المانجا وروايات اللايت نوفل.", None, 1, 6),
-            ("portfolio", "🎨 معرض الأعمال", "🎨 **معرض التصاميم والأعمال السابقة:**", None, 1, 7),
-            ("pomodoro", "⏱️ مؤقت التركيز (Pomodoro)", "⏱️ **مؤقت المذاكرة (Pomodoro):**\nجلسات تركيز 25 دقيقة لإنجاز مهامك بكفاءة.", None, 1, 8),
-            ("quotes", "✨ اقتباسات ملهمة", "✨ **إشراقات واقتباسات فكرية متجددة:**", None, 1, 9),
-            ("islamic", "🕌 المكتبة الإسلامية", "🕌 **المكتبة الإسلامية العامة:**", None, 1, 10),
-            ("medical", "🩺 المكتبة الطبية", "🩺 **المكتبة الطبية والصيدلانية:**", None, 1, 11),
-            ("languages", "🌍 مكتبة اللغات", "🌍 **مكتبة اللغات الأجنبية والمناهج:**", None, 1, 12),
-            ("psychology", "🧠 علم النفس والمجتمع", "🧠 **علم النفس وتحليل السلوك البشري:**", None, 1, 13),
-            ("philosophy", "🏛️ الفكر والفلسفة", "🏛️ **أمهات كتب الفكر والفلسفة:**", None, 1, 14),
-            ("selfdev", "💡 تطوير الذات", "💡 **كتب تنمية وتطوير المهارات:**", None, 1, 15),
-            ("novels", "📖 روايات وقصص", "📖 **الروايات والقصص العالمية المترجمة:**", None, 1, 16),
-            ("topics", "📑 موضوعات عامة", "📑 **مقالات وأدلة معرفية متنوعة:**", None, 1, 17),
-            ("tasbeeh", "📿 السبحة الإلكترونية", "📿 **السبحة الرقمية التفاعلية:**", None, 1, 18),
-            ("recommend", "🌟 اقتراحات الأعضاء", "🌟 **مساحة استقبال اقتراحاتكم وترشيحاتكم:**", None, 1, 19),
-            ("faq", "💡 الأسئلة الشائعة", "💡 **الأسئلة الشائعة حول المنصة والخدمات:**", None, 1, 20),
-            ("share", "📢 مشاركة البوت", "📢 شارك رابط المنصة مع أصدقائك لتعم الفائدة.", None, 1, 21),
-            ("follow", "🔗 منصاتنا وحساباتنا", "🪐 **حساباتنا الرسمية:**\n• القناة: https://t.me/DuaSpace1\n• الإدارة: @xdua1", None, 1, 22),
+            ("quran", "📖 القرآن الكريم كاملاً (114 سورة)", "📖 **القرآن الكريم كاملاً (114 سورة):**\nاستماع مباشر وقراءة وتفاسير ميسرة لكافة السور.", None, 1),
+            ("engineering", "📐 الصرح الهندسي والتقني", "📐 **الصرح الهندسي والتقني الشامل 🪐**\nبوابتكم لأقوى مراجع الهندسة الطبية الحيوية، البرمجيات والذكاء الاصطناعي، المدنية، الكهربائية، والميكانيكية.", None, 2),
+            ("quiz", "🧠 بنك تحديات الذكاء والمخ", "🧠 **تحديات وكويزات الذكاء وتدريب المخ:**\nمجموعة اختبارات لتنشيط الذاكرة، المنطق، والحساب الذهني.", None, 3),
+            ("services", "🛍️ خدمات واستوديو Dua Space", "🛍️ **خدمات واستوديو Dua Space للتصميم والحلول الرقمية:**\nاختر الخدمة المطلوبة لمعرفة التفاصيل والبدء في الطلب مباشرة:", None, 4),
+            ("scholarships", "🎓 دليل المنح والفرص الشامل", "🎓 **دليل المنح الدولية الشاملة:**\nأقوى المنح الحكومية الممولة بالكامل حول العالم مع روابط التقديم الرسمية:\n\n• المنحة التركية (Türkiye Bursları)\n• منحة الحكومة المجرية (Stipendium Hungaricum)\n• منحة الحكومة الروسية\n• منح جامعات قطر وحمد بن خليفة\n• منصة «ادرس في السعودية» للطلاب الدوليين", None, 5),
+            ("anime", "🎌 عالم الأنمي والمانجا", "🎌 **عالم الأنمي والمانجا والروايات المترجمة:**\nمساحتكم الترفيهية لمتابعة فصول المانجا وروايات اللايت نوفل العالمية.", None, 6),
+            ("portfolio", "🎨 معرض الأعمال", "🎨 **نماذج وتصاميم معرض الأعمال:**", None, 7),
+            ("pomodoro", "⏱️ مؤقت التركيز (Pomodoro)", "⏱️ **مؤقت المذاكرة (Pomodoro):**\nجلسات تركيز 25 دقيقة لإنجاز مهامك بكفاءة دون مشتتات.", None, 8),
+            ("quotes", "✨ اقتباسات ملهمة", "✨ **إشراقات واقتباسات ملهمة متجددة:**", None, 9),
+            ("islamic", "🕌 المكتبة الإسلامية", "🕌 **المكتبة الإسلامية العامة:**", None, 10),
+            ("medical", "🩺 المكتبة الطبية", "🩺 **المكتبة الطبية والصيدلانية:**", None, 11),
+            ("languages", "🌍 مكتبة اللغات", "🌍 **مكتبة اللغات الأجنبية والمناهج:**", None, 12),
+            ("psychology", "🧠 علم النفس والمجتمع", "🧠 **علم النفس وتحليل السلوك البشري:**", None, 13),
+            ("philosophy", "🏛️ الفكر والفلسفة", "🏛️ **أمهات كتب الفكر والفلسفة:**", None, 14),
+            ("selfdev", "💡 تطوير الذات", "💡 **كتب تنمية وتطوير المهارات والإنتاجية:**", None, 15),
+            ("novels", "📖 روايات وقصص", "📖 **الروايات والقصص العالمية المترجمة:**", None, 16),
+            ("topics", "📑 موضوعات عامة", "📑 **مقالات وأدلة معرفية متنوعة:**", None, 17),
+            ("tasbeeh", "📿 السبحة الإلكترونية", "📿 **السبحة الرقمية التفاعلية:**", None, 18),
+            ("recommend", "🌟 اقتراحات الأعضاء", "🌟 **مساحة استقبال اقتراحاتكم وترشيحاتكم:**", None, 19),
+            ("faq", "💡 الأسئلة الشائعة", "💡 **الأسئلة الشائعة حول المنصة والخدمات:**\n\n• **هل الكتب مجانية؟** نعم، كافة الكتب والمراجع مجانية تماماً.\n• **كيف أطلب خدمة تصميم؟** من قسم الخدمات تختار نوع التصميم وتكتب تفاصيل فكرتك.", None, 20),
+            ("share", "📢 مشاركة البوت", "📢 شارك رابط المنصة مع أصدقائك لتعم الفائدة.", None, 21),
+            ("follow", "🔗 منصاتنا وحساباتنا", "🪐 **منصات وحسابات Dua Space الرسمية:**\n\n• القناة الرسمية: https://t.me/DuaSpace1\n• الإدارة والتواصل المباشر: @xdua1", None, 22),
         ]
 
-        for code, title, content, b_url, is_sys, pos in default_sections:
-            if not con.execute("SELECT id FROM sections WHERE code = ?", (code,)).fetchone():
+        for code, title, content, b_url, pos in default_sections:
+            exists = con.execute("SELECT id FROM sections WHERE code = ?", (code,)).fetchone()
+            if not exists:
                 con.execute(
-                    "INSERT INTO sections(code, title, content, btn_url, is_system, position) VALUES(?, ?, ?, ?, ?, ?)",
-                    (code, title, content, b_url, is_sys, pos)
+                    "INSERT INTO sections(code, title, content, btn_url, position) VALUES(?, ?, ?, ?, ?)",
+                    (code, title, content, b_url, pos)
                 )
 
-        # أسئلة الكويز
+        # الخدمات الافتراضية
+        for title, desc, price in DEFAULT_SERVICES:
+            exists = con.execute("SELECT id FROM services WHERE title = ?", (title,)).fetchone()
+            if not exists:
+                con.execute("INSERT INTO services(title, description, price, active) VALUES(?, ?, ?, 1)", (title, desc, price))
+
+        # أسئلة الكويز التأسيسية
         if con.execute("SELECT COUNT(*) as n FROM questions").fetchone()["n"] == 0:
             init_qs = [
                 ("🧠 ذكاء منطقي: ما هو الشيء الذي يملك عيناً واحدة ولكنه لا يستطيع الرؤية بها أبداً؟", ["الإبرة", "الإعصار", "المرآة", "الساعة"], 0, "الإبرة لها عين (ثقب الخيط) ولكنها لا ترى بها!"),
-                ("🧩 لغز ذهني: شيء يزداد كلما أخذت ونقصت منه، فما هو؟", ["الحفرة", "العمر", "المعرفة", "المال"], 0, "الحفرة! كلما أخذت منها تراباً زاد عمقها."),
+                ("🧩 لغز ذهني: شيء يزداد كلما أخذت ونقصت منه، فما هو؟", ["الحفرة", "العمر", "المعرفة", "المال"], 0, "الحفرة! كلما أخذت منها تراباً زاد عمقها واتسع حجمها."),
                 ("📐 حساب ذهني: عدد إذا ضربته في نفسه ثم أضفت إليه خمسة أصبح الناتج 30، فما هو العدد؟", ["4", "5", "6", "25"], 1, "5 × 5 = 25، و 25 + 5 = 30."),
-                ("🧠 علم نفس: ما هو المصطلح الذي يصف ميل الإنسان للبحث عما يؤكد قناعاته وتجاهل العكس؟", ["الانحياز التأكيدي (Confirmation Bias)", "تأثير الهالة", "التنافر المعرفي", "عقدة النقص"], 0, "الانحياز التأكيدي يجعل العقل يبحث فقط عما يوافق هواه ومعتقده المسبق."),
+                ("🧠 علم نفس: ما هو المصطلح الذي يصف ميل الإنسان للبحث عما يؤكد معتقداته السابقة فقط؟", ["الانحياز التأكيدي (Confirmation Bias)", "تأثير الهالة", "التنافر المعرفي", "عقدة النقص"], 0, "الانحياز التأكيدي يجعل العقل يبحث فقط عما يوافق هواه ومعتقده المسبق."),
                 ("🩺 في جسم الإنسان، ما العضو الذي يستهلك 20% من إجمالي الأكسجين والدم رغم صغر وزنه؟", ["الكبد", "الدماغ", "القلب", "الكليتان"], 1, "الدماغ يستهلك نحو خمس طاقة الجسم لتغذية مليارات الخلايا العصبية."),
                 ("📖 سورة في القرآن الكريم تعدل قراءتها ثلث القرآن الكريم، فما هي؟", ["سورة الفاتحة", "سورة الإخلاص", "سورة الكهف", "سورة يس"], 1, "سورة الإخلاص، لاشتمالها الصافي على توحيد الله وتنزيهه.")
             ]
             for q, opts, ans, exp in init_qs:
                 con.execute("INSERT INTO questions(question, options_json, answer_index, explanation) VALUES(?, ?, ?, ?)", (q, json.dumps(opts, ensure_ascii=False), ans, exp))
 
-        # الكتب
+        # الكتب التأسيسية
         init_books = [
             ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة لكيفية عمل الذاكرة والتفكير والقرارات.", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D8%A7%D9%84%D9%86%D9%81%D8%B3_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%81%D9%8A"),
             ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الكلاسيكي الأهم في فهم حركة الشعوب وتفكير الجماعة.", "https://www.hindawi.org/books/64516358/"),
@@ -347,7 +360,7 @@ def force_sub_keyboard():
         ]
     )
 
-# -------------------- بناء القوائم الديناميكية بالكامل --------------------
+# -------------------- بناء القوائم الديناميكية --------------------
 
 def main_menu_keyboard():
     rows = db_all("SELECT * FROM sections ORDER BY position ASC, id ASC")
@@ -356,15 +369,13 @@ def main_menu_keyboard():
 
     for s in rows:
         btn_text = s["title"]
-        # إذا كان الزر يحتوي على رابط خارجي
         if s["btn_url"]:
             btn = InlineKeyboardButton(btn_text, url=s["btn_url"])
         else:
             code = s["code"] or f"custom_{s['id']}"
             btn = InlineKeyboardButton(btn_text, callback_data=f"sec_click:{code}")
 
-        # الأزرار الكبيرة تكون في سطر منفصل، والباقي زرين في كل سطر
-        if s["code"] in ["quran", "engineering", "quiz"] or len(btn_text) > 24:
+        if s["code"] in ["quran", "engineering", "quiz", "services"] or len(btn_text) > 24:
             if current_row:
                 buttons.append(current_row)
                 current_row = []
@@ -378,8 +389,13 @@ def main_menu_keyboard():
     if current_row:
         buttons.append(current_row)
 
-    # زر التواصل المباشر مع الإدارة دائماً في الأسفل
     buttons.append([InlineKeyboardButton("💬 التواصل المباشر مع الإدارة", url=CONTACT_URL)])
+    return InlineKeyboardMarkup(buttons)
+
+def services_menu_keyboard():
+    rows = db_all("SELECT id, title FROM services WHERE active = 1 ORDER BY id ASC")
+    buttons = [[InlineKeyboardButton(f"✨ {r['title']}", callback_data=f"show_service:{r['id']}")] for r in rows]
+    buttons.append([InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")])
     return InlineKeyboardMarkup(buttons)
 
 def engineering_menu_keyboard():
@@ -458,7 +474,7 @@ def tasbeeh_keyboard(count=0, phrase="سبحان الله"):
         ]
     )
 
-# -------------------- لوحة تحكم الإدارة الكاملة (CMS) --------------------
+# -------------------- لوحة تحكم الإدارة الشاملة (CMS) --------------------
 
 def admin_keyboard():
     return InlineKeyboardMarkup(
@@ -510,10 +526,10 @@ async def cmd_del(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if chat.type in [ChatType.PRIVATE, ChatType.CHANNEL]:
         return
     if not await is_chat_admin(chat, update.effective_user.id, context.bot):
-        await msg.reply_text("❌ مخصص لمشرفي المجموعة فقط.")
+        await msg.reply_text("❌ هذا الأمر مخصص لمشرفي المجموعة فقط.")
         return
     if not msg.reply_to_message:
-        await msg.reply_text("⚠️ يرجى الرد على الرسالة المراد حذفها بالأمر `/del`")
+        await msg.reply_text("⚠️ يرجى الرد على الرسالة المراد حذفها عبر الأمر: `/del`")
         return
     try:
         await context.bot.delete_message(chat_id=chat.id, message_id=msg.reply_to_message.message_id)
@@ -533,7 +549,7 @@ async def cmd_ban(update: Update, context: ContextTypes.DEFAULT_TYPE):
     target_user = msg.reply_to_message.from_user
     try:
         await context.bot.ban_chat_member(chat_id=chat.id, user_id=target_user.id)
-        await msg.reply_text(f"🚫 تم حظر العضو {target_user.first_name} بنجاح.")
+        await msg.reply_text(f"🚫 تم حظر العضو {target_user.first_name} بنجاح من المجموعة.")
     except Exception as exc:
         await msg.reply_text(f"❌ تعذر الحظر: {exc}")
 
@@ -549,7 +565,7 @@ async def cmd_mute(update: Update, context: ContextTypes.DEFAULT_TYPE):
     target_user = msg.reply_to_message.from_user
     try:
         await context.bot.restrict_chat_member(chat_id=chat.id, user_id=target_user.id, permissions=ChatPermissions(can_send_messages=False))
-        await msg.reply_text(f"🔇 تم كتم العضو {target_user.first_name}.")
+        await msg.reply_text(f"🔇 تم كتم العضو {target_user.first_name} ومنعه من الكتابة.")
     except Exception as exc:
         await msg.reply_text(f"❌ تعذر الكتم: {exc}")
 
@@ -585,7 +601,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     save_user(user)
 
     if chat.type != ChatType.PRIVATE:
-        await update.effective_message.reply_text("🪐 مرحباً! أنا بوت Dua Space لحماية المجموعة وتقديم الخدمات التفاعلية.")
+        await update.effective_message.reply_text("🪐 مرحباً! أنا بوت Dua Space لحماية المجموعة وتقديم المراجع والخدمات التعليمية.")
         return
 
     context.user_data.pop("flow", None)
@@ -593,7 +609,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     is_sub = await is_user_subscribed(context.bot, user.id)
     if not is_sub:
         await update.effective_message.reply_text(
-            "⚠️ **تنبيه:** يرجى الانضمام لقناة Dua Space أولاً لتتمكن من استخدام البوت.",
+            "⚠️ **تنبيه:** يرجى الانضمام لقناة Dua Space أولاً لتتمكن من استخدام البوت وموارده.",
             reply_markup=force_sub_keyboard(),
             parse_mode="Markdown",
         )
@@ -601,7 +617,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if is_admin_user(user.id):
         await update.effective_message.reply_text(
-            "🪐 مرحباً بكِ دعاء في لوحة الإدارة الشاملة (CMS):\nيمكنكِ الآن التحكم في أي قسم، وتعديل أي كلام، وتغيير أي زر يدوياً من هنا:",
+            "🪐 مرحباً بكِ دعاء في لوحة التحكم الإدارية الكاملة (CMS):\nيمكنكِ إدارة كافة الأقسام، النصوص، أسئلة الكويز، والقروبات من هنا:",
             reply_markup=admin_keyboard(),
         )
     else:
@@ -627,11 +643,11 @@ def generate_quiz_keyboard(q_id, options):
 async def start_order(update: Update, context: ContextTypes.DEFAULT_TYPE, service_id: int):
     service = db_one("SELECT * FROM services WHERE id = ? AND active = 1", (service_id,))
     if not service:
-        await update.callback_query.message.reply_text("عذرًا، الخدمة غير متاحة.")
+        await update.callback_query.message.reply_text("عذرًا، الخدمة غير متاحة حالياً.")
         return
     context.user_data["flow"] = {"kind": "order_details", "service_id": service_id}
     await update.callback_query.message.reply_text(
-        f"📝 تم اختيار: **{service['title']}**\n\nيرجى كتابة تفاصيل طلبك في رسالة واحدة:\nللإلغاء أرسل /cancel."
+        f"📝 تم اختيار: **{service['title']}**\n\nيرجى كتابة تفاصيل طلبك في رسالة واحدة (المقاسات، الألوان، والمطلوب بالتفصيل):\nللإلغاء أرسل /cancel."
     )
 
 async def handle_order_text(update: Update, context: ContextTypes.DEFAULT_TYPE, flow):
@@ -648,11 +664,11 @@ async def handle_order_text(update: Update, context: ContextTypes.DEFAULT_TYPE, 
     )
     context.user_data.pop("flow", None)
     await update.effective_message.reply_text(
-        f"✅ تم استلام طلبك برقم #{order_id}، سنتواصل معك قريباً 🪐",
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ عودة", callback_data="home")]])
+        f"✅ تم استلام طلبك برقم: #{order_id}\nسنراجعه ونتواصل معك بأقرب وقت 🪐",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")]])
     )
     try:
-        await context.bot.send_message(chat_id=ADMIN_ID, text=f"📥 **طلب جديد #{order_id}**\nمن: @{user.username}\nالخدمة: {service['title']}\nالتفاصيل:\n{details}")
+        await context.bot.send_message(chat_id=ADMIN_ID, text=f"📥 **طلب جديد رقم #{order_id}**\nمن: @{user.username}\nالخدمة: {service['title']}\nالتفاصيل:\n{details}")
     except Exception:
         pass
 
@@ -671,7 +687,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             welcome_text = get_setting("welcome_msg")
             await query.message.reply_text(welcome_text, reply_markup=main_menu_keyboard())
         else:
-            await query.message.reply_text("❌ لم يتم التحقق بعد، انضم للقناة أولاً.", reply_markup=force_sub_keyboard())
+            await query.message.reply_text("❌ لم يتم التحقق بعد، انضم للقناة أولاً ثم حاول ثانية.", reply_markup=force_sub_keyboard())
         return
 
     if not is_admin_user(user_id) and not await is_user_subscribed(context.bot, user_id):
@@ -684,7 +700,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(welcome_text, reply_markup=main_menu_keyboard())
         return
 
-    # 1. التفاعل مع الأقسام الديناميكية الموحدة
+    # التفاعل مع الأقسام الديناميكية الموحدة
     if data.startswith("sec_click:"):
         code = data.split(":", 1)[1]
         sec = db_one("SELECT * FROM sections WHERE code = ?", (code,))
@@ -695,8 +711,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         sec_title = sec["title"] if sec else "القسم"
         sec_content = sec["content"] if sec else "مرحباً بكم في هذا القسم."
 
-        # توجيه الأقسام الخاصة البرمجية مع الحفاظ على إمكانية تعديل رسالتها
-        if code == "quran":
+        # قسم الخدمات والتصميم (إظهار قائمة الخدمات كاملة مع أزرارها)
+        if code == "services":
+            await query.message.reply_text(sec_content, reply_markup=services_menu_keyboard(), parse_mode="Markdown")
+            return
+        elif code == "quran":
             await query.message.reply_text(sec_content, reply_markup=quran_group_keyboard(), parse_mode="Markdown")
             return
         elif code == "engineering":
@@ -740,12 +759,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 buttons.append([InlineKeyboardButton("⬅️ عودة", callback_data="home")])
                 await query.message.reply_text(sec_content, reply_markup=InlineKeyboardMarkup(buttons))
             return
-        elif code == "services":
-            rows = db_all("SELECT id, title, price FROM services WHERE active = 1 ORDER BY id ASC")
-            buttons = [[InlineKeyboardButton(f"{r['title']}", callback_data=f"show_service:{r['id']}")] for r in rows]
-            buttons.append([InlineKeyboardButton("⬅️ عودة", callback_data="home")])
-            await query.message.reply_text(sec_content, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="Markdown")
-            return
         elif code in ["islamic", "medical", "languages", "psychology", "philosophy", "selfdev", "novels", "topics"]:
             rows = db_all("SELECT id, title, author FROM books WHERE category = ? ORDER BY id ASC", (code,))
             if not rows:
@@ -756,9 +769,28 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text(sec_content + "\n\nاختر الكتاب المراد عرضه وتحميله:", reply_markup=InlineKeyboardMarkup(buttons))
             return
         else:
-            # أي قسم إضافي أو مخصص تم إنشاؤه
             await query.message.reply_text(sec_content, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ عودة", callback_data="home")]]), parse_mode="Markdown")
             return
+
+    # تفاصيل الخدمة والطلب
+    if data.startswith("show_service:"):
+        s_id = int(data.split(":", 1)[1])
+        s = db_one("SELECT * FROM services WHERE id = ?", (s_id,))
+        if s:
+            text = f"✨ **{s['title']}**\n\nالوصف:\n{s['description']}\n\nالسعر: {s['price']}"
+            kb = InlineKeyboardMarkup(
+                [
+                    [InlineKeyboardButton("📩 طلب هذه الخدمة الآن", callback_data=f"order_now:{s_id}")],
+                    [InlineKeyboardButton("💬 استفسار مباشر", url=CONTACT_URL)],
+                    [InlineKeyboardButton("⬅️ عودة لقائمة الخدمات", callback_data="sec_click:services")],
+                ]
+            )
+            await query.message.reply_text(text, reply_markup=kb, parse_mode="Markdown")
+        return
+
+    if data.startswith("order_now:"):
+        await start_order(update, context, int(data.split(":", 1)[1]))
+        return
 
     # تفاعل الكويز
     if data.startswith("quiz_ans:"):
@@ -848,26 +880,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data.startswith("treset:"):
         phrase = data.split(":", 1)[1]
         await query.edit_message_reply_markup(reply_markup=tasbeeh_keyboard(0, phrase))
-        return
-
-    # تفاصيل الخدمات ومعرض الأعمال
-    if data.startswith("show_service:"):
-        s_id = int(data.split(":", 1)[1])
-        s = db_one("SELECT * FROM services WHERE id = ?", (s_id,))
-        if s:
-            text = f"✨ **{s['title']}**\n\nالوصف:\n{s['description']}\n\nالسعر: {s['price']}"
-            kb = InlineKeyboardMarkup(
-                [
-                    [InlineKeyboardButton("📩 طلب هذه الخدمة الآن", callback_data=f"order_now:{s_id}")],
-                    [InlineKeyboardButton("💬 استفسار مباشر", url=CONTACT_URL)],
-                    [InlineKeyboardButton("⬅️ عودة", callback_data="sec_click:services")],
-                ]
-            )
-            await query.message.reply_text(text, reply_markup=kb, parse_mode="Markdown")
-        return
-
-    if data.startswith("order_now:"):
-        await start_order(update, context, int(data.split(":", 1)[1]))
         return
 
     if data.startswith("show_port:"):
@@ -1154,7 +1166,7 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             btn_url = val if val != "بدون" and val.startswith("http") else None
             p = context.user_data.pop("pending_section", {})
             context.user_data.pop("flow", None)
-            db_execute("INSERT INTO sections(code, title, content, btn_url, is_system, position) VALUES(NULL, ?, ?, ?, 0, 50)", (p["title"], p["content"], btn_url))
+            db_execute("INSERT INTO sections(code, title, content, btn_url, position) VALUES(NULL, ?, ?, ?, 50)", (p["title"], p["content"], btn_url))
             await msg.reply_text("✅ تمت إضافة القسم الجديد بنجاح!", reply_markup=admin_keyboard())
             return
 
@@ -1292,7 +1304,7 @@ async def file_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # -------------------- نقطة التشغيل وخادم الويب --------------------
 
 async def handle_health(request):
-    return web.Response(text="Dua Space Complete Dynamic Engine 🪐", status=200)
+    return web.Response(text="Dua Space Perfect Live Engine 🪐", status=200)
 
 async def main():
     if not BOT_TOKEN or not CHANNEL_ID or not ADMIN_ID:
@@ -1331,7 +1343,7 @@ async def main():
         await application.initialize()
         await application.start()
         await application.updater.start_polling(drop_pending_updates=False)
-        logger.info("Dua Space Full CMS Engine is running.")
+        logger.info("Dua Space Complete Dynamic Engine is Running perfectly.")
 
         asyncio.create_task(channel_auto_poster(application.bot))
 
