@@ -29,7 +29,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     level=logging.INFO,
 )
-logger = logging.getLogger("DuaSpaceMasterPro")
+logger = logging.getLogger("DuaSpaceCompleteEngine")
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
 CHANNEL_ID = os.environ.get("CHANNEL_ID", "@DuaSpace1").strip()
@@ -228,7 +228,6 @@ def init_db():
         )
         con.commit()
 
-        # إعداد رسالة الترحيب الافتراضية
         welcome_default = (
             "أهلًا بكم في Dua Space! 🪐\n"
             "مساحتكم الشاملة للإبداع، المعرفة، والارتقاء.\n"
@@ -237,7 +236,6 @@ def init_db():
         if not con.execute("SELECT key FROM settings WHERE key = 'welcome_msg'").fetchone():
             con.execute("INSERT INTO settings(key, value) VALUES('welcome_msg', ?)", (welcome_default,))
 
-        # الأقسام الرئيسية في المنصة
         default_sections = [
             ("quran", "📖 القرآن الكريم كاملاً (114 سورة)", "📖 **القرآن الكريم كاملاً (114 سورة):**\nاستماع مباشر وقراءة وتفاسير ميسرة لكافة السور.", None, 1),
             ("engineering", "📐 الصرح الهندسي والتقني", "📐 **الصرح الهندسي والتقني الشامل 🪐**\nبوابتكم لأقوى مراجع الهندسة الطبية الحيوية، البرمجيات والذكاء الاصطناعي، المدنية، الكهربائية، والميكانيكية.", None, 2),
@@ -271,13 +269,11 @@ def init_db():
                     (code, title, content, b_url, pos)
                 )
 
-        # الخدمات الافتراضية
         for title, desc, price in DEFAULT_SERVICES:
             exists = con.execute("SELECT id FROM services WHERE title = ?", (title,)).fetchone()
             if not exists:
                 con.execute("INSERT INTO services(title, description, price, active) VALUES(?, ?, ?, 1)", (title, desc, price))
 
-        # أسئلة الكويز التأسيسية
         if con.execute("SELECT COUNT(*) as n FROM questions").fetchone()["n"] == 0:
             init_qs = [
                 ("🧠 ذكاء منطقي: ما هو الشيء الذي يملك عيناً واحدة ولكنه لا يستطيع الرؤية بها أبداً؟", ["الإبرة", "الإعصار", "المرآة", "الساعة"], 0, "الإبرة لها عين (ثقب الخيط) ولكنها لا ترى بها!"),
@@ -290,7 +286,6 @@ def init_db():
             for q, opts, ans, exp in init_qs:
                 con.execute("INSERT INTO questions(question, options_json, answer_index, explanation) VALUES(?, ?, ?, ?)", (q, json.dumps(opts, ensure_ascii=False), ans, exp))
 
-        # الكتب التأسيسية
         init_books = [
             ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة لكيفية عمل الذاكرة والتفكير والقرارات.", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D8%A7%D9%84%D9%86%D9%81%D8%B3_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%81%D9%8A"),
             ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الكلاسيكي الأهم في فهم حركة الشعوب وتفكير الجماعة.", "https://www.hindawi.org/books/64516358/"),
@@ -518,7 +513,7 @@ def admin_keyboard():
         ]
     )
 
-# -------------------- أوامر حماية القروبات --------------------
+# -------------------- أوامر حماية وإشراف القروبات --------------------
 
 async def cmd_del(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
@@ -553,6 +548,23 @@ async def cmd_ban(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as exc:
         await msg.reply_text(f"❌ تعذر الحظر: {exc}")
 
+async def cmd_unban(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    msg = update.effective_message
+    chat = update.effective_chat
+    if chat.type in [ChatType.PRIVATE, ChatType.CHANNEL]:
+        return
+    if not await is_chat_admin(chat, update.effective_user.id, context.bot):
+        return
+    if not msg.reply_to_message:
+        await msg.reply_text("⚠️ يرجى الرد على رسالة العضو المراد فك الحظر عنه عبر الأمر: `/unban`")
+        return
+    target_user = msg.reply_to_message.from_user
+    try:
+        await context.bot.unban_chat_member(chat_id=chat.id, user_id=target_user.id, only_if_banned=True)
+        await msg.reply_text(f"✅ تم إلغاء الحظر عن العضو {target_user.first_name} ويمكنه الانضمام الآن.")
+    except Exception as exc:
+        await msg.reply_text(f"❌ تعذر إلغاء الحظر: {exc}")
+
 async def cmd_mute(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
     chat = update.effective_chat
@@ -568,6 +580,35 @@ async def cmd_mute(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await msg.reply_text(f"🔇 تم كتم العضو {target_user.first_name} ومنعه من الكتابة.")
     except Exception as exc:
         await msg.reply_text(f"❌ تعذر الكتم: {exc}")
+
+async def cmd_unmute(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    msg = update.effective_message
+    chat = update.effective_chat
+    if chat.type in [ChatType.PRIVATE, ChatType.CHANNEL]:
+        return
+    if not await is_chat_admin(chat, update.effective_user.id, context.bot):
+        return
+    if not msg.reply_to_message:
+        await msg.reply_text("⚠️ يرجى الرد على رسالة العضو المراد فك الكتم عنه عبر الأمر: `/unmute`")
+        return
+    target_user = msg.reply_to_message.from_user
+    try:
+        permissions = ChatPermissions(
+            can_send_messages=True,
+            can_send_audios=True,
+            can_send_documents=True,
+            can_send_photos=True,
+            can_send_videos=True,
+            can_send_video_notes=True,
+            can_send_voice_notes=True,
+            can_send_polls=True,
+            can_send_other_messages=True,
+            can_add_web_page_previews=True,
+        )
+        await context.bot.restrict_chat_member(chat_id=chat.id, user_id=target_user.id, permissions=permissions)
+        await msg.reply_text(f"🔊 تم إلغاء الكتم عن العضو {target_user.first_name}، ويمكنه التفاعل والكتابة مجدداً.")
+    except Exception as exc:
+        await msg.reply_text(f"❌ تعذر فك الكتم: {exc}")
 
 async def cmd_warn(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
@@ -700,7 +741,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(welcome_text, reply_markup=main_menu_keyboard())
         return
 
-    # التفاعل مع الأقسام الديناميكية الموحدة
     if data.startswith("sec_click:"):
         code = data.split(":", 1)[1]
         sec = db_one("SELECT * FROM sections WHERE code = ?", (code,))
@@ -711,7 +751,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         sec_title = sec["title"] if sec else "القسم"
         sec_content = sec["content"] if sec else "مرحباً بكم في هذا القسم."
 
-        # قسم الخدمات والتصميم (إظهار قائمة الخدمات كاملة مع أزرارها)
         if code == "services":
             await query.message.reply_text(sec_content, reply_markup=services_menu_keyboard(), parse_mode="Markdown")
             return
@@ -772,7 +811,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text(sec_content, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ عودة", callback_data="home")]]), parse_mode="Markdown")
             return
 
-    # تفاصيل الخدمة والطلب
     if data.startswith("show_service:"):
         s_id = int(data.split(":", 1)[1])
         s = db_one("SELECT * FROM services WHERE id = ?", (s_id,))
@@ -792,7 +830,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_order(update, context, int(data.split(":", 1)[1]))
         return
 
-    # تفاعل الكويز
     if data.startswith("quiz_ans:"):
         _, q_id_str, opt_idx_str = data.split(":")
         q_item = db_one("SELECT * FROM questions WHERE id = ?", (int(q_id_str),))
@@ -809,7 +846,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text(res_text, reply_markup=kb, parse_mode="Markdown")
         return
 
-    # استعراض سور القرآن
     if data.startswith("qpage:"):
         start_idx = int(data.split(":", 1)[1])
         await query.message.reply_text("اختر السورة المطلوبة:", reply_markup=quran_page_keyboard(start_idx))
@@ -831,7 +867,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(f"✨ سورة **{s_name}** ({s_num})", reply_markup=kb, parse_mode="Markdown")
         return
 
-    # استعراض كتب الأقسام الهندسية
     if data.startswith("cat:"):
         cat_key = data.split(":", 1)[1]
         rows = db_all("SELECT id, title, author FROM books WHERE category = ? ORDER BY id ASC", (cat_key,))
@@ -861,7 +896,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await query.message.reply_text(caption, reply_markup=InlineKeyboardMarkup(kb_list), parse_mode="Markdown")
         return
 
-    # بومودورو والسبحة
     if data.startswith("pomo_run:"):
         await query.message.reply_text("🚀 بدأت الـ 25 دقيقة! ركز في هدفك وسينبهك البوت فور الانتهاء ✨")
         asyncio.create_task(run_pomodoro(query.message.chat_id, context))
@@ -891,7 +925,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await query.message.reply_text(f"🎨 **{item['title']}**\n\n{item['description']}")
         return
 
-    # -------------------- وظائف إدارة الـ CMS وتعديل الأقسام --------------------
+    # -------------------- لوحة تحكم الإدارة --------------------
     if not is_admin_user(user_id):
         return
 
@@ -911,7 +945,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         current_w = get_setting("welcome_msg")
         await query.message.reply_text(f"📝 **الرسالة الترحيبية الحالية:**\n\n{current_w}\n\n—\nأرسلي الآن النص الجديد لرسالة الترحيب:")
 
-    # تعديل أي قسم (اسمه أو كلامه)
     elif data == "admin_list_sections_edit":
         sections = db_all("SELECT id, title FROM sections ORDER BY position ASC, id ASC")
         buttons = [[InlineKeyboardButton(f"✏️ {s['title']}", callback_data=f"edsec_select:{s['id']}")] for s in sections]
@@ -946,13 +979,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["flow"] = {"kind": "change_sec_content", "sec_id": sec_id}
         await query.message.reply_text("أرسلي النص الكامل الجديد الذي سيظهر للمستخدم عند فتح هذا القسم:")
 
-    # إضافة قسم جديد
     elif data == "admin_add_section":
         context.user_data["pending_section"] = {}
         context.user_data["flow"] = {"kind": "sec_title"}
         await query.message.reply_text("➕ أرسلي اسم الزر/القسم الجديد الذي سيظهر في القائمة:")
 
-    # حذف قسم من القائمة
     elif data == "admin_list_sections_del":
         sections = db_all("SELECT id, title FROM sections ORDER BY position ASC, id ASC")
         buttons = [[InlineKeyboardButton(f"❌ {s['title']}", callback_data=f"del_sec_id:{s['id']}")] for s in sections]
@@ -964,7 +995,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         db_execute("DELETE FROM sections WHERE id = ?", (sec_id,))
         await query.message.reply_text("✅ تم حذف القسم وإزالته تماماً من القائمة الرئيسية!", reply_markup=admin_keyboard())
 
-    # إدارة أسئلة الكويز
     elif data == "admin_add_question":
         context.user_data["pending_question"] = {}
         context.user_data["flow"] = {"kind": "q_text"}
@@ -984,7 +1014,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         db_execute("DELETE FROM questions WHERE id = ?", (qid,))
         await query.message.reply_text("✅ تم حذف السؤال بنجاح من بنك الكويز!", reply_markup=admin_keyboard())
 
-    # حذف وإضافة الكتب
     elif data == "admin_del_book_cats":
         kb = InlineKeyboardMarkup(
             [
@@ -1126,14 +1155,12 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
         kind = flow.get("kind")
         val = msg.text.strip()
 
-        # تعديل رسالة الترحيب
         if kind == "set_welcome":
             set_setting("welcome_msg", val)
             context.user_data.pop("flow", None)
             await msg.reply_text("✅ تم تحديث رسالة الترحيب بنجاح!", reply_markup=admin_keyboard())
             return
 
-        # تعديل عنوان قسم موجود
         elif kind == "change_sec_title":
             sec_id = flow["sec_id"]
             db_execute("UPDATE sections SET title = ? WHERE id = ?", (val, sec_id))
@@ -1141,7 +1168,6 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await msg.reply_text("✅ تم تحديث اسم الزر بنجاح وسيظهر بالاسم الجديد في القائمة!", reply_markup=admin_keyboard())
             return
 
-        # تعديل محتوى وكلام قسم موجود
         elif kind == "change_sec_content":
             sec_id = flow["sec_id"]
             db_execute("UPDATE sections SET content = ? WHERE id = ?", (val, sec_id))
@@ -1149,7 +1175,6 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await msg.reply_text("✅ تم تحديث رسالة ومحتوى القسم بنجاح!", reply_markup=admin_keyboard())
             return
 
-        # إضافة قسم جديد
         elif kind == "sec_title":
             context.user_data["pending_section"]["title"] = val
             context.user_data["flow"] = {"kind": "sec_content"}
@@ -1170,7 +1195,6 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await msg.reply_text("✅ تمت إضافة القسم الجديد بنجاح!", reply_markup=admin_keyboard())
             return
 
-        # إضافة سؤال كويز
         elif kind == "q_text":
             context.user_data["pending_question"]["q"] = val
             context.user_data["flow"] = {"kind": "q_opts"}
@@ -1215,7 +1239,6 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await msg.reply_text("✅ تمت إضافة السؤال بنجاح إلى بنك الكويز!", reply_markup=admin_keyboard())
             return
 
-        # إذاعة
         elif kind == "broadcast":
             context.user_data.pop("flow", None)
             users = db_all("SELECT user_id FROM users")
@@ -1230,7 +1253,6 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await msg.reply_text(f"📢 تمت الإذاعة بنجاح لـ {sent} مستخدم.", reply_markup=admin_keyboard())
             return
 
-        # إضافة كتاب
         elif kind == "b_title":
             context.user_data["pending_book"]["title"] = val
             context.user_data["flow"] = {"kind": "b_author"}
@@ -1263,7 +1285,6 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await msg.reply_text("✅ تمت إضافة الكتاب بنجاح للمكتبة!", reply_markup=admin_keyboard())
             return
 
-        # إضافة معرض أعمال
         elif kind == "p_title":
             context.user_data["pending_port"] = {"title": val}
             context.user_data["flow"] = {"kind": "p_desc"}
@@ -1304,7 +1325,7 @@ async def file_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # -------------------- نقطة التشغيل وخادم الويب --------------------
 
 async def handle_health(request):
-    return web.Response(text="Dua Space Perfect Live Engine 🪐", status=200)
+    return web.Response(text="Dua Space Complete Live Engine 🪐", status=200)
 
 async def main():
     if not BOT_TOKEN or not CHANNEL_ID or not ADMIN_ID:
@@ -1328,10 +1349,12 @@ async def main():
     application.add_handler(CommandHandler("admin", lambda u, c: u.effective_message.reply_text("🎛️ لوحة إدارة Dua Space الشاملة (CMS):", reply_markup=admin_keyboard()) if is_admin_user(u.effective_user.id) else None))
     application.add_handler(CommandHandler("cancel", lambda u, c: u.effective_message.reply_text("تم الإلغاء.") if c.user_data.pop("flow", None) is not None else None))
 
-    # أوامر حماية القروبات
+    # أوامر حماية القروبات وإلغاء العقوبات
     application.add_handler(CommandHandler("del", cmd_del))
     application.add_handler(CommandHandler("ban", cmd_ban))
+    application.add_handler(CommandHandler("unban", cmd_unban))
     application.add_handler(CommandHandler("mute", cmd_mute))
+    application.add_handler(CommandHandler("unmute", cmd_unmute))
     application.add_handler(CommandHandler("warn", cmd_warn))
 
     application.add_handler(CallbackQueryHandler(button_handler))
