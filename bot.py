@@ -27,7 +27,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     level=logging.INFO,
 )
-logger = logging.getLogger("DuaSpaceUltimateProBot")
+logger = logging.getLogger("DuaSpaceMasterProBot")
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
 CHANNEL_ID = os.environ.get("CHANNEL_ID", "@DuaSpace1").strip()
@@ -60,80 +60,141 @@ QURAN_SURAHS = [
     "المسد", "الإخلاص", "الفلق", "الناس"
 ]
 
-# -------------------- بنك أسئلة واختبارات الذكاء والمعرفة --------------------
+# -------------------- بنك أسئلة الكويز الموسع (ذكاء، مخ، رياضيات، علم نفس) --------------------
 
 QUIZ_QUESTIONS = [
+    # --- قسم الذكاء وتدريب المخ ---
     {
-        "q": "🧠 لغز منطقي: ما هو الشيء الذي يملك عيناً واحدة ولكنه لا يستطيع الرؤية بها؟",
+        "q": "🧠 ذكاء منطقي: ما هو الشيء الذي يملك عيناً واحدة ولكنه لا يستطيع الرؤية بها أبداً؟",
         "options": ["الإبرة", "الإعصار", "المرآة", "الساعة"],
         "answer": 0,
         "exp": "الإبرة لها عين (ثقب الخيط) ولكنها لا ترى بها!"
     },
     {
-        "q": "🩺 في جسم الإنسان، ما هو العضو الذي يستهلك حوالي 20% من إجمالي الأكسجين والدم في الجسم رغم صغر وزنه؟",
-        "options": ["الكبد", "الدماغ", "القلب", "الكليتان"],
-        "answer": 1,
-        "exp": "الدماغ يستهلك نحو 20% من طاقة وأكسجين الجسم لضمان عمل الخلايا العصبية."
+        "q": "🧩 لغز ذهني: شيء يزداد كلما أخذت ونقصت منه، فما هو؟",
+        "options": ["الحفرة", "العمر", "المعرفة", "المال"],
+        "answer": 0,
+        "exp": "الحفرة! كلما أخذت منها تراباً زاد عمقها واتسع حجمها."
     },
     {
-        "q": "🌍 ما هي أطول عظمة في جسم الإنسان السليم؟",
-        "options": ["عظمة القص", "عظمة الفخذ (Femur)", "عظمة العضد", "عظمة الشظية"],
-        "answer": 1,
-        "exp": "عظمة الفخذ هي أطول وأقوى عظمة في الهيكل العظمي البشري."
+        "q": "💡 تدريب المخ: ما هو الشيء الذي إذا أطعمته كَبُر وعاش، وإذا سقيته ماءً مات فوراً؟",
+        "options": ["النار", "النبات", "الظل", "الرياح"],
+        "answer": 0,
+        "exp": "النار! الوقود يغذيها، والماء يطفئها ويقضي عليها."
     },
     {
-        "q": "💡 لغز رياضي: عدد إذا ضربته في نفسه ثم أضفت إليه خمسة أصبح الناتج 30، فما هو العدد؟",
+        "q": "🧠 خدعة منطقية: والدان وابنان ذهبوا للصيد، واصطاد كل واحد منهم سمكة، ولكن مجموع الأسماك كان 3 فقط! كيف ذلك؟",
+        "options": ["أحدهم فقد سمكته", "هم جد وأب وحفيد", "الصياد كذب في العد", "خدعة بصرية"],
+        "answer": 1,
+        "exp": "الجد أب، والأب ابن للجد وأب للحفيد، والحفيد ابن! هم 3 أشخاص فقط."
+    },
+    {
+        "q": "💡 لغز التفكير الجانبي: خمسة رجال يمشون تحت المطر دون مظلة أو قبعة، ولم يبتل شعر رأس أحدهم إطلاقاً.. لماذا؟",
+        "options": ["لأنهم كانوا صلعاناً", "لأن المطر كان خفيفاً", "كانوا يجرون بسرعة", "كانوا تحت سقف"],
+        "answer": 0,
+        "exp": "لأنهم صلعان لا يملكون شعراً ليبتل أصلاً!"
+    },
+    {
+        "q": "🧠 نمط وتركيز: ما هو الحرف الذي يأتي تالياً في المتتالية: (س، ث، ر، خ، ج، ...)؟",
+        "options": ["س (سبت)", "أ (أحد)", "ج (جمعة)", "ث (ثلاثاء)"],
+        "answer": 0,
+        "exp": "الحروف تمثل بدايات أيام الأسبوع (سبت، أحد، اثنين، ثلاثاء، أربعاء، خميس، جمعة)."
+    },
+
+    # --- قسم الرياضيات والحساب الذهني ---
+    {
+        "q": "📐 حساب ذهني: عدد إذا ضربته في نفسه ثم أضفت إليه خمسة أصبح الناتج 30، فما هو العدد؟",
         "options": ["4", "5", "6", "25"],
         "answer": 1,
         "exp": "5 × 5 = 25، و 25 + 5 = 30."
     },
     {
-        "q": "🏛️ في أي عام تم تأسيس أول جامعة في التاريخ وهي جامعة القرويين بالمغرب؟",
-        "options": ["859 ميلادية", "1088 ميلادية", "1200 ميلادية", "970 ميلادية"],
-        "answer": 0,
-        "exp": "أسستها فاطمة الفهرية عام 859م وتعد أقدم جامعة عاملة بلا انقطاع."
-    },
-    {
-        "q": "🧬 ما هو الحمض النووي المسؤول عن نقل الصفات الوراثية وتخزين الشفرة الجينية في الخلايا؟",
-        "options": ["RNA", "DNA", "ATP", "Hemoglobin"],
+        "q": "🔢 متتالية عددية: ما هو العدد التالي في المتتالية: 2، 4، 8، 16، 32، ...؟",
+        "options": ["48", "64", "50", "60"],
         "answer": 1,
-        "exp": "DNA (الحمض النووي الريبوزي منقوص الأكسجين) هو الحامل للشفرة الوراثية."
+        "exp": "كل عدد ينتج من مضاعفة (ضرب ×2) العدد الذي قبله: 32 × 2 = 64."
     },
     {
-        "q": "🌍 ما هي اللغة الأكثر تحدثاً كلغة أم أصلية في العالم من حيث عدد المتحدثين الأصليين؟",
-        "options": ["الإنجليزية", "الإسبانية", "الماندرين (الصينية)", "العربية"],
+        "q": "💡 مسألة رياضية: مضرب وكرة ثمنهما معاً 1.10 دولار. المضرب يزيد ثمنه عن الكرة بـ 1.00 دولار، فما هو ثمن الكرة؟",
+        "options": ["0.10 دولار", "0.05 دولار", "0.01 دولار", "0.50 دولار"],
+        "answer": 1,
+        "exp": "ثمن الكرة 0.05 دولار، وثمن المضرب 1.05 دولار (المجموع 1.10 والفرق 1.00)."
+    },
+    {
+        "q": "📐 هندسة: كم مجموع قياسات الزوايا الداخلية لأي مثلث في الفضاء الإقليدي؟",
+        "options": ["90 درجة", "180 درجة", "360 درجة", "270 درجة"],
+        "answer": 1,
+        "exp": "مجموع قياسات زوايا أي مثلث داخلياً دائماً 180 درجة."
+    },
+    {
+        "q": "🔢 لغز الأعداد: ما هو أصغر عدد أولي فردي؟",
+        "options": ["1", "2", "3", "5"],
         "answer": 2,
-        "exp": "لغة الماندرين الصينية يتحدثها أكثر من 900 مليون نسمة كلغة أم."
+        "exp": "العدد 2 هو أصغر عدد أولي ولكنه زوجي، لذا فإن أصغر عدد أولي فردي هو 3."
     },
+
+    # --- قسم علم النفس والسلوك البشري ---
     {
-        "q": "🧠 لغز ذهني: شيء يزداد كلما أخذت منه ونقصت منه، فما هو؟",
-        "options": ["الحفرة", "العمر", "المال", "المعرفة"],
+        "q": "🧠 علم نفس: ما هو المصطلح الذي يصف ميل الإنسان للبحث عن المعلومات التي تؤكد معتقداته السابقة وتجاهل غيرها؟",
+        "options": ["الانحياز التأكيدي (Confirmation Bias)", "تأثير الهالة (Halo Effect)", "التنافر المعرفي", "عقدة النقص"],
         "answer": 0,
-        "exp": "الحفرة! كلما أخذت منها تراباً زاد حجمها واتسعت."
+        "exp": "الانحياز التأكيدي يجعل العقل يبحث فقط عما يوافق هواه ومعتقده المسبق."
     },
     {
-        "q": "🩺 ما هي فصيلة الدم التي تسمى «المعطي العام» لأنها تعطي لجميع الفصائل الأخرى؟",
+        "q": "💭 علم نفس الشخصية: ما هي التجربة الشهيرة التي أثبتت تأثير الضغط الاجتماعي ومسايرة رأي الجماعة ولو كان خاطئاً؟",
+        "options": ["تجربة سجن ستانفورد", "تجربة سولومون آش (Asch)", "تجربة بافلوف", "تجربة ميلغرام"],
+        "answer": 1,
+        "exp": "تجربة آش لمطابقة الخطوط أثبتت أن الفرد قد يغير إجابته الصحيحة ليوافق الجماعة."
+    },
+    {
+        "q": "🧠 علم النفس العصبي: ما هو الجزء المسؤول بشكل رئيسي في الدماغ عن معالجة المشاعر والخوف والذاكرة العاطفية؟",
+        "options": ["اللوزة الدماغية (Amygdala)", "المخيخ", "الفص الجداري", "الجسم الثفني"],
+        "answer": 0,
+        "exp": "اللوزة الدماغية (Amygdala) هي مركز التحكم بردود الفعل العاطفية واستجابة الخوف."
+    },
+    {
+        "q": "💡 علم نفس: الشعور بالانزعاج النفسي والتوتر عند وجود تعارض بين معتقدين أو بين المعتقد والسلوك يسمى:",
+        "options": ["التنافر المعرفي (Cognitive Dissonance)", "الإسقاط النفسي", "التحويل النفسي", "الاكتئاب التفاعلي"],
+        "answer": 0,
+        "exp": "التنافر المعرفي يدفع الإنسان لتبرير أفعاله لتخفيف الصراع الداخلي."
+    },
+    {
+        "q": "💭 التحليل النفسي: من هو مؤسس مدرسة التحليل النفسي وصاحب نظرية الـ (أنا، والأنا الأعلى، والهو)؟",
+        "options": ["سيغموند فرويد", "كارل يونغ", "جون واطسون", "إبراهام ماسلو"],
+        "answer": 0,
+        "exp": "سيغموند فرويد هو الأب الروحي لمدرسة التحليل النفسي وتقسيم بنية الشخصية."
+    },
+    {
+        "q": "🧠 علم نفس: قاعدة ماسلو الشهيرة (هرم الاحتياجات) تضع في قمة الهرم رغبة الإنسان في:",
+        "options": ["تحقيق الذات (Self-Actualization)", "الأمان والاستقرار", "الحاجة للانتماء", "الاحتياجات الفسيولوجية"],
+        "answer": 0,
+        "exp": "تحقيق الذات وتطوير أقصى إمكانيات الفرد تتربع على قمة هرم ماسلو."
+    },
+    {
+        "q": "💡 علم النفس السلوكي: تجربة إيفان بافلوف الشهيرة على الكلاب كانت حجر الأساس في اكتشاف نظرية:",
+        "options": ["الاشتراط الكلاسيكي (Classical Conditioning)", "التعلم بالاستبصار", "التعلم الاجتماعي", "التنافر الوجداني"],
+        "answer": 0,
+        "exp": "الاشتراط الكلاسيكي برهن على ربط المثير المحايد (الجرس) باستجابة طبيعية (اللعاب)."
+    },
+
+    # --- قسم الطب والمعلومات العامة ---
+    {
+        "q": "🩺 في جسم الإنسان، ما هو العضو الذي يستهلك حوالي 20% من إجمالي الأكسجين والدم في الجسم رغم صغر وزنه؟",
+        "options": ["الكبد", "الدماغ", "القلب", "الكليتان"],
+        "answer": 1,
+        "exp": "الدماغ يستهلك نحو خمس طاقة الجسم لتغذية مليارات الخلايا العصبية."
+    },
+    {
+        "q": "🩸 ما هي فصيلة الدم التي تلقب بـ «المعطي العام» لعدم احتوائها على أنتيجينات مسببة للتجلط؟",
         "options": ["A+", "AB+", "O-", "B-"],
         "answer": 2,
-        "exp": "فصيلة O السالبة (O-) تخلو من الأنتيجينات ويمكن نقلها لأي فصيلة في الطوارئ."
+        "exp": "فصيلة O السالبة (O-) تنقذ المرضى في الطوارئ لنقلها لأي فصيلة بأمان."
     },
     {
-        "q": "🪐 كم يستغرق ضوء الشمس بالتقريب للوصول إلى سطح كوكب الأرض؟",
-        "options": ["8 ثوانٍ", "8 دقائق و20 ثانية", "ساعة واحدة", "فوري"],
-        "answer": 1,
-        "exp": "المسافة الشاسعة تجعل الضوء يستغرق حوالي 8 دقائق و20 ثانية ليصلنا."
-    },
-    {
-        "q": "💡 ما هي عاصمة الدولة العثمانية قبل فتح القسطنطينية؟",
-        "options": ["بورصة ثم أدرنة", "أنقرة", "قونية", "إزمير"],
-        "answer": 0,
-        "exp": "كانت بورصة أول عاصمة ثم انتقلت إلى أدرنة قبل فتح القسطنطينية (إسطنبول) عام 1453م."
-    },
-    {
-        "q": "📖 سورة في القرآن الكريم تعادل قراءتها ثلث القرآن، فما هي؟",
+        "q": "📖 سورة في القرآن الكريم تعادل قراءتها ثلث القرآن الكريم، فما هي؟",
         "options": ["سورة الفاتحة", "سورة الإخلاص", "سورة الكهف", "سورة يس"],
         "answer": 1,
-        "exp": "سورة الإخلاص، لاشتمالها على توحيد الله الخالص وتنزيهه."
+        "exp": "سورة الإخلاص، لاشتمالها الصافي على توحيد الله وتنزيهه."
     }
 ]
 
@@ -145,10 +206,11 @@ OFFICIAL_LAUNCH_POST = (
     "سواء كنت تبحث عن مرجع دراسي، تطمح لتطوير مهاراتك ولغاتك، تبحث عن حلول وتصاميم مميزة، أو تريد مساحة للهدوء والتركيز.. جمعنا كل ذلك في مكان واحد:\n\n"
     "✨ ماذا ينتظركم داخل البوت؟\n"
     "• 📖 القرآن الكريم كاملاً (114 سورة) تلاوة وتفسيراً.\n"
+    "• 📐 الصرح الهندسي والتقني: طبية حيوية، برمجيات وذكاء اصطناعي، مدنية، كهربائية، وميكانيكية.\n"
     "• 🩺 مكتبات تخصصية مجانية: طب، لغات، علم نفس، فكر وفلسفة، وروايات عالمية.\n"
     "• 🎓 دليل المنح الدراسية العالمية والفرص التعليمية بروابطها المباشرة.\n"
     "• 🎌 عالم الأنمي والمانجا والروايات المترجمة.\n"
-    "• 🧠 تحديات ومسابقات واختبارات ذكاء تفاعلية متجددة.\n"
+    "• 🧠 بنك تحديات ومسابقات الذكاء، تدريب المخ، والرياضيات وعلم النفس.\n"
     "• 🛍️ خدمات التصميم الإبداعي والحلول الرقمية.\n"
     "• ⏱️ رفيق دراستك: مؤقت التركيز (Pomodoro) والسبحة الإلكترونية.\n"
     "• ✨ ركن دعاء مجاب الخاص، وإشراقات واقتباسات ملهمة متجددة.\n\n"
@@ -182,16 +244,36 @@ DEFAULT_SERVICES = [
     ("📦 طلب تصميم وحلول مخصصة", "أرسل فكرتك ومتطلباتك ليتم تقدير التكلفة والوقت المناسب.", "يحدد بعد مراجعة الطلب"),
 ]
 
-# -------------------- المكتبة الموسعة بروابط القراءة والتحميل --------------------
+# -------------------- باقة الكتب والمصادر الشاملة الموسعة --------------------
 
 PRELOADED_BOOKS = [
+    # 🧠 علم النفس والمجتمع (قسم موسع وشامل)
+    ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة شيقة لكيفية عمل الذاكرة والتفكير واتخاذ القرارات.", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D8%A7%D9%84%D9%86%D9%81%D8%B3_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%81%D9%8A"),
+    ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الكلاسيكي الأهم في فهم العقل الجمعي وحركة الشعوب والتأثير فيها.", "https://www.hindawi.org/books/64516358/"),
+    ("psychology", "التفكير، بسرعة وببطء", "دانيال كانمان", "فهم النظم الذهنية وسيكولوجية الانحيازات المعرفية التي تحكم قراراتنا اليومية.", "https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D8%AA%D9%81%D9%83%D9%8A%D8%B1_%D8%A8%D8%B3%D8%B1%D8%B9%D8%A9_%D9%88%D8%A8%D8%A8%D8%B7%D8%A1"),
+    ("psychology", "الإنسان يبحث عن المعنى", "فيكتور فرانكل", "العلاج بالمعنى وقوة الإرادة البشرية في التغلب على أعتى الصدمات والظروف.", "https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D8%A5%D9%86%D8%B3%D8%A7%D9%86_%D9%8A%D8%A8%D8%AD%D8%AB_%D8%B9%D9%86_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%81%D9%8A"),
+    ("psychology", "مقدمة في التحليل النفسي", "سيغموند فرويد", "المرجع التأسيسي لفهم اللاشعور وعقد الشخصية وتفسير الأحلام.", "https://www.hindawi.org/books/65207935/"),
+    ("psychology", "علم النفس العيادي والاضطرابات النفسية", "د. عبد الستار إبراهيم", "دليل مبسط لفهم القلق، الاكتئاب، والوساوس وطرق العلاج المعرفي السلوكي (CBT).", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D8%A7%D9%84%D9%86%D9%81%D8%B3_%D8%A7%D9%84%D8%B3%D can%D9%8A%D9%86%D9%8A%D9%83%D9%8A"),
+
+    # 📐 الصرح الهندسي الشامل
+    ("eng_bio", "مدخل إلى الهندسة الطبية الحيوية (Biomedical Engineering)", "John Enderle", "المرجع التأسيسي في الأجهزة الطبية، الأعضاء الصناعية، وتطبيقات الهندسة في الطب.", "https://www.elsevier.com/"),
+    ("eng_bio", "دليل صيانة وتصميم الأجهزة الطبية والمستشفيات", "منظمة الصحة العالمية (WHO)", "دليل تطبيقي شامل عن عمل وصيانة أجهزة الأشعة، العناية المركزة، ومراقبة المرضى.", "https://www.who.int/"),
+    ("eng_soft", "أساسيات هندسة البرمجيات وتصميم النظم", "Ian Sommerville", "المرجع الأكاديمي الرائد في دورة حياة البرمجيات، النظم المعمارية، وإدارة المشاريع.", "https://ar.wikipedia.org/wiki/%D9%87%D9%86%D8%AF%D8%B3%D8%A9_%D8%A7%D9%84%D8%A8%D8%B1%D9%85%D8%AC%D9%8A%D8%A7%D8%AA"),
+    ("eng_soft", "مقدمة في الخوارزميات وهياكل البيانات (Algorithms)", "Thomas H. Cormen", "الكتاب الأهم عالمياً لبناء التفكير المنطقي البرمجي وحل المشكلات المعقدة.", "https://mitpress.mit.edu/"),
+    ("eng_soft", "دليل الذكاء الاصطناعي وتعلم الآلة الشامل", "Stuart Russell & Peter Norvig", "المرجع العالمي الشامل لجامعة بيركلي في الذكاء الاصطناعي والشبكات العصبية.", "https://aima.cs.berkeley.edu/"),
+    ("eng_civil", "مبادئ الهندسة المدنية وتصميم المنشآت الخرسانية", "د. شاكر البحيري", "أساسيات التصميم الإنشائي، حساب الأحمال، واشتراطات الكود الهندسي للمباني.", "https://ar.wikipedia.org/wiki/%D9%87%D9%86%D8%AF%D8%B3%D8%A9_%D9%85%D8%AF%D9%86%D9%8A%D8%A9"),
+    ("eng_civil", "ميكانيكا التربة وهندسة الأساسات (Soil Mechanics)", "Braja M. Das", "دراسة سلوك التربة، قدرة التحمل، وتصميم الأساسات العميقة والسطحية.", "https://www.cengage.com/"),
+    ("eng_elec", "أساسيات الدوائر الكهربائية (Electric Circuits)", "Charles Alexander & Matthew Sadiku", "المرجع المعتمد في الجامعات لتحليل دوائر التيار المستمر والمتردد.", "https://www.mheducation.com/"),
+    ("eng_elec", "الإلكترونيات المعاصرة ونبائط أشباه الموصلات", "Robert Boylestad", "شرح عمل الترانزستورات، مكبرات العمليات، والدوائر الإلكترونية المتكاملة.", "https://www.pearson.com/"),
+    ("eng_mech", "الديناميكا الحرارية الهندسية (Engineering Thermodynamics)", "Yunus Cengel", "المرجع الكلاسيكي الرائع لفهم الطاقة، انتقال الحرارة، ومحركات الاحتراق.", "https://www.mheducation.com/"),
+    ("eng_mech", "ميكانيكا الموائع وتطبيقاتها الهندسية (Fluid Mechanics)", "Frank White", "شرح قوانين تدفق السوائل والغازات، المضخات، وتوربينات الطاقة.", "https://www.mheducation.com/"),
+
     # 🕌 الإسلامية
     ("islamic", "الأربعون النووية", "الإمام النووي", "أهم الأحاديث الجامعة لقواعد وأصول الدين الإسلامي.", "https://sunnah.com/nawawi40"),
     ("islamic", "رياض الصالحين", "الإمام النووي", "دليل المسلم العملي في الأخلاق والعبادات اليومية.", "https://sunnah.com/riyadussalihin"),
     ("islamic", "الرحيق المختوم", "صفي الرحمن المباركفوري", "السيرة النبوية العطرة كاملة ومحققة بأدق التفاصيل.", "https://ar.m.wikipedia.org/wiki/%D8%A7%D9%84%D8%B1%D8%AD%D9%8A%D9%82_%D8%A7%D9%84%D9%85%D8%AE%D8%AA%D9%88%D9%85"),
     ("islamic", "تفسير السعدي (تيسير الكريم الرحمن)", "الشيخ عبد الرحمن السعدي", "من أيسر وأوضح تفاسير القرآن الكريم فهماً وتدبراً.", "https://quran.ksu.edu.sa/tafseer/saadi/"),
     ("islamic", "الداء والدواء (الجواب الكافي)", "ابن قيم الجوزية", "العلاج الإيماني والنفسي لأمراض القلوب والمعاصي.", "https://www.hindawi.org/books/24016781/"),
-    ("islamic", "صيد الخاطر", "ابن الجوزي", "خواطر وتأملات فلسفية وإيمانية في الحياة وسلوك البشر.", "https://www.hindawi.org/books/27514104/"),
 
     # 🩺 الطبية
     ("medical", "دليل الإسعافات الأولية الشامل", "منظمة الصحة العالمية", "دليل عملي مصور للتعامل مع الحوادث والطوارئ وإنقاذ الأرواح.", "https://www.who.int/ar"),
@@ -199,7 +281,6 @@ PRELOADED_BOOKS = [
     ("medical", "مبادئ علم وظائف الأعضاء (Guyton Physiology)", "John E. Hall", "المرجع الأساسي لطلاب الطب لفهم وظائف أجهزة الجسم الحيوية.", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D9%88%D8%B8%D8%A7%D8%A6%D9%81_%D8%A7%D9%84%D8%A3%D8%B9%D8%B6%D8%A7%D8%A1"),
     ("medical", "المرجع السريع في الأدوية والصيدلة السريرية", "نخبة من الأطباء والصيادلة", "دليل مختصر عن تصنيفات واستخدامات وجرعات الأدوية الشائعة.", "https://www.drugs.com/"),
     ("medical", "أساسيات التحاليل الطبية وقراءة النتائج", "د. أحمد سامي", "شرح لكيفية قراءة وفهم نتائج تحاليل الدم والوظائف المخبرية.", "https://ar.wikipedia.org/wiki/%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1_%D8%AF%D9%85"),
-    ("medical", "علم الأمراض العام المبسط (Basic Pathology)", "Robbins", "مدخل أساسي لفهم نشأة وتطور الأمراض في الجسم.", "https://www.elsevier.com/"),
 
     # 🌍 اللغات
     ("languages", "English Grammar in Use", "Raymond Murphy", "المرجع العالمي الأشهر لتعلم وضبط قواعد اللغة الإنجليزية.", "https://www.cambridge.org/"),
@@ -207,33 +288,21 @@ PRELOADED_BOOKS = [
     ("languages", "دليل المحادثة التركية اليومية", "إسطنبول لتعليم اللغات", "أهم الجمل والعبارات لتعلم المحادثة التركية بطلاقة.", "https://www.turkishteatime.com/"),
     ("languages", "سلسلة İstanbul لتعلم اللغة التركية", "جامعة إسطنبول", "المنهج الرسمي المعتمد لتعلم التركية من المستوى A1 حتى C1.", "https://dilmerkezi.istanbul.edu.tr/"),
     ("languages", "أساسيات وقواعد اللغة الفرنسية", "معهد اللغات الدولي", "مدخل مبسط للنطق الصحيح والقواعد الأساسية للمبتدئين.", "https://www.lepointdufle.net/"),
-    ("languages", "دليل المحادثة الألمانية للمبتدئين", "معهد غوته", "أهم الكلمات والتراكيب اللغوية للحياة اليومية في ألمانيا.", "https://www.goethe.de/"),
-
-    # 🧠 علم النفس والمجتمع
-    ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة شيقة لكيفية عمل الذاكرة والتفكير واتخاذ القرارات.", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D8%A7%D9%84%D9%86%D9%81%D8%B3_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%81%D9%8A"),
-    ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الكلاسيكي الأهم في فهم العقل الجمعي وحركة الشعوب.", "https://www.hindawi.org/books/64516358/"),
-    ("psychology", "التفكير، بسرعة وببطء", "دانيال كانمان", "فهم النظم الذهنية التي تحكم قراراتنا وانحيازاتنا الفكرية.", "https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D8%AA%D9%81%D9%83%D9%8A%D8%B1_%D8%A8%D8%B3%D8%B1%D8%B9%D8%A9_%D9%88%D8%A8%D8%A8%D8%B7%D8%A1"),
-    ("psychology", "الإنسان يبحث عن المعنى", "فيكتور فرانكل", "رحلة ملهمة حول قوة المعنى والأمل في التغلب على أقسى الظروف.", "https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D8%A5%D9%86%D8%B3%D8%A7%D9%86_%D9%8A%D8%A8%D8%AD%D8%AB_%D8%B9%D9%86_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%81%D9%8A"),
 
     # 🏛️ الفكر والفلسفة
     ("philosophy", "مقدمة ابن خلدون", "عبد الرحمن بن خلدون", "المرجع التأسيسي الأول في علم الاجتماع وفلسفة التاريخ والعمران.", "https://www.hindawi.org/books/58632617/"),
     ("philosophy", "قصة الفلسفة", "ويل ديورانت", "رحلة ممتعة وشاملة تستعرض حياة وأفكار كبار الفلاسفة عبر العصور.", "https://www.hindawi.org/books/42948638/"),
-    ("philosophy", "تهافت الفلاسفة", "الإمام أبو حامد الغزالي", "النقد العقلاني الشهير للمناهج الفلسفية اليونانية.", "https://www.hindawi.org/books/51834927/"),
 
     # 💡 تطوير الذات
     ("selfdev", "العادات الذرية (Atomic Habits)", "جيمس كلير", "الدليل العملي الأقوى لبناء العادات الإيجابية والتخلص من السلبية.", "https://jamesclear.com/atomic-habits"),
     ("selfdev", "العمل العميق (Deep Work)", "كال نيوپورت", "استراتيجيات للتركيز الفائق والإنتاجية العالية في عالم مليء بالمشتتات.", "https://calnewport.com/"),
-    ("selfdev", "فن إدارة الوقت والإنتاجية", "برايان تريسي", "طرق مجربة لتنظيم اليوم والتغلب على التسويف والمماطلة.", "https://www.briantracy.com/"),
 
     # 📖 روايات وقصص
     ("novels", "البؤساء (Les Misérables)", "فيكتور هوجو", "ملحمة إنسانية خالدة عن العدالة والرحمة والأمل.", "https://www.hindawi.org/books/47268307/"),
     ("novels", "الخيميائي", "باولو كويلو", "رواية رمزية عالمية تحث على البحث عن الكنز الداخلي وتحقيق الحلم.", "https://paulocoelhoblog.com/"),
-    ("novels", "الجريمة والعقاب", "فيودور دوستويفسكي", "تحفة أدبية في استكشاف أعماق النفس البشرية والصراع الداخلي.", "https://www.hindawi.org/books/16474674/"),
-    ("novels", "الأمير الصغير", "أنطوان دو سانت إكزوبيري", "قصة فلسفية بليغة تأسر القلوب وتذكرنا بجمال البساطة والإنسانية.", "https://www.hindawi.org/books/39860361/"),
 
     # 📑 موضوعات وأدلة عامة
     ("topics", "دليل الطالب الناجح للتفوق الدراسي", "Dua Space", "خطوات واستراتيجيات عملية لتنظيم المذاكرة والمراجعة الذكية.", "https://t.me/DuaSpace1"),
-    ("topics", "دليل أدوات الإنتاجية وقوالب Notion", "Dua Space", "أفضل القوالب والتطبيقات لتنظيم حياتك ومهامك اليومية بكفاءة.", "https://t.me/DuaSpace1"),
 ]
 
 # -------------------- اللغات والواجهات --------------------
@@ -252,8 +321,9 @@ TEXTS = {
         "portfolio": "🎨 معرض الأعمال",
         "anime_hub": "🎌 عالم الأنمي والمانجا",
         "dua_corner": "✨ ركن دعاء مجاب | Dua Corner",
+        "engineering_hub": "📐 الصرح الهندسي والتقني",
         "scholarships": "🎓 دليل المنح والفرص الشامل",
-        "quiz_btn": "🧠 تحديات وكويز الذكاء والمعرفة",
+        "quiz_btn": "🧠 بنك تحديات الذكاء والمخ والمعرفة",
         "islamic_lib": "🕌 المكتبة الإسلامية",
         "medical_lib": "🩺 المكتبة الطبية",
         "lang_lib": "🌍 مكتبة اللغات",
@@ -274,9 +344,9 @@ TEXTS = {
         "empty_sec": "يجري حالياً رفع وتجهيز كتب ومواد هذا القسم.. ترقبوها قريباً! 🪐",
         "rec_prompt": "✍️ نرحب بمقترحاتكم لكتب أو مواد تودون إضافتها في Dua Space:\nاكتب مقترحك في رسالة واحدة:",
         "rec_sent": "✅ شكراً جزيلاً! تم إرسال توصيتك للإدارة بنجاح.",
-        "share_text": "🪐 أنصحكم بتجربة بوت Dua Space الشامل! القرآن كاملاً، ومكتبات إسلامية، طبية، لغات، مانجا وأنيمي، وروايات، ومنح دراسية، وتحديات ذكاء، وخدمات إبداعية:\n\nhttps://t.me/DuaSpaceHelperBot",
+        "share_text": "🪐 أنصحكم بتجربة بوت Dua Space الشامل! القرآن كاملاً، والصرح الهندسي، ومكتبات الطب واللغات وعلم النفس، والمانجا، والمنح، وتحديات الذكاء:\n\nhttps://t.me/DuaSpaceHelperBot",
         "social_text": "🪐 **منصات وحسابات Dua Space الرسمية:**\n\n• القناة الرسمية: https://t.me/DuaSpace1\n• الإدارة والتواصل المباشر: @xdua1\n• ترقبوا قريباً بقية الروابط والمنصات التابعة لنا!",
-        "faq_text": "💡 **الأسئلة الشائعة حول خدمات Dua Space:**\n\n• **كيف أطلب خدمة؟**\nمن قائمة «🛍️ الخدمات والتصميم»، اختر الخدمة ثم اضغط «طلب هذه الخدمة».\n\n• **هل الكتب والمصادر مجانية؟**\nنعم، كافة الكتب والمراجع مجانية تماماً للقراءة والتحميل المباشر.",
+        "faq_text": "💡 **الأسئلة الشائعة حول خدمات Dua Space:**\n\n• **كيف أطلب خدمة؟**\nمن قائمة «🛍️ الخدمات والتصميم»، اختر الخدمة ثم اضغط «طلب هذه الخدمة».\n\n• **هل الكتب والمصادر مجانية؟**\nنعم، كافة الكتب والمراجع الهندسية والطبية والنفسية مجانية تماماً للقراءة والتحميل المباشر.",
     },
     "en": {
         "welcome": "Welcome to Dua Space! 🪐\nYour complete space for creativity, learning, and growth.\nPlease select an option below:",
@@ -291,8 +361,9 @@ TEXTS = {
         "portfolio": "🎨 Portfolio",
         "anime_hub": "🎌 Anime & Manga Realm",
         "dua_corner": "✨ Dua Mujab's Special Corner",
+        "engineering_hub": "📐 Engineering & Tech Realm",
         "scholarships": "🎓 Global Scholarships Guide",
-        "quiz_btn": "🧠 IQ & Knowledge Quiz",
+        "quiz_btn": "🧠 IQ, Mind & Knowledge Quiz",
         "islamic_lib": "🕌 Islamic Library",
         "medical_lib": "🩺 Medical Library",
         "lang_lib": "🌍 Languages Library",
@@ -313,7 +384,7 @@ TEXTS = {
         "empty_sec": "Resources are being prepared. Stay tuned! 🪐",
         "rec_prompt": "✍️ Send us your book or content recommendations:",
         "rec_sent": "✅ Thank you! Your recommendation has been received.",
-        "share_text": "🪐 Explore Dua Space Bot! Full Quran, libraries, Anime/Manga, novels, scholarships, and creative services:\n\nhttps://t.me/DuaSpaceHelperBot",
+        "share_text": "🪐 Explore Dua Space Bot! Quran, Engineering, Medicine, Psychology, Languages, Anime, Scholarships, and IQ Quiz:\n\nhttps://t.me/DuaSpaceHelperBot",
         "social_text": "🪐 **Dua Space Links:**\n• Channel: https://t.me/DuaSpace1\n• Admin: @xdua1",
         "faq_text": "💡 All materials and books are completely free.",
     },
@@ -426,13 +497,13 @@ def init_db():
         )
         con.commit()
 
-        # إدراج الخدمات
+        # إدراج الخدمات الافتراضية
         for title, desc, price in DEFAULT_SERVICES:
             exists = con.execute("SELECT id FROM services WHERE title = ?", (title,)).fetchone()
             if not exists:
                 con.execute("INSERT INTO services(title, description, price, active) VALUES(?, ?, ?, 1)", (title, desc, price))
 
-        # إدراج وتحديث الكتب مع روابطها المباشرة
+        # إدراج الكتب وتحديث الروابط
         for cat, b_title, b_auth, b_desc, b_url in PRELOADED_BOOKS:
             exists = con.execute("SELECT id FROM books WHERE title = ?", (b_title,)).fetchone()
             if not exists:
@@ -509,22 +580,27 @@ def language_selection_keyboard():
 def main_menu_keyboard(user_id):
     return InlineKeyboardMarkup(
         [
-            # زر القرآن الكريم وزر دعاء المميز
+            # القرآن الكريم وركن دعاء المميز
             [InlineKeyboardButton(get_t(user_id, "quran_btn"), callback_data="quran_groups")],
             [InlineKeyboardButton(get_t(user_id, "dua_corner"), callback_data="dua_corner_view")],
-            # تحدي الكويز والذكاء + عالم الأنمي والمانجا
+            # الصرح الهندسي + عالم الأنمي والمانجا
             [
-                InlineKeyboardButton(get_t(user_id, "quiz_btn"), callback_data="quiz_start"),
+                InlineKeyboardButton(get_t(user_id, "engineering_hub"), callback_data="eng_hub_view"),
                 InlineKeyboardButton(get_t(user_id, "anime_hub"), callback_data="anime_hub_view"),
             ],
-            # الخدمات والمنح ومعرض الأعمال
+            # بنك تحديات الذكاء والمخ + الخدمات والتصميم
             [
+                InlineKeyboardButton(get_t(user_id, "quiz_btn"), callback_data="quiz_start"),
                 InlineKeyboardButton(get_t(user_id, "services"), callback_data="services"),
+            ],
+            # المنح والمؤقت ومعرض الأعمال
+            [
                 InlineKeyboardButton(get_t(user_id, "scholarships"), callback_data="scholarships_hub"),
+                InlineKeyboardButton(get_t(user_id, "portfolio"), callback_data="portfolio"),
             ],
             [
-                InlineKeyboardButton(get_t(user_id, "portfolio"), callback_data="portfolio"),
                 InlineKeyboardButton(get_t(user_id, "pomodoro"), callback_data="pomodoro_start"),
+                InlineKeyboardButton(get_t(user_id, "quotes"), callback_data="quotes"),
             ],
             # المكتبات التخصصية
             [
@@ -545,20 +621,39 @@ def main_menu_keyboard(user_id):
             ],
             # التفاعل والمجتمع
             [
-                InlineKeyboardButton(get_t(user_id, "quotes"), callback_data="quotes"),
                 InlineKeyboardButton(get_t(user_id, "tasbeeh"), callback_data="tasbeeh"),
-            ],
-            [
                 InlineKeyboardButton(get_t(user_id, "recommendations"), callback_data="recommend"),
-                InlineKeyboardButton(get_t(user_id, "share"), callback_data="share_bot"),
             ],
             [
-                InlineKeyboardButton(get_t(user_id, "follow"), callback_data="follow_us"),
+                InlineKeyboardButton(get_t(user_id, "share"), callback_data="share_bot"),
                 InlineKeyboardButton(get_t(user_id, "faq"), callback_data="faq_info"),
             ],
             [
+                InlineKeyboardButton(get_t(user_id, "follow"), callback_data="follow_us"),
                 InlineKeyboardButton(get_t(user_id, "contact"), url=CONTACT_URL),
+            ],
+            [
                 InlineKeyboardButton(get_t(user_id, "lang_btn"), callback_data="change_lang"),
+            ],
+        ]
+    )
+
+def engineering_menu_keyboard():
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("🧬 هندسة طبية حيوية", callback_data="cat:eng_bio"),
+                InlineKeyboardButton("💻 برمجيات وذكاء اصطناعي", callback_data="cat:eng_soft"),
+            ],
+            [
+                InlineKeyboardButton("🏗️ هندسة مدنية وإنشائية", callback_data="cat:eng_civil"),
+                InlineKeyboardButton("⚡ هندسة كهربائية وإلكترونية", callback_data="cat:eng_elec"),
+            ],
+            [
+                InlineKeyboardButton("⚙️ هندسة ميكانيكية ومواد", callback_data="cat:eng_mech"),
+            ],
+            [
+                InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home"),
             ],
         ]
     )
@@ -787,12 +882,22 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(get_t(user_id, "welcome"), reply_markup=main_menu_keyboard(user_id))
         return
 
-    # 1. كويز الذكاء والمعرفة
+    # 1. الصرح الهندسي والتقني الشامل
+    if data == "eng_hub_view":
+        text = (
+            "📐 **الصرح الهندسي والتقني الشامل | Engineering & Tech Hub 🪐**\n\n"
+            "مساحتكم التخصصية لأهم فروع ومراجع الهندسة والتكنولوجيا والذكاء الاصطناعي:\n\n"
+            "يرجى اختيار التخصص الهندسي المطلوب لتصفح وتحميل أمهات الكتب والمراجع المعتمدة:"
+        )
+        await query.message.reply_text(text, reply_markup=engineering_menu_keyboard(), parse_mode="Markdown")
+        return
+
+    # 2. كويز الذكاء وتدريب المخ وعلم النفس
     if data in ["quiz_start", "quiz_next"]:
         q_idx = random.randint(0, len(QUIZ_QUESTIONS) - 1)
         q_item = QUIZ_QUESTIONS[q_idx]
         await query.message.reply_text(
-            f"🧠 **تحدي الذكاء والمعرفة:**\n\n{q_item['q']}",
+            f"🧠 **تحدي الذكاء والمخ والمعرفة:**\n\n{q_item['q']}",
             reply_markup=generate_quiz_keyboard(q_idx),
             parse_mode="Markdown",
         )
@@ -806,10 +911,10 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         if opt_idx == q_item["answer"]:
             db_execute("UPDATE users SET quiz_score = quiz_score + 1 WHERE user_id = ?", (user_id,))
-            res_text = f"🎉 **إجابة صحيحة وممتازة!**\n\n💡 {q_item['exp']}"
+            res_text = f"🎉 **إجابة عبقرية وصحيحة!**\n\n💡 {q_item['exp']}"
         else:
             correct_opt = q_item["options"][q_item["answer"]]
-            res_text = f"❌ **إجابة خاطئة!**\nالصحيح هو: **{correct_opt}**\n\n💡 {q_item['exp']}"
+            res_text = f"❌ **إجابة خاطئة!**\nالصواب هو: **{correct_opt}**\n\n💡 {q_item['exp']}"
 
         kb = InlineKeyboardMarkup(
             [
@@ -820,7 +925,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(res_text, reply_markup=kb, parse_mode="Markdown")
         return
 
-    # 2. ركن دعاء مجاب الخاص
+    # 3. ركن دعاء مجاب الخاص
     if data == "dua_corner_view":
         text = (
             "✨ **ركن دعاء مجاب | Dua Space • Special Corner 🪐**\n\n"
@@ -841,7 +946,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(text, reply_markup=kb, parse_mode="Markdown")
         return
 
-    # 3. عالم الأنمي والمانجا والروايات الخفيفة
+    # 4. عالم الأنمي والمانجا والروايات الخفيفة
     if data == "anime_hub_view":
         text = (
             "🎌 **عالم الأنمي والمانجا والروايات الخفيفة (Anime & Manga Realm):**\n\n"
@@ -864,7 +969,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(text, reply_markup=kb, parse_mode="Markdown")
         return
 
-    # 4. دليل المنح والفرص التعليمية الشامل
+    # 5. دليل المنح والفرص التعليمية الشامل
     if data == "scholarships_hub":
         text = (
             "🎓 **دليل المنح والفرص التعليمية الدولية الشاملة:**\n\n"
@@ -890,7 +995,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(text, reply_markup=kb, parse_mode="Markdown")
         return
 
-    # 5. الخدمات والتصميم
+    # 6. الخدمات والتصميم
     if data == "services":
         rows = db_all("SELECT id, title, price FROM services WHERE active = 1 ORDER BY id ASC")
         if not rows:
@@ -928,7 +1033,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_order(update, context, int(data.split(":", 1)[1]))
         return
 
-    # 6. القرآن الكريم
+    # 7. القرآن الكريم
     if data == "quran_groups":
         await query.message.reply_text("📖 **القرآن الكريم كاملاً (114 سورة):**\nاختر المجموعة للاستماع والقراءة المباشرة:", reply_markup=quran_group_keyboard(), parse_mode="Markdown")
         return
@@ -955,10 +1060,15 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(f"✨ سورة **{s_name}** ({s_num})\nاستمع أو اقرأ عبر الروابط أدناه:", reply_markup=kb, parse_mode="Markdown")
         return
 
-    # 7. تصفح أقسام المكتبة مع زر القراءة والتحميل المباشر
+    # 8. تصفح أقسام المكتبة العامة والهندسية وعلم النفس
     if data.startswith("cat:"):
         cat_key = data.split(":", 1)[1]
         cat_names = {
+            "eng_bio": "🧬 الهندسة الطبية الحيوية",
+            "eng_soft": "💻 هندسة البرمجيات والذكاء الاصطناعي",
+            "eng_civil": "🏗️ الهندسة المدنية والإنشائية",
+            "eng_elec": "⚡ الهندسة الكهربائية والإلكترونية",
+            "eng_mech": "⚙️ الهندسة الميكانيكية وهندسة المواد",
             "islamic": get_t(user_id, "islamic_lib"),
             "medical": get_t(user_id, "medical_lib"),
             "languages": get_t(user_id, "lang_lib"),
@@ -971,9 +1081,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         name = cat_names.get(cat_key, "المكتبة")
         rows = db_all("SELECT id, title, author FROM books WHERE category = ? ORDER BY id ASC LIMIT 25", (cat_key,))
 
+        back_callback = "eng_hub_view" if cat_key.startswith("eng_") else "home"
+
         if not rows:
             text = f"{name}\n\n{get_t(user_id, 'empty_sec')}"
-            kb = InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]])
+            kb = InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data=back_callback)]])
             await query.message.reply_text(text, reply_markup=kb)
             return
 
@@ -981,7 +1093,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton(f"📖 {r['title']}", callback_data=f"open_book:{r['id']}")]
             for r in rows
         ]
-        buttons.append([InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")])
+        buttons.append([InlineKeyboardButton(get_t(user_id, "back"), callback_data=back_callback)])
         await query.message.reply_text(f"{name}\nيرجى اختيار الكتاب لعرضه وتحميله:", reply_markup=InlineKeyboardMarkup(buttons))
         return
 
@@ -1004,7 +1116,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await query.message.reply_text(caption, reply_markup=InlineKeyboardMarkup(kb_list), parse_mode="Markdown")
         return
 
-    # 8. مؤقت بومودورو
+    # 9. مؤقت بومودورو
     if data == "pomodoro_start":
         kb = InlineKeyboardMarkup(
             [
@@ -1020,7 +1132,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         asyncio.create_task(run_pomodoro(query.message.chat_id, context))
         return
 
-    # 9. بقية الأدوات
+    # 10. بقية الأدوات
     if data == "faq_info":
         await query.message.reply_text(get_t(user_id, "faq_text"), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]), parse_mode="Markdown")
         return
@@ -1084,14 +1196,13 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await query.message.reply_text(f"🎨 **{item['title']}**\n\n{item['description']}")
         return
 
-    # -------------------- وظائف الإدارة --------------------
+    # -------------------- لوحة تحكم الإدارة --------------------
     if not is_admin_user(user_id):
         return
 
     if data == "admin_home":
         await query.message.reply_text("🎛️ لوحة إدارة Dua Space الشاملة:", reply_markup=admin_keyboard())
 
-    # نشر وتثبيت الإعلان الرسمي في القناة تلقائياً بضغطة زر
     elif data == "admin_pin_official":
         try:
             msg = await context.bot.send_message(chat_id=CHANNEL_ID, text=OFFICIAL_LAUNCH_POST)
@@ -1146,9 +1257,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "add_book_flow":
         kb = InlineKeyboardMarkup(
             [
-                [InlineKeyboardButton("🕌 إسلامية", callback_data="set_bcat:islamic"), InlineKeyboardButton("🩺 طبية", callback_data="set_bcat:medical")],
-                [InlineKeyboardButton("🌍 لغات", callback_data="set_bcat:languages"), InlineKeyboardButton("🧠 علم نفس", callback_data="set_bcat:psychology")],
-                [InlineKeyboardButton("🏛️ فكر وفلسفة", callback_data="set_bcat:philosophy"), InlineKeyboardButton("💡 تطوير ذات", callback_data="set_bcat:selfdev")],
+                [InlineKeyboardButton("🧠 علم نفس", callback_data="set_bcat:psychology"), InlineKeyboardButton("🧬 هندسة حيوية", callback_data="set_bcat:eng_bio")],
+                [InlineKeyboardButton("💻 برمجيات وAI", callback_data="set_bcat:eng_soft"), InlineKeyboardButton("🏗️ مدنية وإنشائية", callback_data="set_bcat:eng_civil")],
+                [InlineKeyboardButton("⚡ كهربائية", callback_data="set_bcat:eng_elec"), InlineKeyboardButton("⚙️ ميكانيكية", callback_data="set_bcat:eng_mech")],
+                [InlineKeyboardButton("🩺 طبية", callback_data="set_bcat:medical"), InlineKeyboardButton("🕌 إسلامية", callback_data="set_bcat:islamic")],
+                [InlineKeyboardButton("🌍 لغات", callback_data="set_bcat:languages"), InlineKeyboardButton("💡 تطوير ذات", callback_data="set_bcat:selfdev")],
                 [InlineKeyboardButton("📖 روايات", callback_data="set_bcat:novels"), InlineKeyboardButton("📑 موضوعات", callback_data="set_bcat:topics")],
             ]
         )
@@ -1286,7 +1399,7 @@ async def file_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.effective_message.reply_text("✅ تم حفظ ملف الكتاب وربطه بالقسم بنجاح!", reply_markup=admin_keyboard())
         return
 
-# -------------------- تشغيل خادم الويب والمنصة --------------------
+# -------------------- نقطة التشغيل وخادم الويب --------------------
 
 async def handle_health(request):
     return web.Response(text="Dua Space Live Pro 🪐", status=200)
