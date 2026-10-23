@@ -27,7 +27,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     level=logging.INFO,
 )
-logger = logging.getLogger("DuaSpaceFinalBot")
+logger = logging.getLogger("DuaSpaceMegaBot")
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
 CHANNEL_ID = os.environ.get("CHANNEL_ID", "@DuaSpace1").strip()
@@ -43,7 +43,7 @@ CONTACT_URL = f"https://t.me/{CONTACT_USERNAME}"
 CHANNEL_URL = "https://t.me/DuaSpace1"
 BOT_USERNAME = os.environ.get("BOT_USERNAME", "DuaSpaceHelperBot").strip().lstrip("@")
 
-# -------------------- بيانات القرآن الكريم (114 سورة) --------------------
+# -------------------- القرآن الكريم (114 سورة) --------------------
 
 QURAN_SURAHS = [
     "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس",
@@ -60,37 +60,7 @@ QURAN_SURAHS = [
     "المسد", "الإخلاص", "الفلق", "الناس"
 ]
 
-# -------------------- الخدمات الافتراضية --------------------
-
-DEFAULT_SERVICES = [
-    ("🎨 التصميم الجرافيكي والهويات البصرية", "تصميم شعارات، بطاقات أعمال، وهوية بصرية كاملة لمشروعك.", "حسب تفاصيل الطلب"),
-    ("🖼️ تصميم بوسترات وبنرات إعلانية", "تصاميم سوشيال ميديا وإعلانات دعائية بجودة عالية.", "حسب تفاصيل الطلب"),
-    ("💌 تصميم بطاقات المعايدة والدعوات", "دعوات مناسبات وبطاقات تهنئة مميزة.", "حسب تفاصيل الطلب"),
-    ("📦 طلب تصميم مخصص", "يرجى توضيح طلبك وفكرتك لتقدير التكلفة والوقت.", "يحدد بعد مراجعة الطلب"),
-]
-
-# -------------------- قائمة الكتب مع روابط القراءة والتحميل --------------------
-
-PRELOADED_BOOKS = [
-    ("islamic", "الأربعون النووية", "الإمام النووي", "أهم الأحاديث الجامعة لقواعد وأصول الدين الإسلامي.", "https://sunnah.com/nawawi40"),
-    ("islamic", "رياض الصالحين", "الإمام النووي", "دليل المسلم العملي في الأخلاق والعبادات.", "https://sunnah.com/riyadussalihin"),
-    ("islamic", "الرحيق المختوم", "صفي الرحمن المباركفوري", "سيرة نبوية عطرة شاملة ومحققة.", "https://ar.m.wikipedia.org/wiki/%D8%A7%D9%84%D8%B1%D8%AD%D9%8A%D9%82_%D8%A7%D9%84%D9%85%D8%AE%D8%AA%D9%88%D9%85"),
-    ("medical", "دليل الإسعافات الأولية الشامل", "منظمة الصحة العالمية", "دليل عملي مصور للتعامل مع الطوارئ الطبية.", "https://www.who.int/ar"),
-    ("medical", "مبادئ علم التشريح ووظائف الأعضاء", "د. خالد عمارة", "مدخل مبسط لفهم أجهزة وأعضاء جسم الإنسان.", "https://ar.wikipedia.org/wiki/%D8%AA%D8%B4%D8%B1%D9%8A%D8%AD"),
-    ("medical", "المرجع السريع في الأدوية", "نخبة من الأطباء", "دليل مختصر عن تصنيفات واستخدامات الأدوية.", "https://www.drugs.com/"),
-    ("languages", "English Grammar in Use", "Raymond Murphy", "المرجع العالمي الأشهر لتعلم قواعد الإنجليزية.", "https://www.cambridge.org/"),
-    ("languages", "دليل المحادثة التركية اليومية", "إسطنبول لتعليم اللغات", "أهم المفردات والجمل الشائعة للمحادثة اليومية.", "https://www.turkishteatime.com/"),
-    ("languages", "أساسيات الفرنسية للمبتدئين", "معهد اللغات", "مدخل لأساسيات وقواعد اللغة الفرنسية.", "https://www.lepointdufle.net/"),
-    ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة لكيفية عمل العقل والتفكير البشري.", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D8%A7%D9%84%D9%86%D9%81%D8%B3_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%81%D9%8A"),
-    ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الأهم في فهم حركة وسلوك المجتمعات.", "https://www.hindawi.org/books/64516358/"),
-    ("philosophy", "مقدمة ابن خلدون", "عبد الرحمن بن خلدون", "المرجع التأسيسي الأول في علم الاجتماع وفلسفة التاريخ.", "https://www.hindawi.org/books/58632617/"),
-    ("philosophy", "قصة الفلسفة", "ويل ديورانت", "رحلة ممتعة تستعرض حياة وأفكار كبار الفلاسفة.", "https://www.hindawi.org/books/42948638/"),
-    ("selfdev", "العادات الذرية (Atomic Habits)", "جيمس كلير", "منهج عملي لبناء عادات إيجابية والتخلص من السلبية.", "https://jamesclear.com/atomic-habits"),
-    ("selfdev", "فن إدارة الوقت والإنتاجية العالية", "برايان تريسي", "استراتيجيات عملية لتنظيم المهام وزيادة التركيز.", "https://www.briantracy.com/"),
-    ("novels", "البؤساء (Les Misérables)", "فيكتور هوجو", "ملحمة إنسانية خالدة عن العدالة والرحمة والأمل.", "https://www.hindawi.org/books/47268307/"),
-    ("novels", "الخيميائي", "باولو كويلو", "رواية رمزية ملهمة عن السعي لتحقيق الأحلام.", "https://paulocoelhoblog.com/"),
-    ("topics", "دليل الطالب للتفوق الدراسي", "Dua Space", "خطوات واستراتيجيات مجربة لتنظيم المذاكرة.", "https://t.me/DuaSpace1"),
-]
+# -------------------- بنك المنشورات التلقائية للقناة --------------------
 
 AUTO_POSTS = [
     "﴿أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ﴾ ✨\n\nسبحان الله، والحمد لله، ولا إله إلا الله، والله أكبر.",
@@ -101,12 +71,75 @@ AUTO_POSTS = [
     "«العقل الذي يتسع لفكرة جديدة لا يعود أبداً إلى حجمه الأصلي.» — أوليفر وندل هولمز 💡",
     "«كن أنت التغيير الذي تريد أن تراه في هذا العالم.» — غاندي ✨",
     "﴿إِنَّ مَعَ الْعُسْرِ يُسْرًا﴾ 🌸",
-    "«سَيِّدُ الاِسْتِغْفَارِ: اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ». 📿",
+    "«سَيِّدُ الاِسْتِغْفَارِ: اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عهدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ». 📿",
 ]
+
+# -------------------- الخدمات الافتراضية --------------------
+
+DEFAULT_SERVICES = [
+    ("🎨 التصميم الجرافيكي والهويات البصرية", "تصميم شعارات احترافية، بطاقات وهوية بصرية متكاملة لمشروعك.", "حسب تفاصيل الطلب"),
+    ("🖼️ تصميم بوسترات وبنرات إعلانية", "تصاميم لمنصات التواصل الاجتماعي بجودة وإتقان عالي.", "حسب تفاصيل الطلب"),
+    ("💌 بطاقات التهنئة والدعوات الرقمية", "تصاميم مخصصة ومبتكرة للمناسبات الخاصة والاحتفالات.", "حسب تفاصيل الطلب"),
+    ("📦 طلب تصميم وحلول مخصصة", "أرسل فكرتك ومتطلباتك ليتم تقدير التكلفة والوقت المناسب.", "يحدد بعد مراجعة الطلب"),
+]
+
+# -------------------- حزمة المكتبة الضخمة مع روابط القراءة والتحميل --------------------
+
+PRELOADED_BOOKS = [
+    # 🕌 الإسلامية
+    ("islamic", "الأربعون النووية", "الإمام النووي", "أهم الأحاديث الجامعة لقواعد وأصول الدين الإسلامي.", "https://sunnah.com/nawawi40"),
+    ("islamic", "رياض الصالحين", "الإمام النووي", "دليل المسلم العملي في الأخلاق والعبادات اليومية.", "https://sunnah.com/riyadussalihin"),
+    ("islamic", "الرحيق المختوم", "صفي الرحمن المباركفوري", "السيرة النبوية العطرة كاملة ومحققة بأدق التفاصيل.", "https://ar.m.wikipedia.org/wiki/%D8%A7%D9%84%D8%B1%D8%AD%D9%8A%D9%82_%D8%A7%D9%84%D9%85%D8%AE%D8%AA%D9%88%D9%85"),
+    ("islamic", "تفسير السعدي (تيسير الكريم الرحمن)", "الشيخ عبد الرحمن السعدي", "من أيسر وأوضح تفاسير القرآن الكريم فهماً وتدبراً.", "https://quran.ksu.edu.sa/tafseer/saadi/"),
+    ("islamic", "الداء والدواء (الجواب الكافي)", "ابن قيم الجوزية", "العلاج الإيماني والنفسي لأمراض القلوب والمعاصي.", "https://www.hindawi.org/books/24016781/"),
+
+    # 🩺 الطبية
+    ("medical", "دليل الإسعافات الأولية الشامل", "منظمة الصحة العالمية", "دليل عملي مصور للتعامل مع الحوادث والطوارئ وإنقاذ الأرواح.", "https://www.who.int/ar"),
+    ("medical", "أطلس التشريح البشري (Netter Atlas)", "Frank H. Netter", "المرجع العالمي الأكثر شهرة لرسومات تشريح جسم الإنسان بدقة بالغة.", "https://www.elsevier.com/"),
+    ("medical", "مبادئ علم وظائف الأعضاء (Guyton Physiology)", "John E. Hall", "المرجع الأساسي لطلاب الطب لفهم وظائف أجهزة الجسم الحيوية.", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D9%88%D8%B8%D8%A7%D8%A6%D9%81_%D8%A7%D9%84%D8%A3%D8%B9%D8%B6%D8%A7%D8%A1"),
+    ("medical", "المرجع السريع في الأدوية والصيدلة السريرية", "نخبة من الأطباء والصيادلة", "دليل مختصر عن تصنيفات واستخدامات وجرعات الأدوية الشائعة.", "https://www.drugs.com/"),
+    ("medical", "أساسيات التحاليل الطبية وقراءة النتائج", "د. أحمد سامي", "شرح لكيفية قراءة وفهم نتائج تحاليل الدم والوظائف المخبرية.", "https://ar.wikipedia.org/wiki/%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1_%D8%AF%D9%85"),
+
+    # 🌍 اللغات
+    ("languages", "English Grammar in Use", "Raymond Murphy", "المرجع العالمي الأشهر لتعلم وضبط قواعد اللغة الإنجليزية.", "https://www.cambridge.org/"),
+    ("languages", "English Vocabulary in Use", "Michael McCarthy", "بناء حصيلة لغوية إنجليزية ثرية من المفردات اليومية والأكاديمية.", "https://www.cambridge.org/"),
+    ("languages", "دليل المحادثة التركية اليومية", "إسطنبول لتعليم اللغات", "أهم الجمل والعبارات لتعلم المحادثة التركية بطلاقة.", "https://www.turkishteatime.com/"),
+    ("languages", "سلسلة İstanbul لتعلم اللغة التركية", "جامعة إسطنبول", "المنهج الرسمي المعتمد لتعلم التركية من المستوى A1 حتى C1.", "https://dilmerkezi.istanbul.edu.tr/"),
+    ("languages", "أساسيات وقواعد اللغة الفرنسية", "معهد اللغات الدولي", "مدخل مبسط للنطق الصحيح والقواعد الأساسية للمبتدئين.", "https://www.lepointdufle.net/"),
+    ("languages", "دليل المحادثة الألمانية للمبتدئين", "معهد غوته", "أهم الكلمات والتراكيب اللغوية للحياة اليومية في ألمانيا.", "https://www.goethe.de/"),
+
+    # 🧠 علم النفس والمجتمع
+    ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة شيقة لكيفية عمل الذاكرة والتفكير واتخاذ القرارات.", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D8%A7%D9%84%D9%86%D9%81%D8%B3_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%81%D9%8A"),
+    ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الكلاسيكي الأهم في فهم العقل الجمعي وحركة الشعوب.", "https://www.hindawi.org/books/64516358/"),
+    ("psychology", "التفكير، بسرعة وببطء", "دانيال كانمان", "فهم النظم الذهنية التي تحكم قراراتنا وانحيازاتنا الفكرية.", "https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D8%AA%D9%81%D9%83%D9%8A%D8%B1_%D8%A8%D8%B3%D8%B1%D8%B9%D8%A9_%D9%88%D8%A8%D8%A8%D8%B7%D8%A1"),
+    ("psychology", "الإنسان يبحث عن المعنى", "فيكتور فرانكل", "رحلة ملهمة حول قوة المعنى والأمل في التغلب على أقسى الظروف.", "https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D8%A5%D9%86%D8%B3%D8%A7%D9%86_%D9%8A%D8%A8%D8%AD%D8%AB_%D8%B9%D9%86_%D8%A7%D9%84%D9%85%D8%B9%D9%86%D9%89"),
+
+    # 🏛️ الفكر والفلسفة
+    ("philosophy", "مقدمة ابن خلدون", "عبد الرحمن بن خلدون", "المرجع التأسيسي الأول في علم الاجتماع وفلسفة التاريخ والعمران.", "https://www.hindawi.org/books/58632617/"),
+    ("philosophy", "قصة الفلسفة", "ويل ديورانت", "رحلة ممتعة وشاملة تستعرض حياة وأفكار كبار الفلاسفة عبر العصور.", "https://www.hindawi.org/books/42948638/"),
+    ("philosophy", "تهافت الفلاسفة", "الإمام أبو حامد الغزالي", "النقد العقلاني الشهير للمناهج الفلسفية اليونانية.", "https://www.hindawi.org/books/51834927/"),
+
+    # 💡 تطوير الذات
+    ("selfdev", "العادات الذرية (Atomic Habits)", "جيمس كلير", "الدليل العملي الأقوى لبناء العادات الإيجابية والتخلص من السلبية.", "https://jamesclear.com/atomic-habits"),
+    ("selfdev", "العمل العميق (Deep Work)", "كال نيوپورت", "استراتيجيات للتركيز الفائق والإنتاجية العالية في عالم مليء بالمشتتات.", "https://calnewport.com/"),
+    ("selfdev", "فن إدارة الوقت والإنتاجية", "برايان تريسي", "طرق مجربة لتنظيم اليوم والتغلب على التسويف والمماطلة.", "https://www.briantracy.com/"),
+
+    # 📖 روايات وقصص
+    ("novels", "البؤساء (Les Misérables)", "فيكتور هوجو", "ملحمة إنسانية خالدة عن العدالة والرحمة والأمل.", "https://www.hindawi.org/books/47268307/"),
+    ("novels", "الخيميائي", "باولو كويلو", "رواية رمزية عالمية تحث على البحث عن الكنز الداخلي وتحقيق الحلم.", "https://paulocoelhoblog.com/"),
+    ("novels", "الجريمة والعقاب", "فيودور دوستويفسكي", "تحفة أدبية في استكشاف أعماق النفس البشرية والصراع الداخلي.", "https://www.hindawi.org/books/16474674/"),
+    ("novels", "الأمير الصغير", "أنطوان دو سانت إكزوبيري", "قصة فلسفية بليغة تأسر القلوب وتذكرنا بجمال البساطة والإنسانية.", "https://www.hindawi.org/books/39860361/"),
+
+    # 📑 موضوعات وأدلة عامة
+    ("topics", "دليل الطالب الناجح للتفوق الدراسي", "Dua Space", "خطوات واستراتيجيات عملية لتنظيم المذاكرة والمراجعة الذكية.", "https://t.me/DuaSpace1"),
+    ("topics", "دليل أدوات الإنتاجية وقوالب Notion", "Dua Space", "أفضل القوالب والتطبيقات لتنظيم حياتك ومهامك اليومية بكفاءة.", "https://t.me/DuaSpace1"),
+]
+
+# -------------------- اللغات والواجهات --------------------
 
 TEXTS = {
     "ar": {
-        "welcome": "أهلًا بكم في Dua Space! 🪐\nمساحتكم الشاملة للإبداع والمعرفة والارتقاء.\nيرجى اختيار القسم المطلوب عبر الأزرار أدناه:",
+        "welcome": "أهلًا بكم في Dua Space! 🪐\nمساحتكم الشاملة للإبداع، المعرفة، والارتقاء.\nيرجى اختيار القسم المطلوب عبر الأزرار أدناه:",
         "must_subscribe": "⚠️ **تنبيه للاستمرار:**\n\nيرجى الانضمام إلى قناة Dua Space الرسمية أولاً لتتمكن من استخدام البوت ومكتباته.\n\nاضغط أدناه للانضمام، ثم اضغط على «✅ تحقّق من الاشتراك»:",
         "sub_btn": "📢 انضم للقناة الآن",
         "check_sub": "✅ تحقّق من الاشتراك",
@@ -116,7 +149,9 @@ TEXTS = {
         "quran_btn": "📖 القرآن الكريم كاملاً (114 سورة)",
         "services": "🛍️ الخدمات والتصميم",
         "portfolio": "🎨 معرض الأعمال",
-        "scholarships": "🎓 المنح والفرص التعليمية",
+        "anime_hub": "🎌 عالم الأنمي والمانجا",
+        "dua_corner": "✨ ركن دعاء مجاب | Dua Corner",
+        "scholarships": "🎓 دليل المنح والفرص الشامل",
         "islamic_lib": "🕌 المكتبة الإسلامية",
         "medical_lib": "🩺 المكتبة الطبية",
         "lang_lib": "🌍 مكتبة اللغات",
@@ -137,10 +172,9 @@ TEXTS = {
         "empty_sec": "يجري حالياً رفع وتجهيز كتب ومواد هذا القسم.. ترقبوها قريباً! 🪐",
         "rec_prompt": "✍️ نرحب بمقترحاتكم لكتب أو مواد تودون إضافتها في Dua Space:\nاكتب مقترحك في رسالة واحدة:",
         "rec_sent": "✅ شكراً جزيلاً! تم إرسال توصيتك للإدارة بنجاح.",
-        "share_text": "🪐 أنصحكم بتجربة بوت Dua Space الشامل! القرآن كاملاً، ومكتبات إسلامية، طبية، لغات، روايات، واقتباسات ملهمة، وخدمات إبداعية:\n\nhttps://t.me/DuaSpaceHelperBot",
+        "share_text": "🪐 أنصحكم بتجربة بوت Dua Space الشامل! القرآن كاملاً، ومكتبات إسلامية، طبية، لغات، مانجا وأنيمي، وروايات، ومنح دراسية، وخدمات إبداعية:\n\nhttps://t.me/DuaSpaceHelperBot",
         "social_text": "🪐 **منصات وحسابات Dua Space الرسمية:**\n\n• القناة الرسمية: https://t.me/DuaSpace1\n• الإدارة والتواصل المباشر: @xdua1\n• ترقبوا قريباً بقية الروابط والمنصات التابعة لنا!",
-        "faq_text": "💡 **الأسئلة الشائعة حول خدمات Dua Space:**\n\n• **كيف أطلب خدمة؟**\nمن قائمة «🛍️ الخدمات والتصميم»، اختر الخدمة ثم اضغط «طلب هذه الخدمة».\n\n• **هل الكتب مجانية؟**\nنعم، كافة الكتب والمراجع مجانية تماماً للقراءة والتحميل.",
-        "scholarships_text": "🎓 **دليل المنح والفرص التعليمية:**\n\n• مصادر موثوقة لأفضل المنح الدولية المجانية.\n• أدلة واختبارات اللغة الدولية (IELTS / TOEFL).",
+        "faq_text": "💡 **الأسئلة الشائعة حول خدمات Dua Space:**\n\n• **كيف أطلب خدمة؟**\nمن قائمة «🛍️ الخدمات والتصميم»، اختر الخدمة ثم اضغط «طلب هذه الخدمة».\n\n• **هل الكتب والمصادر مجانية؟**\nنعم، كافة الكتب والمراجع مجانية تماماً للقراءة والتحميل المباشر.",
     },
     "en": {
         "welcome": "Welcome to Dua Space! 🪐\nYour complete space for creativity, learning, and growth.\nPlease select an option below:",
@@ -153,7 +187,9 @@ TEXTS = {
         "quran_btn": "📖 The Holy Quran (114 Surahs)",
         "services": "🛍️ Services & Design",
         "portfolio": "🎨 Portfolio",
-        "scholarships": "🎓 Scholarships & Opportunities",
+        "anime_hub": "🎌 Anime & Manga Realm",
+        "dua_corner": "✨ Dua Mujab's Special Corner",
+        "scholarships": "🎓 Global Scholarships Guide",
         "islamic_lib": "🕌 Islamic Library",
         "medical_lib": "🩺 Medical Library",
         "lang_lib": "🌍 Languages Library",
@@ -174,10 +210,9 @@ TEXTS = {
         "empty_sec": "Resources are being prepared. Stay tuned! 🪐",
         "rec_prompt": "✍️ Send us your book or content recommendations:",
         "rec_sent": "✅ Thank you! Your recommendation has been received.",
-        "share_text": "🪐 Explore Dua Space Bot! Full Quran, libraries, novels, inspiring quotes, and creative services:\n\nhttps://t.me/DuaSpaceHelperBot",
+        "share_text": "🪐 Explore Dua Space Bot! Full Quran, libraries, Anime/Manga, novels, scholarships, and creative services:\n\nhttps://t.me/DuaSpaceHelperBot",
         "social_text": "🪐 **Dua Space Links:**\n• Channel: https://t.me/DuaSpace1\n• Admin: @xdua1",
         "faq_text": "💡 All materials and books are completely free.",
-        "scholarships_text": "🎓 International scholarship guides & exam resources.",
     },
 }
 
@@ -287,13 +322,13 @@ def init_db():
         )
         con.commit()
 
-        # إدراج وتحديث الخدمات التلقائية
+        # إدراج الخدمات
         for title, desc, price in DEFAULT_SERVICES:
             exists = con.execute("SELECT id FROM services WHERE title = ?", (title,)).fetchone()
             if not exists:
                 con.execute("INSERT INTO services(title, description, price, active) VALUES(?, ?, ?, 1)", (title, desc, price))
 
-        # إدراج وتحديث الكتب بروابطها
+        # إدراج وتحديث الكتب مع روابطها المباشرة
         for cat, b_title, b_auth, b_desc, b_url in PRELOADED_BOOKS:
             exists = con.execute("SELECT id FROM books WHERE title = ?", (b_title,)).fetchone()
             if not exists:
@@ -355,7 +390,7 @@ def force_sub_keyboard(user_id):
         ]
     )
 
-# -------------------- القوائم والأزرار --------------------
+# -------------------- القوائم والأزرار الرئيسية --------------------
 
 def language_selection_keyboard():
     return InlineKeyboardMarkup(
@@ -370,15 +405,24 @@ def language_selection_keyboard():
 def main_menu_keyboard(user_id):
     return InlineKeyboardMarkup(
         [
+            # زر القرآن الكريم وزر دعاء المميز
             [InlineKeyboardButton(get_t(user_id, "quran_btn"), callback_data="quran_groups")],
+            [InlineKeyboardButton(get_t(user_id, "dua_corner"), callback_data="dua_corner_view")],
+            # قسم الأنمي والمانجا + الخدمات والتصميم
             [
+                InlineKeyboardButton(get_t(user_id, "anime_hub"), callback_data="anime_hub_view"),
                 InlineKeyboardButton(get_t(user_id, "services"), callback_data="services"),
+            ],
+            # المنح والمؤقت ومعرض الأعمال
+            [
+                InlineKeyboardButton(get_t(user_id, "scholarships"), callback_data="scholarships_hub"),
                 InlineKeyboardButton(get_t(user_id, "portfolio"), callback_data="portfolio"),
             ],
             [
-                InlineKeyboardButton(get_t(user_id, "scholarships"), callback_data="scholarships_info"),
                 InlineKeyboardButton(get_t(user_id, "pomodoro"), callback_data="pomodoro_start"),
+                InlineKeyboardButton(get_t(user_id, "quotes"), callback_data="quotes"),
             ],
+            # المكتبات التخصصية
             [
                 InlineKeyboardButton(get_t(user_id, "islamic_lib"), callback_data="cat:islamic"),
                 InlineKeyboardButton(get_t(user_id, "medical_lib"), callback_data="cat:medical"),
@@ -395,20 +439,20 @@ def main_menu_keyboard(user_id):
                 InlineKeyboardButton(get_t(user_id, "novels_lib"), callback_data="cat:novels"),
                 InlineKeyboardButton(get_t(user_id, "topics_lib"), callback_data="cat:topics"),
             ],
+            # التفاعل والمجتمع
             [
-                InlineKeyboardButton(get_t(user_id, "quotes"), callback_data="quotes"),
                 InlineKeyboardButton(get_t(user_id, "tasbeeh"), callback_data="tasbeeh"),
-            ],
-            [
                 InlineKeyboardButton(get_t(user_id, "recommendations"), callback_data="recommend"),
-                InlineKeyboardButton(get_t(user_id, "share"), callback_data="share_bot"),
             ],
             [
-                InlineKeyboardButton(get_t(user_id, "follow"), callback_data="follow_us"),
+                InlineKeyboardButton(get_t(user_id, "share"), callback_data="share_bot"),
                 InlineKeyboardButton(get_t(user_id, "faq"), callback_data="faq_info"),
             ],
             [
+                InlineKeyboardButton(get_t(user_id, "follow"), callback_data="follow_us"),
                 InlineKeyboardButton(get_t(user_id, "contact"), url=CONTACT_URL),
+            ],
+            [
                 InlineKeyboardButton(get_t(user_id, "lang_btn"), callback_data="change_lang"),
             ],
         ]
@@ -624,7 +668,77 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(get_t(user_id, "welcome"), reply_markup=main_menu_keyboard(user_id))
         return
 
-    # 1. تفعيل زر الخدمات والتصميم
+    # 1. ركن دعاء مجاب الخاص
+    if data == "dua_corner_view":
+        text = (
+            "✨ **ركن دعاء مجاب | Dua Space • Special Corner 🪐**\n\n"
+            "«أهلاً بكم في زاويتي ومساحتي الخاصة. هنا نشارك الشغف، الطموح، ورسائل ملهمة تصنع الفرق. "
+            "صُممت منصة Dua Space لتكون بوابتكم المتكاملة نحو التعلم والارتقاء والتميز.»\n\n"
+            "📌 **ما الذي ستجدونه هنا قريباً؟**\n"
+            "• مقالات وإضاءات خاصة في طريق الطب والتفوق العلمي.\n"
+            "• ترشيحات دورية لأفضل الأعمال، الكتب، والقصص الملهمة.\n"
+            "• مساحات وتدوينات وتحديثات حصرية لمجتمع Dua Space."
+        )
+        kb = InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("💬 مراسلة دعاء مباشرة", url=CONTACT_URL)],
+                [InlineKeyboardButton("📢 قناة Dua Space الرسمية", url=CHANNEL_URL)],
+                [InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")],
+            ]
+        )
+        await query.message.reply_text(text, reply_markup=kb, parse_mode="Markdown")
+        return
+
+    # 2. عالم الأنمي والمانجا والروايات الخفيفة
+    if data == "anime_hub_view":
+        text = (
+            "🎌 **عالم الأنمي والمانجا والروايات الخفيفة (Anime & Manga Realm):**\n\n"
+            "مساحتكم الترفيهية لمتابعة أقوى الروايات، المانجا، والمانهوا العالمية المترجمة:\n\n"
+            "🔥 **أبرز التصنيفات والروايات المتاحة:**\n"
+            "• **Solo Leveling:** رواية المغامرة والارتقاء الفردي الخالدة.\n"
+            "• **Jujutsu Kaisen:** كواليس عالم الطاقة الملعونة والسحرة.\n"
+            "• **Hunter x Hunter & One Piece:** ملاحم المغامرة والذكاء والأسرار.\n"
+            "• **روايات كلاسيكية ملهمة وقصص شريحة من الحياة.**"
+        )
+        kb = InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("📖 قراءة وتحميل رواية Solo Leveling", url="https://readlightnovels.net/solo-leveling.html")],
+                [InlineKeyboardButton("💥 تصفح مانجا جوجوتسو كايسن", url="https://ww1.jujmanga.com/")],
+                [InlineKeyboardButton("📚 مكتبة المانجا المترجمة (MangaDex)", url="https://mangadex.org/")],
+                [InlineKeyboardButton("📱 تطبيق تاشيومي لقراءة المانجا (Mihon)", url="https://mihon.app/")],
+                [InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")],
+            ]
+        )
+        await query.message.reply_text(text, reply_markup=kb, parse_mode="Markdown")
+        return
+
+    # 3. دليل المنح والفرص التعليمية الشامل
+    if data == "scholarships_hub":
+        text = (
+            "🎓 **دليل المنح والفرص التعليمية الدولية الشاملة:**\n\n"
+            "بوابتكم للدراسة المجانية والمنح الممولة بالكامل حول العالم (بكالوريوس ودراسات عليا):\n\n"
+            "🌍 **أقوى المنح الحكومية المفتوحة سنوياً:**\n"
+            "• **المنحة التركية (Türkiye Bursları):** تمويل 100% يشمل تذاكر الطيران، السكن، الراتب، ودراسة اللغة مجاناً.\n"
+            "• **منحة الحكومة الروسية (Open Doors):** مقاعد مجانية بكافة التخصصات الطبية والهندسية.\n"
+            "• **منحة الحكومة المجرية (Stipendium Hungaricum):** أشهر المنح الأوروبية الشاملة.\n"
+            "• **منح جامعات قطر وحمد بن خليفة:** تمويل كامل للدراسة والمعيشة.\n"
+            "• **منح السعودية للطلاب الدوليين (منصة ادرس في السعودية):** تغطية كاملة وتأمين صحي وسكن."
+        )
+        kb = InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("🇹🇷 بوابة المنحة التركية الرسمية", url="https://www.turkiyeburslari.gov.tr/")],
+                [InlineKeyboardButton("🇭🇺 منحة الحكومة المجرية", url="https://stipendiumhungaricum.hu/")],
+                [InlineKeyboardButton("🇷🇺 منحة الحكومة الروسية", url="https://education-in-russia.com/")],
+                [InlineKeyboardButton("🇶🇦 منح جامعة قطر الرسمية", url="http://www.qu.edu.qa/students/admission/scholarships")],
+                [InlineKeyboardButton("🇸🇦 منصة «ادرس في السعودية»", url="https://studyinsaudi.moe.gov.sa/")],
+                [InlineKeyboardButton("📚 مصادر واختبارات الآيلتس (IELTS Ready)", url="https://takeielts.britishcouncil.org/")],
+                [InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")],
+            ]
+        )
+        await query.message.reply_text(text, reply_markup=kb, parse_mode="Markdown")
+        return
+
+    # 4. الخدمات والتصميم
     if data == "services":
         rows = db_all("SELECT id, title, price FROM services WHERE active = 1 ORDER BY id ASC")
         if not rows:
@@ -636,7 +750,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             for r in rows
         ]
         buttons.append([InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")])
-        await query.message.reply_text("🛍️ **خدمات وحلول Dua Space:**\nيرجى اختيار الخدمة المطلوبة لمعرفة التفاصيل والطلب:", reply_markup=InlineKeyboardMarkup(buttons), parse_mode="Markdown")
+        await query.message.reply_text("🛍️ **خدمات وحلول Dua Space:**\nاختر الخدمة المطلوبة لمعرفة التفاصيل وبدء الطلب:", reply_markup=InlineKeyboardMarkup(buttons), parse_mode="Markdown")
         return
 
     if data.startswith("show_service:"):
@@ -662,9 +776,9 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_order(update, context, int(data.split(":", 1)[1]))
         return
 
-    # 2. القرآن الكريم
+    # 5. القرآن الكريم
     if data == "quran_groups":
-        await query.message.reply_text("📖 **القرآن الكريم كاملاً (114 سورة):**\nاختر المجموعة للاستماع والقراءة:", reply_markup=quran_group_keyboard(), parse_mode="Markdown")
+        await query.message.reply_text("📖 **القرآن الكريم كاملاً (114 سورة):**\nاختر المجموعة للاستماع والقراءة المباشرة:", reply_markup=quran_group_keyboard(), parse_mode="Markdown")
         return
 
     if data.startswith("qpage:"):
@@ -689,7 +803,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(f"✨ سورة **{s_name}** ({s_num})\nاستمع أو اقرأ عبر الروابط أدناه:", reply_markup=kb, parse_mode="Markdown")
         return
 
-    # 3. المكتبات وعرض الكتب مع زر التحميل والقراءة
+    # 6. تصفح أقسام المكتبة مع زر القراءة والتحميل
     if data.startswith("cat:"):
         cat_key = data.split(":", 1)[1]
         cat_names = {
@@ -716,7 +830,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             for r in rows
         ]
         buttons.append([InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")])
-        await query.message.reply_text(f"{name}\nيرجى اختيار الكتاب لعرضه:", reply_markup=InlineKeyboardMarkup(buttons))
+        await query.message.reply_text(f"{name}\nيرجى اختيار الكتاب لعرضه وتحميله:", reply_markup=InlineKeyboardMarkup(buttons))
         return
 
     if data.startswith("open_book:"):
@@ -738,7 +852,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await query.message.reply_text(caption, reply_markup=InlineKeyboardMarkup(kb_list), parse_mode="Markdown")
         return
 
-    # 4. بقية الأقسام
+    # 7. مؤقت بومودورو
     if data == "pomodoro_start":
         kb = InlineKeyboardMarkup(
             [
@@ -746,7 +860,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 [InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")],
             ]
         )
-        await query.message.reply_text("⏱️ **مؤقت المذاكرة (Pomodoro):**\n25 دقيقة تركيز تام بدون مشتتات.\nاضغط للبدء:", reply_markup=kb, parse_mode="Markdown")
+        await query.message.reply_text("⏱️ **مؤقت المذاكرة (Pomodoro):**\n25 دقيقة تركيز تام بدون مشتتات.\nاضغط أدناه للبدء:", reply_markup=kb, parse_mode="Markdown")
         return
 
     if data.startswith("pomo_run:"):
@@ -754,10 +868,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         asyncio.create_task(run_pomodoro(query.message.chat_id, context))
         return
 
-    if data == "scholarships_info":
-        await query.message.reply_text(get_t(user_id, "scholarships_text"), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]), parse_mode="Markdown")
-        return
-
+    # 8. بقية الأدوات
     if data == "faq_info":
         await query.message.reply_text(get_t(user_id, "faq_text"), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]), parse_mode="Markdown")
         return
@@ -897,7 +1008,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def run_pomodoro(chat_id, context):
     await asyncio.sleep(25 * 60)
     try:
-        await context.bot.send_message(chat_id=chat_id, text="🔔 **انتهت الـ 25 دقيقة!**\nعمل رائع، خذ استراحة 5 دقائق ✨", parse_mode="Markdown")
+        await context.bot.send_message(chat_id=chat_id, text="🔔 **انتهت الـ 25 دقيقة!**\nعمل رائع، خذ استراحة 5 دقائق لإنعاش ذهنك ✨", parse_mode="Markdown")
     except Exception:
         pass
 
@@ -1014,7 +1125,7 @@ async def file_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.effective_message.reply_text("✅ تم حفظ ملف الكتاب وربطه بالقسم بنجاح!", reply_markup=admin_keyboard())
         return
 
-# -------------------- نقطة التشغيل --------------------
+# -------------------- تشغيل خادم الويب --------------------
 
 async def handle_health(request):
     return web.Response(text="Dua Space Live 🪐", status=200)
@@ -1051,6 +1162,7 @@ async def main():
         await application.updater.start_polling(drop_pending_updates=False)
         logger.info("Dua Space Complete Ecosystem is running.")
 
+        # تشغيل النشر التلقائي في القناة
         asyncio.create_task(channel_auto_poster(application.bot))
 
         await asyncio.Event().wait()
