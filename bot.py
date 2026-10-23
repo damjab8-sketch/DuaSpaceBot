@@ -29,7 +29,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     level=logging.INFO,
 )
-logger = logging.getLogger("DuaSpaceCompleteEngine")
+logger = logging.getLogger("DuaSpacePrivateEngine")
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
 CHANNEL_ID = os.environ.get("CHANNEL_ID", "@DuaSpace1").strip()
@@ -39,9 +39,7 @@ try:
 except ValueError:
     ADMIN_ID = 0
 
-CONTACT_USERNAME = os.environ.get("CONTACT_USERNAME", "xdua1").strip().lstrip("@")
 DB_PATH = os.environ.get("DATABASE_PATH", "duaspace.db")
-CONTACT_URL = f"https://t.me/{CONTACT_USERNAME}"
 CHANNEL_URL = "https://t.me/DuaSpace1"
 BOT_USERNAME = os.environ.get("BOT_USERNAME", "DuaSpaceHelperBot").strip().lstrip("@")
 
@@ -224,6 +222,14 @@ def init_db():
                 content TEXT NOT NULL,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             );
+
+            CREATE TABLE IF NOT EXISTS support_messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                admin_msg_id INTEGER UNIQUE,
+                user_id INTEGER NOT NULL,
+                user_msg_id INTEGER NOT NULL,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            );
             """
         )
         con.commit()
@@ -258,7 +264,7 @@ def init_db():
             ("recommend", "🌟 اقتراحات الأعضاء", "🌟 **مساحة استقبال اقتراحاتكم وترشيحاتكم:**", None, 19),
             ("faq", "💡 الأسئلة الشائعة", "💡 **الأسئلة الشائعة حول المنصة والخدمات:**\n\n• **هل الكتب مجانية؟** نعم، كافة الكتب والمراجع مجانية تماماً.\n• **كيف أطلب خدمة تصميم؟** من قسم الخدمات تختار نوع التصميم وتكتب تفاصيل فكرتك.", None, 20),
             ("share", "📢 مشاركة البوت", "📢 شارك رابط المنصة مع أصدقائك لتعم الفائدة.", None, 21),
-            ("follow", "🔗 منصاتنا وحساباتنا", "🪐 **منصات وحسابات Dua Space الرسمية:**\n\n• القناة الرسمية: https://t.me/DuaSpace1\n• الإدارة والتواصل المباشر: @xdua1", None, 22),
+            ("follow", "🔗 منصاتنا وحساباتنا", "🪐 **منصات وحسابات Dua Space الرسمية:**\n\n• القناة الرسمية: https://t.me/DuaSpace1", None, 22),
         ]
 
         for code, title, content, b_url, pos in default_sections:
@@ -322,11 +328,14 @@ def save_user(user):
 def is_admin_user(user_id):
     return bool(ADMIN_ID and user_id == ADMIN_ID)
 
-async def is_chat_admin(chat, user_id, bot):
-    if is_admin_user(user_id):
+async def is_chat_admin(chat, user, bot):
+    # التعرف على حساب المشرف المتخفي التابع للقروب أو القناة تلقائياً
+    if user.id in [chat.id, 1087968824, 777000]:
+        return True
+    if is_admin_user(user.id):
         return True
     try:
-        member = await chat.get_member(user_id)
+        member = await chat.get_member(user.id)
         return member.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER]
     except Exception:
         return False
@@ -384,7 +393,8 @@ def main_menu_keyboard():
     if current_row:
         buttons.append(current_row)
 
-    buttons.append([InlineKeyboardButton("💬 التواصل المباشر مع الإدارة", url=CONTACT_URL)])
+    # زر التواصل الداخلي الآمن عبر البوت
+    buttons.append([InlineKeyboardButton("💬 التواصل المباشر مع الإدارة", callback_data="start_support_ticket")])
     return InlineKeyboardMarkup(buttons)
 
 def services_menu_keyboard():
@@ -520,7 +530,7 @@ async def cmd_del(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
     if chat.type in [ChatType.PRIVATE, ChatType.CHANNEL]:
         return
-    if not await is_chat_admin(chat, update.effective_user.id, context.bot):
+    if not await is_chat_admin(chat, update.effective_user, context.bot):
         await msg.reply_text("❌ هذا الأمر مخصص لمشرفي المجموعة فقط.")
         return
     if not msg.reply_to_message:
@@ -537,7 +547,7 @@ async def cmd_ban(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
     if chat.type in [ChatType.PRIVATE, ChatType.CHANNEL]:
         return
-    if not await is_chat_admin(chat, update.effective_user.id, context.bot):
+    if not await is_chat_admin(chat, update.effective_user, context.bot):
         return
     if not msg.reply_to_message:
         return
@@ -553,7 +563,7 @@ async def cmd_unban(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
     if chat.type in [ChatType.PRIVATE, ChatType.CHANNEL]:
         return
-    if not await is_chat_admin(chat, update.effective_user.id, context.bot):
+    if not await is_chat_admin(chat, update.effective_user, context.bot):
         return
     if not msg.reply_to_message:
         await msg.reply_text("⚠️ يرجى الرد على رسالة العضو المراد فك الحظر عنه عبر الأمر: `/unban`")
@@ -570,7 +580,7 @@ async def cmd_mute(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
     if chat.type in [ChatType.PRIVATE, ChatType.CHANNEL]:
         return
-    if not await is_chat_admin(chat, update.effective_user.id, context.bot):
+    if not await is_chat_admin(chat, update.effective_user, context.bot):
         return
     if not msg.reply_to_message:
         return
@@ -586,7 +596,7 @@ async def cmd_unmute(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
     if chat.type in [ChatType.PRIVATE, ChatType.CHANNEL]:
         return
-    if not await is_chat_admin(chat, update.effective_user.id, context.bot):
+    if not await is_chat_admin(chat, update.effective_user, context.bot):
         return
     if not msg.reply_to_message:
         await msg.reply_text("⚠️ يرجى الرد على رسالة العضو المراد فك الكتم عنه عبر الأمر: `/unmute`")
@@ -615,7 +625,7 @@ async def cmd_warn(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
     if chat.type in [ChatType.PRIVATE, ChatType.CHANNEL]:
         return
-    if not await is_chat_admin(chat, update.effective_user.id, context.bot):
+    if not await is_chat_admin(chat, update.effective_user, context.bot):
         return
     if not msg.reply_to_message:
         return
@@ -709,7 +719,7 @@ async def handle_order_text(update: Update, context: ContextTypes.DEFAULT_TYPE, 
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")]])
     )
     try:
-        await context.bot.send_message(chat_id=ADMIN_ID, text=f"📥 **طلب جديد رقم #{order_id}**\nمن: @{user.username}\nالخدمة: {service['title']}\nالتفاصيل:\n{details}")
+        await context.bot.send_message(chat_id=ADMIN_ID, text=f"📥 **طلب جديد رقم #{order_id}**\nمن: @{user.username or 'بدون'}\nالخدمة: {service['title']}\nالتفاصيل:\n{details}")
     except Exception:
         pass
 
@@ -739,6 +749,16 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data.pop("flow", None)
         welcome_text = get_setting("welcome_msg")
         await query.message.reply_text(welcome_text, reply_markup=main_menu_keyboard())
+        return
+
+    # التواصل الداخلي المباشر عبر البوت
+    if data == "start_support_ticket":
+        context.user_data["flow"] = {"kind": "send_support_msg"}
+        await query.message.reply_text(
+            "💬 **التواصل المباشر مع إدارة Dua Space:**\n\n"
+            "يرجى كتابة رسالتك أو استفسارك هنا مباشرة في رسالة واحدة، وسيتم إيصالها للإدارة والرد عليك عبر البوت 🪐\n"
+            "للإلغاء أرسل /cancel."
+        )
         return
 
     if data.startswith("sec_click:"):
@@ -819,7 +839,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             kb = InlineKeyboardMarkup(
                 [
                     [InlineKeyboardButton("📩 طلب هذه الخدمة الآن", callback_data=f"order_now:{s_id}")],
-                    [InlineKeyboardButton("💬 استفسار مباشر", url=CONTACT_URL)],
+                    [InlineKeyboardButton("💬 استفسار مباشر", callback_data="start_support_ticket")],
                     [InlineKeyboardButton("⬅️ عودة لقائمة الخدمات", callback_data="sec_click:services")],
                 ]
             )
@@ -1138,7 +1158,41 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if chat.type != ChatType.PRIVATE:
         return
 
+    # الرد المباشر من الأدمن على رسائل الدعم (Reply)
+    if is_admin_user(user.id) and msg.reply_to_message:
+        target_ticket = db_one("SELECT user_id, user_msg_id FROM support_messages WHERE admin_msg_id = ?", (msg.reply_to_message.message_id,))
+        if target_ticket:
+            target_user_id = target_ticket["user_id"]
+            try:
+                reply_header = "🪐 **رد من إدارة Dua Space:**\n\n"
+                await context.bot.send_message(chat_id=target_user_id, text=f"{reply_header}{msg.text}", parse_mode="Markdown")
+                await msg.reply_text("✅ تم إرسال ردكِ للعضو بنجاح وبخصوصية كاملة.")
+                return
+            except Exception as e:
+                await msg.reply_text(f"❌ تعذر إيصال الرد للمستخدم: {e}")
+                return
+
     flow = context.user_data.get("flow")
+
+    # إرسال رسالة تواصل ودعم عبر البوت
+    if flow and flow.get("kind") == "send_support_msg":
+        content = msg.text.strip()
+        context.user_data.pop("flow", None)
+        await msg.reply_text("✅ تم استلام رسالتك بنجاح، وسترد عليك الإدارة هنا عبر البوت قريباً 🪐", reply_markup=main_menu_keyboard())
+
+        admin_text = (
+            f"📩 **رسالة تواصل جديدة:**\n\n"
+            f"من: {user.first_name} (@{user.username or 'بدون'})\n"
+            f"ID: `{user.id}`\n\n"
+            f"الرسالة:\n{content}\n\n"
+            f"—\n💡 **للرد عليه:** اضغطي (رد / Reply) على هذه الرسالة واكتبي ردك مباشرة."
+        )
+        try:
+            sent_msg = await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text, parse_mode="Markdown")
+            db_execute("INSERT INTO support_messages(admin_msg_id, user_id, user_msg_id) VALUES(?, ?, ?)", (sent_msg.message_id, user.id, msg.message_id))
+        except Exception:
+            pass
+        return
 
     if flow and flow.get("kind") == "order_details":
         await handle_order_text(update, context, flow)
@@ -1325,7 +1379,7 @@ async def file_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # -------------------- نقطة التشغيل وخادم الويب --------------------
 
 async def handle_health(request):
-    return web.Response(text="Dua Space Complete Live Engine 🪐", status=200)
+    return web.Response(text="Dua Space Private Support Live Engine 🪐", status=200)
 
 async def main():
     if not BOT_TOKEN or not CHANNEL_ID or not ADMIN_ID:
@@ -1349,7 +1403,7 @@ async def main():
     application.add_handler(CommandHandler("admin", lambda u, c: u.effective_message.reply_text("🎛️ لوحة إدارة Dua Space الشاملة (CMS):", reply_markup=admin_keyboard()) if is_admin_user(u.effective_user.id) else None))
     application.add_handler(CommandHandler("cancel", lambda u, c: u.effective_message.reply_text("تم الإلغاء.") if c.user_data.pop("flow", None) is not None else None))
 
-    # أوامر حماية القروبات وإلغاء العقوبات
+    # أوامر حماية القروبات وإلغاء العقوبات (تدعم المشرف المتخفي تلقائياً)
     application.add_handler(CommandHandler("del", cmd_del))
     application.add_handler(CommandHandler("ban", cmd_ban))
     application.add_handler(CommandHandler("unban", cmd_unban))
@@ -1366,7 +1420,7 @@ async def main():
         await application.initialize()
         await application.start()
         await application.updater.start_polling(drop_pending_updates=False)
-        logger.info("Dua Space Complete Dynamic Engine is Running perfectly.")
+        logger.info("Dua Space Private Support Engine is Running perfectly.")
 
         asyncio.create_task(channel_auto_poster(application.bot))
 
