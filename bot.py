@@ -74,14 +74,13 @@ DEFAULT_SERVICES = [
     ),
 ]
 
-# بيانات الأذكار الأساسية
 DEFAULT_ADHIKAR = [
     (
         "أذكار الصباح",
         "🌅 أذكار الصباح:\n\n"
         "1. «أَصْبَحْنَا وَأَصْبَحَ المُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ المُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ»\n\n"
         "2. «اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور»\n\n"
-        "3. «سَيِّدُ الاِسْتِغْفَارِ: اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ»\n\n"
+        "3. «سَيِّدُ الاِسْتِغْفَارِ: اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك علي، وأبوء بذنبي فاغفر لي فإنه لا يغفر الذنوب إلا أنت»\n\n"
         "4. «بِسـمِ اللهِ الذي لا يَضُـرُّ مَعَ اسمِـهِ شَيءٌ في الأرْضِ وَلا في السّمـاءِ وَهـوَ السّمـيعُ العَلـيم» (3 مرات)\n\n"
         "5. «رَضيـتُ بِاللهِ رَبَّـاً وَبِالإسْلامِ ديـناً وَبِمُحَـمَّدٍ صلى الله عليه وسلم نَبِيّـاً» (3 مرات)"
     ),
@@ -91,15 +90,15 @@ DEFAULT_ADHIKAR = [
         "1. «أَمْسَيْنَا وَأَمْسَى المُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ المُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ»\n\n"
         "2. «اللّهُـمَّ بِكَ أَمْسَـينا، وَبِكَ أَصْـبَحْنا، وَبِكَ نَحْـيا، وَبِكَ نَمُـوتُ وَإِلَـيْكَ المَصِـير»\n\n"
         "3. «أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ» (3 مرات)\n\n"
-        "4. «اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي»"
+        "4. «اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ»"
     ),
     (
         "أذكار بعد الصلاة",
         "🕌 أذكار ما بعد الصلوات المكتوبة:\n\n"
         "• «أستغفرُ الله (ثلاثاً)، اللهم أنت السلام ومنك السلام، تباركت يا ذا الجلال والإكرام»\n"
         "• «لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير»\n"
-        "• تسبيح (33)، تحميد (33)، تكبير (33)، وتمام المائة: «لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير»\n"
-        "• قراءة آية الكرسي والمعوذتين والإخلاص."
+        "• تسبيح (33)، تحميد (33)، تكبير (33)، وتمام المائة: «لا إله إلا الله وحده لا شريك له»\n"
+        "• قراءة آية الكرسي والمعوذات."
     ),
     (
         "أذكار النوم والاستيقاظ",
@@ -113,69 +112,63 @@ DEFAULT_ADHIKAR = [
         "🤲 أدعية مأثورة نافعة:\n\n"
         "• «رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ»\n"
         "• «يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ»\n"
-        "• «اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا»\n"
-        "• «اللَّهُمَّ اشْرَحْ صُدُورَنَا وَيَسِّرْ أُمُورَنَا وَحَقِّقْ غَايَاتِنَا»"
+        "• «اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا»"
     ),
 ]
 
-# محطات السيرة النبوية التأسيسية
 DEFAULT_SEERAH = [
     (
         "1. المولد الشريف والنشأة",
         "🌿 المولد والنشأة:\n\n"
-        "• وُلِدَ النبي محمد ﷺ في عام الفيل (حوالي 571 م) في مكة المكرمة يتيم الأب، حيث توفي والده عبدالله قبل ولادته.\n"
+        "• وُلِدَ النبي محمد ﷺ في عام الفيل في مكة المكرمة يتيم الأب.\n"
         "• أرضعته حليمة السعدية في بني سعد ونشأ في فصاحة البادية.\n"
-        "• توفيت والدته آمنة بنت وهب وهو في سن السادسة، فكفله جده عبدالمطلب، ثم عمه أبو طالب.\n"
-        "• عُرف ﷺ في شبابه بالصادق الأمين وحسن الخلق وعمل في رعي الغنم والتجارة."
+        "• توفيت والدته آمنة بنت وهب وعمره 6 سنوات، فكفله جده عبدالمطلب ثم عمه أبو طالب.\n"
+        "• عُرف بالصادق الأمين وعمل في رعي الغنم والتجارة."
     ),
     (
         "2. البعثة النبوية وبدء الوحي",
         "📖 نزول الوحي والدعوة بمكة:\n\n"
-        "• كان ﷺ يتحنث في غار حراء، فنزل عليه الوحي جبريل عليه السلام في سن الأربعين بأول آيات القرآن الكريم: ﴿اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ﴾.\n"
-        "• بدأت الدعوة سرّاً لثلاث سنوات، ثم جهر بها ﷺ، فلقي المسلمون الأوائل الأذى والابتلاء وثبتوا.\n"
+        "• نزل عليه الوحي جبريل عليه السلام في غار حراء في سن الأربعين بأول آيات القرآن: ﴿اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ﴾.\n"
+        "• بدأت الدعوة سراً ثم جهراً وواجه المسلمون الأوائل الأذى بصبر وثبات.\n"
         "• رحلة الإسراء والمعراج وفرض الصلوات الخمس."
     ),
     (
         "3. الهجرة النبوية الشريفة",
         "🐪 الهجرة إلى المدينة المنورة:\n\n"
-        "• بعد بيعتي العقبة واشتداد أذى قريش، أذن الله للنبي ﷺ وصحبه بالهجرة إلى يثرب (المدينة المنورة).\n"
-        "• هاجر ﷺ مع رفيقه أبي بكر الصديق رضي الله عنه، واستقبلهم الأنصار بالترحاب والمحبة.\n"
-        "• وضع النبي ﷺ أسس الدولة: بناء المسجد النبوي، المؤاخاة بين المهاجرين والأنصار، ووثيقة المدينة."
+        "• بعد بيعتي العقبة، أذن الله بالهجرة إلى يثرب، وهاجر ﷺ بصحبة أبي بكر الصديق.\n"
+        "• استقبلهم الأنصار وبُني المسجد النبوي وتمت المؤاخاة ووثيقة المدينة."
     ),
     (
         "4. الغزوات والعهود وبناء الأمة",
         "⚔️ الغزوات الكبرى وفتح مكة:\n\n"
-        "• دافع المسلمون عن رسالتهم في بدر الكبرى وأحد والخندق وصلح الحديبية.\n"
-        "• في السنة الثامنة للهجرة، فتح النبي ﷺ مكة سلماً ودخلها متواضعاً وقال لأهلها: «اذهبوا فأنتم الطلقاء» وعفا عنهم، ودخل الناس في دين الله أفواجاً."
+        "• دافع المسلمون عن رسالتهم في بدر وأحد والخندق والحديبية.\n"
+        "• في السنة الثامنة للهجرة فتح النبي ﷺ مكة سلماً وعفا عن أهلها."
     ),
     (
         "5. حجة الوداع والوفاة الشريفة",
         "🕊️ حجة الوداع والرفيق الأعلى:\n\n"
-        "• في السنة العاشرة للهجرة حج النبي ﷺ حجة الوداع وألقى خطبته الخالدة التي أرسى فيها حقوق الإنسان وحرمة الدماء والأموال.\n"
-        "• وفي السنة الحادية عشرة للهجرة في شهر ربيع الأول، انتقل النبي ﷺ إلى الرفيق الأعلى بعد أن بلغ الرسالة وأدى الأمانة ونصح الأمة."
+        "• في السنة العاشرة للهجرة ألقى ﷺ خطبة الوداع الخالدة.\n"
+        "• في السنة الحادية عشرة للهجرة انتقل إلى الرفيق الأعلى بعد أن بلغ الرسالة وأدى الأمانة."
     ),
 ]
 
-# اقتباسات وحكم وفوائد
 QUOTES = [
     "«وَتَوَكَّلْ عَلَى الْحَيِّ الَّذِي لَا يَمُوتُ» ✨",
     "«إِنَّ مَعَ الْعُسْرِ يُسْرًا» 🪐",
     "قال رسول الله ﷺ: «إنَّ اللهَ يُحِبُّ إذا عمِلَ أحَدُكُم عمَلًا أنْ يُتْقِنَه».",
     "قال رسول الله ﷺ: «مَن سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللَّهُ له به طَرِيقًا إلى الجَنَّةِ».",
-    "«التصميم ليس فقط ما يبدو للعين، بل كيف يُحدث أثراً وينقل رسالة واضحة.» 🎨",
-    "«ابدأ حيث أنت، استخدم ما لديك، وافعل ما تستطيع.» ✨",
+    "«التصميم ليس فقط مظهراً، بل هو أثر ورسالة واضحة تُخلد في الأذهان.» 🎨",
+    "«ابدأ بما لديك، وكن مؤمناً بأن خطوتك البسيطة تصنع فارقاً عظيماً.» ✨",
 ]
 
 FAQ_TEXT = (
-    "💡 **الأسئلة الشائعة حول خدمات Dua Space:**\n\n"
-    "• **كيف أطلب تصميماً؟**\n"
-    "من قائمة «🛍️ تصفح الخدمات»، اختر الخدمة المطلوبة واضغط «📩 طلب هذه الخدمة»، ثم اكتب تفاصيل طلبك.\n\n"
-    "• **ما هي طرق الدفع المتاحة؟**\n"
-    "طرق الدفع المتوفرة تتم مناقشتها وتأكيدها عبر التواصل المباشر مع الإدارة.\n\n"
+    "💡 **الأسئلة الشائعة حول Dua Space:**\n\n"
+    "• **كيف يمكنني طلب خدمة تصميم؟**\n"
+    "من قائمة «🛍️ تصفح الخدمات»، اختر الخدمة ثم اضغط «📩 طلب هذه الخدمة»، واكتب التفاصيل.\n\n"
+    "• **ما هي آلية الدفع المتوفرة؟**\n"
+    "يتم الاتفاق والتأكيد حول طرق الدفع المتاحة عبر التواصل المباشر مع الإدارة.\n\n"
     "• **كم تستغرق مدة تنفيذ التصميم؟**\n"
-    "تعتمد على حجم المشروع، وغالباً ما تتراوح بين 24 إلى 48 ساعة للتصاميم الفردية.\n\n"
-    "• **هل يمكن إجراء تعديلات بعد الاستلام؟**\n"
-    "نعم، تتاح جولات مراجعة للتأكد من رضاكم التام عن العمل."
+    "تعتمد على نوع وحجم العمل، وتتراوح عادة بين 24 إلى 48 ساعة للتصاميم الفردية."
 )
 
 
@@ -274,6 +267,24 @@ def init_db():
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             );
 
+            CREATE TABLE IF NOT EXISTS portfolio (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                description TEXT NOT NULL DEFAULT '',
+                file_id TEXT NOT NULL,
+                media_type TEXT NOT NULL DEFAULT 'photo',
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            );
+
+            CREATE TABLE IF NOT EXISTS reviews (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                user_name TEXT,
+                rating INTEGER NOT NULL,
+                comment TEXT NOT NULL,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            );
+
             CREATE TABLE IF NOT EXISTS adhkar (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 category TEXT NOT NULL,
@@ -296,7 +307,6 @@ def init_db():
     finally:
         connection.close()
 
-    # بذر الخدمات الافتراضية
     if db_one("SELECT key FROM settings WHERE key = 'seeded_services'") is None:
         for title, description, price in DEFAULT_SERVICES:
             db_execute(
@@ -305,7 +315,6 @@ def init_db():
             )
         set_setting("seeded_services", "1")
 
-    # بذر الأذكار الأساسية
     if db_one("SELECT key FROM settings WHERE key = 'seeded_adhkar'") is None:
         for cat, content in DEFAULT_ADHIKAR:
             db_execute(
@@ -314,7 +323,6 @@ def init_db():
             )
         set_setting("seeded_adhkar", "1")
 
-    # بذر السيرة النبوية
     if db_one("SELECT key FROM settings WHERE key = 'seeded_seerah'") is None:
         for title, content in DEFAULT_SEERAH:
             db_execute(
@@ -352,26 +360,33 @@ def is_admin_user(user_id):
     return bool(ADMIN_ID and user_id == ADMIN_ID)
 
 
-# -------------------- القوائم والأزرار الرئيسية --------------------
+# -------------------- القوائم والأزرار --------------------
 
 def main_menu_keyboard():
     return InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton("🛍️ تصفح الخدمات", callback_data="services"),
-                InlineKeyboardButton("📚 مكتبتي", callback_data="library"),
+                InlineKeyboardButton("🎨 معرض الأعمال", callback_data="portfolio"),
             ],
             [
-                InlineKeyboardButton("📿 الأذكار والأدعية", callback_data="adhkar_menu"),
+                InlineKeyboardButton("📚 مكتبتي", callback_data="library"),
+                InlineKeyboardButton("📿 السبحة الإلكترونية", callback_data="tasbeeh"),
+            ],
+            [
+                InlineKeyboardButton("🌸 الأذكار والأدعية", callback_data="adhkar_menu"),
                 InlineKeyboardButton("📜 السيرة النبوية", callback_data="seerah_menu"),
             ],
             [
-                InlineKeyboardButton("✨ فائدة / حكمة اليوم", callback_data="daily_quote"),
-                InlineKeyboardButton("💡 أسئلة شائعة", callback_data="faq"),
+                InlineKeyboardButton("⭐ آراء العملاء", callback_data="reviews_list"),
+                InlineKeyboardButton("✨ فائدة اليوم", callback_data="daily_quote"),
             ],
             [
-                InlineKeyboardButton("📢 قناة Dua Space", url=CHANNEL_URL),
+                InlineKeyboardButton("💡 أسئلة شائعة", callback_data="faq"),
                 InlineKeyboardButton("💬 التواصل المباشر", url=CONTACT_URL),
+            ],
+            [
+                InlineKeyboardButton("📢 قناة Dua Space الرسمية", url=CHANNEL_URL),
             ],
         ]
     )
@@ -385,19 +400,49 @@ def admin_keyboard():
                 InlineKeyboardButton("📥 طلبات العملاء", callback_data="admin_orders"),
             ],
             [
+                InlineKeyboardButton("👥 قائمة المستخدمين", callback_data="admin_users"),
+                InlineKeyboardButton("📢 إذاعة عامة (Broadcast)", callback_data="admin_broadcast"),
+            ],
+            [
+                InlineKeyboardButton("🎨 إدارة المعرض", callback_data="admin_portfolio"),
                 InlineKeyboardButton("📚 إدارة المكتبة", callback_data="admin_books"),
+            ],
+            [
                 InlineKeyboardButton("📿 إدارة الأذكار", callback_data="admin_adhkar"),
+                InlineKeyboardButton("📜 إدارة السيرة", callback_data="admin_seerah"),
             ],
             [
-                InlineKeyboardButton("📜 إدارة السيرة النبوية", callback_data="admin_seerah"),
                 InlineKeyboardButton("📊 الإحصائيات", callback_data="admin_stats"),
-            ],
-            [
-                InlineKeyboardButton("📢 النشر في القناة", callback_data="publish_help"),
                 InlineKeyboardButton("⚙️ إعدادات النصوص", callback_data="admin_settings"),
             ],
             [
+                InlineKeyboardButton("📢 النشر في القناة", callback_data="publish_help"),
                 InlineKeyboardButton("👀 معاينة واجهة المستخدم", callback_data="show_customer_menu"),
+            ],
+        ]
+    )
+
+
+def tasbeeh_keyboard(count=0, phrase="سبحان الله"):
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(f"✨ {phrase}: {count}", callback_data=f"tasbeeh_count:{count}:{phrase}")
+            ],
+            [
+                InlineKeyboardButton("سبحان الله", callback_data=f"tasbeeh_set:0:سبحان الله"),
+                InlineKeyboardButton("الحمد لله", callback_data=f"tasbeeh_set:0:الحمد لله"),
+            ],
+            [
+                InlineKeyboardButton("الله أكبر", callback_data=f"tasbeeh_set:0:الله أكبر"),
+                InlineKeyboardButton("أستغفر الله", callback_data=f"tasbeeh_set:0:أستغفر الله"),
+            ],
+            [
+                InlineKeyboardButton("لا حول ولا قوة إلا بالله", callback_data=f"tasbeeh_set:0:لا حول ولا قوة إلا بالله"),
+            ],
+            [
+                InlineKeyboardButton("🔄 تصفير العداد", callback_data=f"tasbeeh_reset:{phrase}"),
+                InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home"),
             ],
         ]
     )
@@ -409,7 +454,6 @@ def services_keyboard(active_only=True):
         query += " WHERE active = 1"
     query += " ORDER BY id DESC LIMIT 50"
     rows = db_all(query)
-
     buttons = [
         [InlineKeyboardButton(row["title"][:60], callback_data=f"service:{row['id']}")]
         for row in rows
@@ -422,6 +466,16 @@ def library_keyboard():
     rows = db_all("SELECT id, title FROM books ORDER BY id DESC LIMIT 30")
     buttons = [
         [InlineKeyboardButton(f"📖 {row['title'][:50]}", callback_data=f"book:{row['id']}")]
+        for row in rows
+    ]
+    buttons.append([InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")])
+    return InlineKeyboardMarkup(buttons), rows
+
+
+def portfolio_keyboard():
+    rows = db_all("SELECT id, title FROM portfolio ORDER BY id DESC LIMIT 20")
+    buttons = [
+        [InlineKeyboardButton(f"🖼️ {row['title'][:40]}", callback_data=f"view_port:{row['id']}")]
         for row in rows
     ]
     buttons.append([InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")])
@@ -454,7 +508,6 @@ def admin_services_keyboard():
     for row in rows:
         status = "✅" if row["active"] else "⏸️"
         buttons.append([InlineKeyboardButton(f"{status} {row['title'][:48]}", callback_data=f"svcadmin:{row['id']}")])
-
     buttons.extend([
         [InlineKeyboardButton("➕ إضافة خدمة جديدة", callback_data="svc_add")],
         [InlineKeyboardButton("⬅️ لوحة الإدارة", callback_data="admin_home")],
@@ -485,42 +538,57 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if is_admin_user(update.effective_user.id):
         text = (
-            "🛠️ **أوامر الإدارة:**\n\n"
-            "/admin — فتح لوحة التحكم الرئيسية\n"
-            "/publish [النص] — نشر رسالة في القناة بتوقيع معتمد\n"
-            "/pin [النص] — نشر الرسالة وتثبيتها في أعلى القناة\n"
-            "/stats — عرض إحصائيات البوت والقناة\n"
+            "🛠️ **أوامر الإدارة المباشرة:**\n\n"
+            "/admin — لوحة التحكم الشاملة\n"
+            "/users — عرض قائمة المستخدمين المسجلين\n"
+            "/publish [النص] — نشر رسالة في القناة بتوقيعكِ\n"
+            "/pin [النص] — نشر الرسالة وتثبيتها في القناة\n"
+            "/stats — تقرير الإحصائيات الشامل\n"
             "/set_welcome [النص] — تعديل الترحيب العام\n"
             "/set_footer [النص] — تعديل توقيع المنشورات\n"
-            "/cancel — إلغاء الخطوة الجارية والعودة\n\n"
-            "• لنشر صورة أو ملف في القناة: يرجى إرساله للبوت مباشرة خارج خطوات الإدخال."
+            "/cancel — إلغاء أي إجراء جاري\n\n"
+            "• لنشر صورة أو تصميم بالقناة: أرسليه للبوت مباشرة خارج خطوات الإدخال."
         )
     else:
         text = (
-            "أهلًا بكم في Dua Space 🪐\n"
-            "يسعدنا تصفحكم للخدمات والمكتبة عبر الأزرار المتاحة، ولأي استفسار يمكنكم مراسلتنا مباشرة."
+            "أهلًا بكم في Dua Space 🪐\n\n"
+            "يمكنكم استخدام الأزرار لتصفح الخدمات، المعرض، المكتبة، والسبحة، أو كتابة أي كلمة للبحث الفوري عنها."
         )
     await update.effective_message.reply_text(text)
-
-
-async def admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not is_admin_user(update.effective_user.id):
-        await update.effective_message.reply_text("عذرًا، هذا القسم مخصص لإدارة Dua Space فقط.")
-        return
-    context.user_data.pop("flow", None)
-    await update.effective_message.reply_text("🎛️ لوحة إدارة Dua Space:", reply_markup=admin_keyboard())
 
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.pop("flow", None)
     context.user_data.pop("pending_service", None)
     context.user_data.pop("pending_book", None)
+    context.user_data.pop("pending_portfolio", None)
     await update.effective_message.reply_text(
-        "تم إلغاء الإجراء الحالي بنجاح.\nيرجى إرسال /start للعودة إلى القائمة الرئيسية."
+        "تم إلغاء الخطوة الجارية بنجاح.\nيرجى إرسال /start للعودة إلى القائمة الرئيسية."
     )
 
 
-# -------------------- تدفق طلب الخدمات --------------------
+# -------------------- عرض المستخدمين --------------------
+
+async def show_users_list(target, context):
+    rows = db_all(
+        "SELECT user_id, username, first_name, last_seen FROM users ORDER BY last_seen DESC LIMIT 50"
+    )
+    if not rows:
+        await target.reply_text("لا يوجد مستخدمون مسجلون حتى الآن.")
+        return
+
+    text = f"👥 **قائمة آخر مستخدمي البوت النشطين ({len(rows)}):**\n\n"
+    for idx, u in enumerate(rows, 1):
+        uname = f"@{u['username']}" if u["username"] else "بدون يوزر"
+        fname = u["first_name"] or "مستخدم"
+        last_date = u["last_seen"][:16] if u["last_seen"] else ""
+        text += f"{idx}. {fname} ({uname})\n   • الـ ID: `{u['user_id']}` | نشاط: {last_date}\n\n"
+
+    keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ لوحة الإدارة", callback_data="admin_home")]])
+    await target.reply_text(text, reply_markup=keyboard, parse_mode="Markdown")
+
+
+# -------------------- تدفق الطلبات والتقييمات --------------------
 
 async def start_order(update: Update, context: ContextTypes.DEFAULT_TYPE, service_id: int):
     service = db_one("SELECT * FROM services WHERE id = ? AND active = 1", (service_id,))
@@ -531,8 +599,8 @@ async def start_order(update: Update, context: ContextTypes.DEFAULT_TYPE, servic
     context.user_data["flow"] = {"kind": "order_details", "service_id": service_id}
     await update.callback_query.message.reply_text(
         f"📝 تم اختيار خدمة: {service['title']}\n\n"
-        "يرجى كتابة تفاصيل الطلب في رسالة واحدة (مثل: المطلوب بدقة، الألوان المفضلة، المقاسات، والموعد المطلوب للتسليم).\n\n"
-        "للإلغاء في أي وقت، يرجى إرسال: /cancel"
+        "يرجى كتابة تفاصيل الطلب في رسالة واحدة (المطلوب بدقة، الألوان، المقاسات، والموعد المطلوب).\n\n"
+        "للإلغاء أرسل /cancel."
     )
 
 
@@ -545,7 +613,7 @@ async def handle_order_text(update: Update, context: ContextTypes.DEFAULT_TYPE, 
     service = db_one("SELECT * FROM services WHERE id = ? AND active = 1", (flow["service_id"],))
     if not service:
         context.user_data.pop("flow", None)
-        await update.effective_message.reply_text("عذرًا، الخدمة لم تعد متاحة حالياً. يرجى الضغط على /start واختيار خدمة أخرى.")
+        await update.effective_message.reply_text("عذرًا، الخدمة لم تعد متاحة.")
         return
 
     user = update.effective_user
@@ -562,7 +630,7 @@ async def handle_order_text(update: Update, context: ContextTypes.DEFAULT_TYPE, 
 
     await update.effective_message.reply_text(
         f"✅ تم استلام طلبكم برقم: #{order_id}.\n"
-        "سنقوم بمراجعة التفاصيل والتواصل معكم قريباً بشأن التنفيذ والتسليم.",
+        "سنراجع التفاصيل ونتواصل معكم قريباً.",
         reply_markup=InlineKeyboardMarkup(
             [
                 [InlineKeyboardButton("💳 التواصل بشأن الدفع والطلب", url=CONTACT_URL)],
@@ -580,7 +648,6 @@ async def handle_order_text(update: Update, context: ContextTypes.DEFAULT_TYPE, 
         f"معرّف العميل: {user.id}\n\n"
         f"التفاصيل:\n{details[:2500]}"
     )
-
     try:
         await context.bot.send_message(
             chat_id=ADMIN_ID,
@@ -603,7 +670,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = query.from_user.id
     admin = is_admin_user(user_id)
 
-    # 1. الواجهة العامة والرجوع
+    # 1. الواجهات العامة
     if data in ("home", "show_customer_menu"):
         await query.message.reply_text(
             get_setting("welcome_msg", DEFAULT_WELCOME),
@@ -616,7 +683,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         keyboard, rows = services_keyboard(active_only=True)
         if not rows:
             await query.message.reply_text(
-                "لا توجد خدمات متاحة حالياً. يرجى التواصل معنا مباشرة للاستفسار.",
+                "لا توجد خدمات متاحة حالياً. يرجى التواصل معنا للاستفسار.",
                 reply_markup=main_menu_keyboard(),
             )
         else:
@@ -624,49 +691,91 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     if data.startswith("service:"):
-        try:
-            service_id = int(data.split(":", 1)[1])
-        except ValueError:
-            return
-
+        service_id = int(data.split(":", 1)[1])
         service = db_one("SELECT * FROM services WHERE id = ? AND active = 1", (service_id,))
         if not service:
-            await query.message.reply_text("عذرًا، الخدمة غير متاحة حاليًا.")
+            await query.message.reply_text("الخدمة غير متاحة.")
             return
 
         text = (
             f"✨ {service['title']}\n\n"
-            f"الوصف:\n{service['description'] or 'يرجى التواصل معنا لمعرفة كافة التفاصيل.'}\n\n"
+            f"الوصف:\n{service['description'] or 'يرجى التواصل معنا لمعرفة التفاصيل.'}\n\n"
             f"السعر: {service['price']}"
         )
         keyboard = InlineKeyboardMarkup(
             [
                 [InlineKeyboardButton("📩 طلب هذه الخدمة", callback_data=f"order:{service_id}")],
                 [InlineKeyboardButton("💳 استفسار عن الدفع", url=CONTACT_URL)],
-                [InlineKeyboardButton("⬅️ رجوع لقائمة الخدمات", callback_data="services")],
+                [InlineKeyboardButton("⬅️ رجوع للخدمات", callback_data="services")],
             ]
         )
         await query.message.reply_text(text, reply_markup=keyboard)
         return
 
     if data.startswith("order:"):
-        try:
-            service_id = int(data.split(":", 1)[1])
-        except ValueError:
-            return
-        await start_order(update, context, service_id)
+        await start_order(update, context, int(data.split(":", 1)[1]))
         return
 
-    # 3. قسم المكتبة
+    # 3. السبحة الإلكترونية التفاعلية
+    if data == "tasbeeh":
+        await query.message.reply_text(
+            "📿 **السبحة الإلكترونية:**\nاضغط على العداد للتسبيح، أو اختر الذكر المفضل:",
+            reply_markup=tasbeeh_keyboard(0, "سبحان الله"),
+            parse_mode="Markdown",
+        )
+        return
+
+    if data.startswith("tasbeeh_count:"):
+        _, current_count, phrase = data.split(":", 2)
+        new_count = int(current_count) + 1
+        await query.edit_message_reply_markup(reply_markup=tasbeeh_keyboard(new_count, phrase))
+        return
+
+    if data.startswith("tasbeeh_set:"):
+        _, _, phrase = data.split(":", 2)
+        await query.edit_message_reply_markup(reply_markup=tasbeeh_keyboard(0, phrase))
+        return
+
+    if data.startswith("tasbeeh_reset:"):
+        phrase = data.split(":", 1)[1]
+        await query.edit_message_reply_markup(reply_markup=tasbeeh_keyboard(0, phrase))
+        return
+
+    # 4. معرض الأعمال (Portfolio)
+    if data == "portfolio":
+        keyboard, rows = portfolio_keyboard()
+        if not rows:
+            await query.message.reply_text(
+                "🎨 مرحباً بكم في معرض أعمال Dua Space!\nيجري حالياً رفع نماذج الأعمال والتصاميم المميزة قريباً جداً 🪐",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")]]),
+            )
+        else:
+            await query.message.reply_text("🎨 نماذج من أعمال وتصاميم Dua Space:\nيرجى اختيار العمل لمشاهدته:", reply_markup=keyboard)
+        return
+
+    if data.startswith("view_port:"):
+        port_id = int(data.split(":", 1)[1])
+        item = db_one("SELECT * FROM portfolio WHERE id = ?", (port_id,))
+        if item:
+            caption = f"🎨 **{item['title']}**\n\n{item['description']}"
+            try:
+                await context.bot.send_photo(
+                    chat_id=query.message.chat_id,
+                    photo=item["file_id"],
+                    caption=caption,
+                    parse_mode="Markdown",
+                )
+            except Exception:
+                await query.message.reply_text(caption)
+        return
+
+    # 5. المكتبة
     if data == "library":
         keyboard, rows = library_keyboard()
         if not rows:
             await query.message.reply_text(
-                "📚 مرحباً بكم في مكتبة Dua Space.\n"
-                "يجري تجهيز باقة الكتب حالياً وستكون متاحة للتحميل قريباً جداً 🪐",
-                reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")]]
-                ),
+                "📚 مكتبة Dua Space الرقمية.\nيجري تجهيز باقة الكتب حالياً وستكون متاحة للتحميل قريباً جداً 🪐",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")]]),
             )
         else:
             await query.message.reply_text("📚 قائمة الكتب المتاحة للقراءة والتحميل:", reply_markup=keyboard)
@@ -690,7 +799,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await query.message.reply_text(caption)
         return
 
-    # 4. قسم الأذكار
+    # 6. الأذكار والسيرة
     if data == "adhkar_menu":
         await query.message.reply_text("📿 حصن المسلم - يرجى اختيار باب الأذكار المطلوب:", reply_markup=adhkar_keyboard())
         return
@@ -701,17 +810,13 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if zekr:
             await query.message.reply_text(
                 zekr["content"],
-                reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("⬅️ العودة للأذكار", callback_data="adhkar_menu")]]
-                ),
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ العودة للأذكار", callback_data="adhkar_menu")]]),
             )
         return
 
-    # 5. قسم السيرة النبوية
     if data == "seerah_menu":
         await query.message.reply_text(
-            "📜 السيرة النبوية العطرة - على صاحبها أفضل الصلاة وأتم التسليم:\n"
-            "يرجى اختيار المحطة التاريخية للقراءة:",
+            "📜 السيرة النبوية العطرة - على صاحبها أفضل الصلاة وأتم التسليم:\nيرجى اختيار المحطة التاريخية:",
             reply_markup=seerah_keyboard(),
         )
         return
@@ -722,13 +827,53 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if part:
             await query.message.reply_text(
                 part["content"],
-                reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("⬅️ العودة لمحطات السيرة", callback_data="seerah_menu")]]
-                ),
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ العودة لمحطات السيرة", callback_data="seerah_menu")]]),
             )
         return
 
-    # 6. فائدة اليوم والأسئلة الشائعة
+    # 7. التقييمات (Reviews)
+    if data == "reviews_list":
+        rows = db_all("SELECT user_name, rating, comment, created_at FROM reviews ORDER BY id DESC LIMIT 10")
+        if not rows:
+            review_text = "⭐ لا توجد تقييمات مسجلة بعد. كونوا أول من يشاركنا رأيه!"
+        else:
+            review_text = "⭐ **آراء وتجارب عملائنا الكرام:**\n\n"
+            for r in rows:
+                stars = "⭐" * r["rating"]
+                review_text += f"{r['user_name'] or 'عميل'}: {stars}\n«{r['comment']}»\n—\n"
+
+        keyboard = InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("✍️ شاركنا برأيك وتقييمك", callback_data="add_review")],
+                [InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")],
+            ]
+        )
+        await query.message.reply_text(review_text, reply_markup=keyboard, parse_mode="Markdown")
+        return
+
+    if data == "add_review":
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton("⭐ 1", callback_data="rate:1"),
+                    InlineKeyboardButton("⭐⭐ 2", callback_data="rate:2"),
+                    InlineKeyboardButton("⭐⭐⭐ 3", callback_data="rate:3"),
+                    InlineKeyboardButton("⭐⭐⭐⭐ 4", callback_data="rate:4"),
+                    InlineKeyboardButton("⭐⭐⭐⭐⭐ 5", callback_data="rate:5"),
+                ],
+                [InlineKeyboardButton("⬅️ إلغاء", callback_data="reviews_list")],
+            ]
+        )
+        await query.message.reply_text("يرجى اختيار تقييمك من 1 إلى 5 نجوم:", reply_markup=keyboard)
+        return
+
+    if data.startswith("rate:"):
+        rating = int(data.split(":", 1)[1])
+        context.user_data["flow"] = {"kind": "review_comment", "rating": rating}
+        await query.message.reply_text("نسعد برأيكم دائماً! يرجى كتابة تعليقكم أو رأيكم في رسالة واحدة:")
+        return
+
+    # 8. الفائدة والأسئلة الشائعة
     if data == "daily_quote":
         selected_quote = random.choice(QUOTES)
         await query.message.reply_text(
@@ -745,13 +890,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "faq":
         await query.message.reply_text(
             FAQ_TEXT,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")]]
-            ),
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")]]),
         )
         return
 
-    # -------------------- خيارات الإدارة الحصرية --------------------
+    # -------------------- أوامر الإدارة الحصرية --------------------
     if not admin:
         await query.message.reply_text("عذرًا، هذا الخيار مخصص لإدارة Dua Space.")
         return
@@ -760,6 +903,38 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data.pop("flow", None)
         await query.message.reply_text("🎛️ لوحة إدارة Dua Space:", reply_markup=admin_keyboard())
 
+    elif data == "admin_users":
+        await show_users_list(query.message, context)
+
+    elif data == "admin_broadcast":
+        context.user_data["flow"] = {"kind": "broadcast_message"}
+        await query.message.reply_text(
+            "📢 **نظام الإذاعة العامة:**\n"
+            "يرجى إرسال الرسالة التي تودين بثها لجميع مستخدمي البوت.\n"
+            "(للإلغاء أرسلي /cancel)"
+        )
+
+    # إدارة المعرض
+    elif data == "admin_portfolio":
+        rows = db_all("SELECT id, title FROM portfolio ORDER BY id DESC LIMIT 20")
+        buttons = [
+            [InlineKeyboardButton(f"🗑️ حذف: {row['title'][:35]}", callback_data=f"delport:{row['id']}")]
+            for row in rows
+        ]
+        buttons.append([InlineKeyboardButton("➕ إضافة عمل جديد للمعرض", callback_data="add_port")])
+        buttons.append([InlineKeyboardButton("⬅️ لوحة الإدارة", callback_data="admin_home")])
+        await query.message.reply_text("🎨 إدارة معرض الأعمال:\nيمكنك إضافة عمل جديد بصورة أو حذف أعمال سابقة:", reply_markup=InlineKeyboardMarkup(buttons))
+
+    elif data == "add_port":
+        context.user_data["flow"] = {"kind": "port_title"}
+        await query.message.reply_text("يرجى كتابة عنوان العمل أو التصميم:\n(للإلغاء أرسل /cancel)")
+
+    elif data.startswith("delport:"):
+        port_id = int(data.split(":", 1)[1])
+        db_execute("DELETE FROM portfolio WHERE id = ?", (port_id,))
+        await query.message.reply_text("✅ تم حذف العمل من المعرض بنجاح.", reply_markup=admin_keyboard())
+
+    # إدارة الخدمات
     elif data == "admin_services":
         await query.message.reply_text(
             "🛍️ إدارة الخدمات:\nيرجى اختيار خدمة للتعديل أو إضافة خدمة جديدة.",
@@ -814,19 +989,16 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text("✅ تم حذف الخدمة بنجاح.", reply_markup=admin_services_keyboard())
 
     elif data.startswith("svcedit_title:"):
-        service_id = int(data.split(":", 1)[1])
-        context.user_data["flow"] = {"kind": "edit_title", "service_id": service_id}
-        await query.message.reply_text("يرجى إرسال الاسم الجديد للخدمة.\nللإلغاء أرسل /cancel.")
+        context.user_data["flow"] = {"kind": "edit_title", "service_id": int(data.split(":", 1)[1])}
+        await query.message.reply_text("يرجى إرسال الاسم الجديد للخدمة:")
 
     elif data.startswith("svcedit_desc:"):
-        service_id = int(data.split(":", 1)[1])
-        context.user_data["flow"] = {"kind": "edit_desc", "service_id": service_id}
-        await query.message.reply_text("يرجى إرسال الوصف الجديد للخدمة.\nللإلغاء أرسل /cancel.")
+        context.user_data["flow"] = {"kind": "edit_desc", "service_id": int(data.split(":", 1)[1])}
+        await query.message.reply_text("يرجى إرسال الوصف الجديد للخدمة:")
 
     elif data.startswith("svcedit_price:"):
-        service_id = int(data.split(":", 1)[1])
-        context.user_data["flow"] = {"kind": "edit_price", "service_id": service_id}
-        await query.message.reply_text("يرجى إرسال السعر الجديد للخدمة.\nللإلغاء أرسل /cancel.")
+        context.user_data["flow"] = {"kind": "edit_price", "service_id": int(data.split(":", 1)[1])}
+        await query.message.reply_text("يرجى إرسال السعر الجديد للخدمة:")
 
     # إدارة المكتبة
     elif data == "admin_books":
@@ -841,21 +1013,21 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data == "add_book":
         context.user_data["flow"] = {"kind": "book_title"}
-        await query.message.reply_text("يرجى كتابة عنوان الكتاب الجديد:\n(للإلغاء أرسل /cancel)")
+        await query.message.reply_text("يرجى كتابة عنوان الكتاب الجديد:")
 
     elif data.startswith("delbook:"):
         book_id = int(data.split(":", 1)[1])
         db_execute("DELETE FROM books WHERE id = ?", (book_id,))
-        await query.message.reply_text("✅ تم حذف الكتاب بنجاح من المكتبة.", reply_markup=admin_keyboard())
+        await query.message.reply_text("✅ تم حذف الكتاب بنجاح.", reply_markup=admin_keyboard())
 
     # إدارة السيرة والأذكار
     elif data == "admin_seerah":
         context.user_data["flow"] = {"kind": "add_seerah_title"}
-        await query.message.reply_text("📜 لإضافة محطة جديدة في السيرة النبوية، يرجى كتابة عنوان المحطة أولاً:")
+        await query.message.reply_text("📜 لإضافة محطة جديدة بالسيرة، يرجى كتابة عنوان المحطة:")
 
     elif data == "admin_adhkar":
         context.user_data["flow"] = {"kind": "add_adhkar_cat"}
-        await query.message.reply_text("📿 لإضافة ذكر أو دعاء جديد، يرجى كتابة اسم الباب أو التصنيف أولاً:")
+        await query.message.reply_text("📿 لإضافة ذكر جديد، يرجى كتابة اسم الباب أو التصنيف:")
 
     # إدارة الطلبات
     elif data == "admin_orders":
@@ -872,7 +1044,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             for row in rows
         ]
         buttons.append([InlineKeyboardButton("⬅️ لوحة الإدارة", callback_data="admin_home")])
-        await query.message.reply_text("📥 قائمة آخر الطلبات الواردة:\nيرجى النقر على الطلب لمراجعته وتحديث حالته:", reply_markup=InlineKeyboardMarkup(buttons))
+        await query.message.reply_text("📥 قائمة آخر الطلبات الواردة:", reply_markup=InlineKeyboardMarkup(buttons))
 
     elif data.startswith("orderadmin:"):
         order_id = int(data.split(":", 1)[1])
@@ -926,8 +1098,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     text=f"تحديث بخصوص طلبكم رقم #{order_id} لخدمة ({row['service_title']}):\nالحالة الحالية هي: «{new_status}».",
                 )
             except Exception:
-                logger.info("Could not notify user for order %s", order_id)
-
+                pass
             await query.message.reply_text(f"✅ تم تحديث حالة الطلب #{order_id} إلى: {new_status}")
             await query.message.reply_text("🎛️ لوحة إدارة Dua Space:", reply_markup=admin_keyboard())
 
@@ -937,14 +1108,16 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         new_orders = db_one("SELECT COUNT(*) AS n FROM orders WHERE status = 'جديد'")["n"]
         active_services = db_one("SELECT COUNT(*) AS n FROM services WHERE active = 1")["n"]
         books_count = db_one("SELECT COUNT(*) AS n FROM books")["n"]
+        port_count = db_one("SELECT COUNT(*) AS n FROM portfolio")["n"]
 
         text = (
             "📊 **إحصائيات Dua Space الشاملة:**\n\n"
-            f"• مستخدمو البوت: {users_count}\n"
+            f"• عدد مستخدمي البوت: {users_count}\n"
             f"• إجمالي الطلبات: {total_orders}\n"
             f"• الطلبات الجديدة: {new_orders}\n"
             f"• الخدمات المفعلة: {active_services}\n"
-            f"• عدد الكتب في المكتبة: {books_count}\n"
+            f"• الكتب في المكتبة: {books_count}\n"
+            f"• الأعمال في المعرض: {port_count}\n"
         )
         await query.message.reply_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ لوحة الإدارة", callback_data="admin_home")]]))
 
@@ -979,11 +1152,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• للنشر النصي المباشر: أرسل الأمر مع النص، مثال:\n"
             "`/publish مرحباً بكم في Dua Space`\n\n"
             "• للنشر مع التثبيت: استخدم الأمر `/pin` ثم النص.\n\n"
-            "• لنشر صورة أو تصميم أو ملف PDF: أرسله للبوت مباشرة مع التعليق المطلوب وسيتم نشره فوراً بالقناة مع التوقيع المعتمد."
+            "• لنشر صورة أو تصميم أو ملف PDF: أرسله للبوت مباشرة مع التعليق وسينشر فوراً بالقناة مع التوقيع."
         )
 
 
-# -------------------- معالجة الرسائل النصية --------------------
+# -------------------- البحث الذكي ومعالجة النصوص --------------------
 
 async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.effective_message
@@ -993,16 +1166,62 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     flow = context.user_data.get("flow")
 
+    # 1. إرسال تعليق التقييم
+    if flow and flow.get("kind") == "review_comment":
+        rating = flow.get("rating", 5)
+        comment = message.text.strip()
+        user_name = user.first_name or "عميل مجهول"
+        db_execute(
+            "INSERT INTO reviews(user_id, user_name, rating, comment) VALUES(?, ?, ?, ?)",
+            (user.id, user_name, rating, comment),
+        )
+        context.user_data.pop("flow", None)
+        await message.reply_text(
+            "🌟 شكراً جزيلاً لمشاركتنا تقييمكم ورأيكم! نقدر ثقتكم دائماً.",
+            reply_markup=main_menu_keyboard(),
+        )
+        return
+
+    # 2. تفاصيل الطلب
     if flow and flow.get("kind") == "order_details":
         await handle_order_text(update, context, flow)
         return
 
+    # 3. عمليات الإدارة النصية
     if is_admin_user(user.id) and flow:
         kind = flow.get("kind")
         val = message.text.strip()
 
+        # الإذاعة العامة
+        if kind == "broadcast_message":
+            users = db_all("SELECT user_id FROM users")
+            context.user_data.pop("flow", None)
+            sent_count = 0
+            for u in users:
+                try:
+                    await context.bot.send_message(chat_id=u["user_id"], text=val)
+                    sent_count += 1
+                    await asyncio.sleep(0.05)
+                except Exception:
+                    pass
+            await message.reply_text(f"📢 تمت الإذاعة بنجاح! وصلت الرسالة إلى {sent_count} مستخدم.", reply_markup=admin_keyboard())
+            return
+
+        # إضافة المعرض
+        elif kind == "port_title":
+            context.user_data["pending_portfolio"] = {"title": val}
+            context.user_data["flow"] = {"kind": "port_desc"}
+            await message.reply_text("يرجى كتابة وصف موجز للتصميم أو العمل (أو إرسال -):")
+            return
+
+        elif kind == "port_desc":
+            context.user_data["pending_portfolio"]["description"] = "" if val == "-" else val
+            context.user_data["flow"] = {"kind": "port_file"}
+            await message.reply_text("يرجى الآن إرسال صورة التصميم مباشرة في المحادثة:")
+            return
+
         # إضافة خدمة
-        if kind == "add_title":
+        elif kind == "add_title":
             context.user_data.setdefault("pending_service", {})["title"] = val
             context.user_data["flow"] = {"kind": "add_desc"}
             await message.reply_text("يرجى كتابة وصف الخدمة بإيجاز (أو إرسال - إذا لم يتوفر وصف):")
@@ -1025,7 +1244,6 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await message.reply_text("✅ تمت إضافة الخدمة بنجاح.", reply_markup=admin_services_keyboard())
             return
 
-        # تعديل خدمة
         elif kind in ("edit_title", "edit_desc", "edit_price"):
             service_id = flow.get("service_id")
             column = {"edit_title": "title", "edit_desc": "description", "edit_price": "price"}[kind]
@@ -1050,7 +1268,7 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
         elif kind == "book_desc":
             context.user_data["pending_book"]["description"] = val
             context.user_data["flow"] = {"kind": "book_file"}
-            await message.reply_text("يرجى الآن إرسال ملف الكتاب (PDF) في المحادثة، أو إرسال كلمة (بدون) إذا كان للعرض فقط:")
+            await message.reply_text("يرجى الآن إرسال ملف الكتاب (PDF) في المحادثة، أو إرسال كلمة (بدون):")
             return
 
         elif kind == "book_file" and val == "بدون":
@@ -1063,34 +1281,33 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await message.reply_text("✅ تمت إضافة الكتاب إلى المكتبة بنجاح.", reply_markup=admin_keyboard())
             return
 
-        # إضافة السيرة والأذكار
+        # إضافة سيرة وأذكار
         elif kind == "add_seerah_title":
             context.user_data["pending_seerah"] = {"title": val}
             context.user_data["flow"] = {"kind": "add_seerah_content"}
-            await message.reply_text("يرجى الآن كتابة النص الكامل والتفاصيل لهذه المحطة النبوية:")
+            await message.reply_text("يرجى كتابة النص الكامل لهذه المحطة النبوية:")
             return
 
         elif kind == "add_seerah_content":
             p = context.user_data.pop("pending_seerah", {})
             context.user_data.pop("flow", None)
             db_execute("INSERT INTO seerah(title, content) VALUES(?, ?)", (p.get("title"), val))
-            await message.reply_text("✅ تم حفظ المحطة النبوية وإضافتها بنجاح.", reply_markup=admin_keyboard())
+            await message.reply_text("✅ تم حفظ المحطة النبوية بنجاح.", reply_markup=admin_keyboard())
             return
 
         elif kind == "add_adhkar_cat":
             context.user_data["pending_adhkar"] = {"category": val}
             context.user_data["flow"] = {"kind": "add_adhkar_content"}
-            await message.reply_text("يرجى كتابة نصوص الأدعية والأذكار التابعة لهذا التصنيف:")
+            await message.reply_text("يرجى كتابة نصوص الأدعية والأذكار لهذا الباب:")
             return
 
         elif kind == "add_adhkar_content":
             p = context.user_data.pop("pending_adhkar", {})
             context.user_data.pop("flow", None)
             db_execute("INSERT INTO adhkar(category, content) VALUES(?, ?)", (p.get("category"), val))
-            await message.reply_text("✅ تمت إضافة باب الأذكار وحفظه بنجاح.", reply_markup=admin_keyboard())
+            await message.reply_text("✅ تمت إضافة باب الأذكار بنجاح.", reply_markup=admin_keyboard())
             return
 
-        # تعديل النصوص
         elif kind == "edit_welcome":
             set_setting("welcome_msg", val)
             context.user_data.pop("flow", None)
@@ -1103,6 +1320,26 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await message.reply_text("✅ تم حفظ توقيع المنشورات بنجاح.", reply_markup=admin_keyboard())
             return
 
+    # 4. محرك البحث الذكي التلقائي (يبحث في الكتب والأذكار والسيرة)
+    search_term = message.text.strip()
+    if len(search_term) >= 2 and not is_admin_user(user.id):
+        books_found = db_all("SELECT id, title FROM books WHERE title LIKE ? OR author LIKE ?", (f"%{search_term}%", f"%{search_term}%"))
+        adhkar_found = db_all("SELECT id, category FROM adhkar WHERE category LIKE ? OR content LIKE ?", (f"%{search_term}%", f"%{search_term}%"))
+        seerah_found = db_all("SELECT id, title FROM seerah WHERE title LIKE ? OR content LIKE ?", (f"%{search_term}%", f"%{search_term}%"))
+
+        if books_found or adhkar_found or seerah_found:
+            results_buttons = []
+            for b in books_found[:3]:
+                results_buttons.append([InlineKeyboardButton(f"📖 كتاب: {b['title']}", callback_data=f"book:{b['id']}")])
+            for a in adhkar_found[:3]:
+                results_buttons.append([InlineKeyboardButton(f"🌸 ذكر: {a['category']}", callback_data=f"zekr:{a['id']}")])
+            for s in seerah_found[:3]:
+                results_buttons.append([InlineKeyboardButton(f"📜 سيرة: {s['title']}", callback_data=f"seerah_part:{s['id']}")])
+
+            results_buttons.append([InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")])
+            await message.reply_text(f"🔍 نتائج البحث عن «{search_term}»:", reply_markup=InlineKeyboardMarkup(results_buttons))
+            return
+
     if is_admin_user(user.id):
         await message.reply_text(
             "لم يتم نشر هذه الرسالة لأن النشر المباشر يتطلب الأمر `/publish`.\n"
@@ -1110,7 +1347,7 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
 
-# -------------------- استقبال الملفات والكتب والوسائط --------------------
+# -------------------- معالجة الصور والملفات --------------------
 
 async def file_and_media_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_admin_user(update.effective_user.id):
@@ -1118,7 +1355,20 @@ async def file_and_media_handler(update: Update, context: ContextTypes.DEFAULT_T
 
     flow = context.user_data.get("flow")
 
-    # في حال كنا في خطوة رفع ملف كتاب PDF للمكتبة
+    # رفع صورة للمعرض
+    if flow and flow.get("kind") == "port_file" and update.effective_message.photo:
+        photo = update.effective_message.photo[-1]
+        p = context.user_data.pop("pending_portfolio", {})
+        context.user_data.pop("flow", None)
+
+        db_execute(
+            "INSERT INTO portfolio(title, description, file_id, media_type) VALUES(?, ?, ?, 'photo')",
+            (p.get("title", "عمل جديد"), p.get("description", ""), photo.file_id),
+        )
+        await update.effective_message.reply_text("✅ تمت إضافة العمل بنجاح إلى معرض الأعمال!", reply_markup=admin_keyboard())
+        return
+
+    # رفع ملف كتاب PDF
     if flow and flow.get("kind") == "book_file" and update.effective_message.document:
         doc = update.effective_message.document
         p = context.user_data.pop("pending_book", {})
@@ -1133,11 +1383,11 @@ async def file_and_media_handler(update: Update, context: ContextTypes.DEFAULT_T
 
     if flow:
         await update.effective_message.reply_text(
-            "يرجى استكمال الخطوة الجارية أولاً أو إرسال /cancel للإلغاء.\nتم إيقاف النشر التلقائي لتفادي نشر ملف عن طريق الخطأ."
+            "يرجى استكمال الخطوة الجارية أولاً أو إرسال /cancel للإلغاء.\nتم إيقاف النشر التلقائي لتفادي الأخطاء."
         )
         return
 
-    # النشر المباشر في القناة للوسائط
+    # نشر الوسائط مباشرة في القناة
     try:
         await context.bot.copy_message(
             chat_id=CHANNEL_ID,
@@ -1147,10 +1397,10 @@ async def file_and_media_handler(update: Update, context: ContextTypes.DEFAULT_T
         await update.effective_message.reply_text("✅ تم نشر الملف/الوسيط في القناة بنجاح.")
     except Exception as exc:
         logger.exception("Media publishing failed")
-        await update.effective_message.reply_text(f"❌ تعذر نشر الملف. يرجى مراجعة الصلاحيات في القناة.\nالتفاصيل: {str(exc)[:400]}")
+        await update.effective_message.reply_text(f"❌ تعذر نشر الملف بالقناة.\nالتفاصيل: {str(exc)[:400]}")
 
 
-# -------------------- أوامر النشر في القناة --------------------
+# -------------------- أوامر القناة --------------------
 
 def add_footer(text):
     footer = get_setting("footer", DEFAULT_FOOTER)
@@ -1162,9 +1412,8 @@ async def publish(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     text = " ".join(context.args).strip()
     if not text:
-        await update.effective_message.reply_text("يرجى كتابة النص بعد الأمر مباشرة، مثل:\n/publish مرحباً بكم في Dua Space")
+        await update.effective_message.reply_text("يرجى كتابة النص بعد الأمر: /publish النص")
         return
-
     try:
         await context.bot.send_message(chat_id=CHANNEL_ID, text=add_footer(text))
         await update.effective_message.reply_text("✅ تم نشر المنشور في القناة بنجاح.")
@@ -1178,16 +1427,15 @@ async def post_pin(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     text = " ".join(context.args).strip()
     if not text:
-        await update.effective_message.reply_text("يرجى كتابة النص بعد الأمر، مثل:\n/pin إعلان مهم")
+        await update.effective_message.reply_text("يرجى كتابة النص بعد الأمر: /pin النص")
         return
-
     try:
         sent = await context.bot.send_message(chat_id=CHANNEL_ID, text=add_footer(text))
         await context.bot.pin_chat_message(chat_id=CHANNEL_ID, message_id=sent.message_id)
         await update.effective_message.reply_text("📌 تم نشر الرسالة وتثبيتها في أعلى القناة.")
     except Exception as exc:
         logger.exception("Pinning failed")
-        await update.effective_message.reply_text(f"❌ تعذر النشر أو التثبيت.\nالتفاصيل: {str(exc)[:400]}")
+        await update.effective_message.reply_text(f"❌ تعذر التثبيت.\nالتفاصيل: {str(exc)[:400]}")
 
 
 async def set_welcome_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1195,10 +1443,10 @@ async def set_welcome_command(update: Update, context: ContextTypes.DEFAULT_TYPE
         return
     val = " ".join(context.args).strip()
     if not val:
-        await update.effective_message.reply_text("يرجى كتابة نص الترحيب بعد الأمر: /set_welcome")
+        await update.effective_message.reply_text("يرجى كتابة النص بعد الأمر: /set_welcome النص")
         return
     set_setting("welcome_msg", val)
-    await update.effective_message.reply_text("✅ تم تحديث رسالة الترحيب بنجاح.")
+    await update.effective_message.reply_text("✅ تم حفظ رسالة الترحيب.")
 
 
 async def set_footer_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1206,10 +1454,10 @@ async def set_footer_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
     val = " ".join(context.args).strip()
     if not val:
-        await update.effective_message.reply_text("يرجى كتابة التوقيع بعد الأمر، أو إرسال /set_footer - لإلغائه.")
+        await update.effective_message.reply_text("يرجى كتابة التوقيع بعد الأمر أو /set_footer - لإلغائه.")
         return
     set_setting("footer", "" if val == "-" else "\n\n" + val)
-    await update.effective_message.reply_text("✅ تم تحديث توقيع المنشورات بنجاح.")
+    await update.effective_message.reply_text("✅ تم حفظ توقيع المنشورات.")
 
 
 async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1217,13 +1465,13 @@ async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     users_count = db_one("SELECT COUNT(*) AS n FROM users")["n"]
     total_orders = db_one("SELECT COUNT(*) AS n FROM orders")["n"]
-    await update.effective_message.reply_text(f"📊 مستخدمو البوت: {users_count}\n📥 إجمالي الطلبات: {total_orders}")
+    await update.effective_message.reply_text(f"📊 إجمالي المستخدمين: {users_count}\n📥 إجمالي الطلبات: {total_orders}")
 
 
 # -------------------- خادم الويب (Render Web Service) --------------------
 
 async def handle_health(request):
-    return web.Response(text="Dua Space bot is running smoothly 🪐", status=200)
+    return web.Response(text="Dua Space bot is running with advanced features 🪐", status=200)
 
 
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
@@ -1233,12 +1481,8 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
 # -------------------- نقطة التشغيل الرئيسية --------------------
 
 async def main():
-    if not BOT_TOKEN:
-        raise RuntimeError("BOT_TOKEN غير موجود في متغيرات البيئة.")
-    if not CHANNEL_ID:
-        raise RuntimeError("CHANNEL_ID غير موجود في متغيرات البيئة.")
-    if not ADMIN_ID:
-        raise RuntimeError("ADMIN_ID غير موجود في متغيرات البيئة.")
+    if not BOT_TOKEN or not CHANNEL_ID or not ADMIN_ID:
+        raise RuntimeError("يرجى التأكد من ضبط متغيرات البيئة BOT_TOKEN و CHANNEL_ID و ADMIN_ID في Render.")
 
     init_db()
 
@@ -1255,10 +1499,11 @@ async def main():
 
     application = Application.builder().token(BOT_TOKEN).build()
 
-    # معالجات الأوامر
+    # الأوامر
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("admin", admin_panel))
+    application.add_handler(CommandHandler("admin", lambda u, c: u.effective_message.reply_text("🎛️ لوحة إدارة Dua Space:", reply_markup=admin_keyboard()) if is_admin_user(u.effective_user.id) else None))
+    application.add_handler(CommandHandler("users", lambda u, c: show_users_list(u.effective_message, c) if is_admin_user(u.effective_user.id) else None))
     application.add_handler(CommandHandler("cancel", cancel))
     application.add_handler(CommandHandler("publish", publish))
     application.add_handler(CommandHandler("pin", post_pin))
@@ -1266,13 +1511,9 @@ async def main():
     application.add_handler(CommandHandler("set_footer", set_footer_command))
     application.add_handler(CommandHandler("stats", stats_command))
 
-    # الأزرار التفاعلية
+    # الأزرار والرسائل
     application.add_handler(CallbackQueryHandler(button_handler))
-
-    # النصوص
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_router))
-
-    # الملفات والصور والمستندات
     application.add_handler(MessageHandler(filters.ATTACHMENT, file_and_media_handler))
 
     application.add_error_handler(error_handler)
@@ -1287,7 +1528,7 @@ async def main():
             raise RuntimeError("Telegram updater غير متاح.")
 
         await application.updater.start_polling(drop_pending_updates=False)
-        logger.info("Dua Space bot is up and running.")
+        logger.info("Dua Space advanced bot is running.")
         await asyncio.Event().wait()
 
     finally:
