@@ -27,7 +27,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     level=logging.INFO,
 )
-logger = logging.getLogger("DuaSpaceUltimateBot")
+logger = logging.getLogger("DuaSpaceFinalBot")
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
 CHANNEL_ID = os.environ.get("CHANNEL_ID", "@DuaSpace1").strip()
@@ -60,27 +60,36 @@ QURAN_SURAHS = [
     "المسد", "الإخلاص", "الفلق", "الناس"
 ]
 
-# -------------------- قائمة الكتب المضافة تلقائياً --------------------
+# -------------------- الخدمات الافتراضية --------------------
+
+DEFAULT_SERVICES = [
+    ("🎨 التصميم الجرافيكي والهويات البصرية", "تصميم شعارات، بطاقات أعمال، وهوية بصرية كاملة لمشروعك.", "حسب تفاصيل الطلب"),
+    ("🖼️ تصميم بوسترات وبنرات إعلانية", "تصاميم سوشيال ميديا وإعلانات دعائية بجودة عالية.", "حسب تفاصيل الطلب"),
+    ("💌 تصميم بطاقات المعايدة والدعوات", "دعوات مناسبات وبطاقات تهنئة مميزة.", "حسب تفاصيل الطلب"),
+    ("📦 طلب تصميم مخصص", "يرجى توضيح طلبك وفكرتك لتقدير التكلفة والوقت.", "يحدد بعد مراجعة الطلب"),
+]
+
+# -------------------- قائمة الكتب مع روابط القراءة والتحميل --------------------
 
 PRELOADED_BOOKS = [
-    ("islamic", "الأربعون النووية", "الإمام النووي", "أهم الأحاديث الجامعة لقواعد وأصول الدين الإسلامي."),
-    ("islamic", "رياض الصالحين", "الإمام النووي", "دليل المسلم العملي في الأخلاق والعبادات."),
-    ("islamic", "الرحيق المختوم", "صفي الرحمن المباركفوري", "سيرة نبوية عطرة شاملة ومحققة."),
-    ("medical", "دليل الإسعافات الأولية الشامل", "منظمة الصحة العالمية", "دليل عملي مصور للتعامل مع الطوارئ الطبية."),
-    ("medical", "مبادئ علم التشريح ووظائف الأعضاء", "د. خالد عمارة", "مدخل مبسط لفهم أجهزة وأعضاء جسم الإنسان."),
-    ("medical", "المرجع السريع في الأدوية", "نخبة من الأطباء", "دليل مختصر عن تصنيفات واستخدامات الأدوية."),
-    ("languages", "قواعد اللغة الإنجليزية (English Grammar)", "Raymond Murphy", "المرجع العالمي الأشهر لتعلم قواعد الإنجليزية."),
-    ("languages", "دليل المحادثة التركية اليومية", "إسطنبول لتعليم اللغات", "أهم المفردات والجمل الشائعة للمحادثة اليومية."),
-    ("languages", "أساسيات الفرنسية للمبتدئين", "معهد اللغات", "مدخل لأساسيات وقواعد اللغة الفرنسية."),
-    ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة شيقة لكيفية عمل العقل والتفكير."),
-    ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الأهم في فهم حركة وسلوك المجتمعات."),
-    ("philosophy", "مقدمة ابن خلدون", "عبد الرحمن بن خلدون", "المرجع التأسيسي الأول في علم الاجتماع وفلسفة التاريخ."),
-    ("philosophy", "قصة الفلسفة", "ويل ديورانت", "رحلة ممتعة تستعرض حياة وأفكار كبار الفلاسفة عبر التاريخ."),
-    ("selfdev", "العادات الذرية (Atomic Habits)", "جيمس كلير", "منهج عملي لبناء عادات إيجابية والتخلص من السلبية."),
-    ("selfdev", "فن إدارة الوقت والإنتاجية العالية", "برايان تريسي", "استراتيجيات عملية لتنظيم المهام وزيادة التركيز."),
-    ("novels", "البؤساء (Les Misérables)", "فيكتور هوجو", "ملحمة إنسانية خالدة عن العدالة والرحمة والأمل."),
-    ("novels", "الخيميائي", "باولو كويلو", "رواية رمزية ملهمة عن السعي لتحقيق الأحلام."),
-    ("topics", "دليل الطالب الناجح للتفوق الدراسي", "Dua Space", "خطوات واستراتيجيات مجربة لتنظيم الدراسة والمراجعة."),
+    ("islamic", "الأربعون النووية", "الإمام النووي", "أهم الأحاديث الجامعة لقواعد وأصول الدين الإسلامي.", "https://sunnah.com/nawawi40"),
+    ("islamic", "رياض الصالحين", "الإمام النووي", "دليل المسلم العملي في الأخلاق والعبادات.", "https://sunnah.com/riyadussalihin"),
+    ("islamic", "الرحيق المختوم", "صفي الرحمن المباركفوري", "سيرة نبوية عطرة شاملة ومحققة.", "https://ar.m.wikipedia.org/wiki/%D8%A7%D9%84%D8%B1%D8%AD%D9%8A%D9%82_%D8%A7%D9%84%D9%85%D8%AE%D8%AA%D9%88%D9%85"),
+    ("medical", "دليل الإسعافات الأولية الشامل", "منظمة الصحة العالمية", "دليل عملي مصور للتعامل مع الطوارئ الطبية.", "https://www.who.int/ar"),
+    ("medical", "مبادئ علم التشريح ووظائف الأعضاء", "د. خالد عمارة", "مدخل مبسط لفهم أجهزة وأعضاء جسم الإنسان.", "https://ar.wikipedia.org/wiki/%D8%AA%D8%B4%D8%B1%D9%8A%D8%AD"),
+    ("medical", "المرجع السريع في الأدوية", "نخبة من الأطباء", "دليل مختصر عن تصنيفات واستخدامات الأدوية.", "https://www.drugs.com/"),
+    ("languages", "English Grammar in Use", "Raymond Murphy", "المرجع العالمي الأشهر لتعلم قواعد الإنجليزية.", "https://www.cambridge.org/"),
+    ("languages", "دليل المحادثة التركية اليومية", "إسطنبول لتعليم اللغات", "أهم المفردات والجمل الشائعة للمحادثة اليومية.", "https://www.turkishteatime.com/"),
+    ("languages", "أساسيات الفرنسية للمبتدئين", "معهد اللغات", "مدخل لأساسيات وقواعد اللغة الفرنسية.", "https://www.lepointdufle.net/"),
+    ("psychology", "علم النفس المعرفي وسلوك الإنسان", "د. روبرت سولسو", "دراسة لكيفية عمل العقل والتفكير البشري.", "https://ar.wikipedia.org/wiki/%D8%B9%D9%84%D9%85_%D8%A7%D9%84%D9%86%D9%81%D8%B3_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%81%D9%8A"),
+    ("psychology", "سيكولوجية الجماهير", "غوستاف لوبون", "الكتاب الأهم في فهم حركة وسلوك المجتمعات.", "https://www.hindawi.org/books/64516358/"),
+    ("philosophy", "مقدمة ابن خلدون", "عبد الرحمن بن خلدون", "المرجع التأسيسي الأول في علم الاجتماع وفلسفة التاريخ.", "https://www.hindawi.org/books/58632617/"),
+    ("philosophy", "قصة الفلسفة", "ويل ديورانت", "رحلة ممتعة تستعرض حياة وأفكار كبار الفلاسفة.", "https://www.hindawi.org/books/42948638/"),
+    ("selfdev", "العادات الذرية (Atomic Habits)", "جيمس كلير", "منهج عملي لبناء عادات إيجابية والتخلص من السلبية.", "https://jamesclear.com/atomic-habits"),
+    ("selfdev", "فن إدارة الوقت والإنتاجية العالية", "برايان تريسي", "استراتيجيات عملية لتنظيم المهام وزيادة التركيز.", "https://www.briantracy.com/"),
+    ("novels", "البؤساء (Les Misérables)", "فيكتور هوجو", "ملحمة إنسانية خالدة عن العدالة والرحمة والأمل.", "https://www.hindawi.org/books/47268307/"),
+    ("novels", "الخيميائي", "باولو كويلو", "رواية رمزية ملهمة عن السعي لتحقيق الأحلام.", "https://paulocoelhoblog.com/"),
+    ("topics", "دليل الطالب للتفوق الدراسي", "Dua Space", "خطوات واستراتيجيات مجربة لتنظيم المذاكرة.", "https://t.me/DuaSpace1"),
 ]
 
 AUTO_POSTS = [
@@ -130,8 +139,8 @@ TEXTS = {
         "rec_sent": "✅ شكراً جزيلاً! تم إرسال توصيتك للإدارة بنجاح.",
         "share_text": "🪐 أنصحكم بتجربة بوت Dua Space الشامل! القرآن كاملاً، ومكتبات إسلامية، طبية، لغات، روايات، واقتباسات ملهمة، وخدمات إبداعية:\n\nhttps://t.me/DuaSpaceHelperBot",
         "social_text": "🪐 **منصات وحسابات Dua Space الرسمية:**\n\n• القناة الرسمية: https://t.me/DuaSpace1\n• الإدارة والتواصل المباشر: @xdua1\n• ترقبوا قريباً بقية الروابط والمنصات التابعة لنا!",
-        "faq_text": "💡 **الأسئلة الشائعة حول خدمات Dua Space:**\n\n• **كيف أطلب خدمة؟**\nتواصل مباشرة مع الإدارة.\n\n• **هل الكتب مجانية؟**\nنعم، كافة الكتب والمراجع القرآنية والطبية مجانية بالكامل.",
-        "scholarships_text": "🎓 **دليل المنح والفرص التعليمية:**\n\n• مصادر موثوقة لأفضل المنح الدولية المجانية (تركيا، قطر، أوروبا).\n• أدلة واختبارات اللغة الدولية (IELTS / TOEFL).",
+        "faq_text": "💡 **الأسئلة الشائعة حول خدمات Dua Space:**\n\n• **كيف أطلب خدمة؟**\nمن قائمة «🛍️ الخدمات والتصميم»، اختر الخدمة ثم اضغط «طلب هذه الخدمة».\n\n• **هل الكتب مجانية؟**\nنعم، كافة الكتب والمراجع مجانية تماماً للقراءة والتحميل.",
+        "scholarships_text": "🎓 **دليل المنح والفرص التعليمية:**\n\n• مصادر موثوقة لأفضل المنح الدولية المجانية.\n• أدلة واختبارات اللغة الدولية (IELTS / TOEFL).",
     },
     "en": {
         "welcome": "Welcome to Dua Space! 🪐\nYour complete space for creativity, learning, and growth.\nPlease select an option below:",
@@ -169,80 +178,6 @@ TEXTS = {
         "social_text": "🪐 **Dua Space Links:**\n• Channel: https://t.me/DuaSpace1\n• Admin: @xdua1",
         "faq_text": "💡 All materials and books are completely free.",
         "scholarships_text": "🎓 International scholarship guides & exam resources.",
-    },
-    "fr": {
-        "welcome": "Bienvenue sur Dua Space ! 🪐\nVeuillez choisir une section :",
-        "must_subscribe": "⚠️ **Abonnement requis :** Rejoignez la chaîne officielle.",
-        "sub_btn": "📢 Rejoindre la chaîne",
-        "check_sub": "✅ Vérifier l'abonnement",
-        "sub_success": "🎉 Accès débloqué.",
-        "sub_failed": "❌ Abonnement non détecté.",
-        "lang_btn": "🌐 Changer de langue",
-        "quran_btn": "📖 Le Saint Coran (114 Sourates)",
-        "services": "🛍️ Services & Design",
-        "portfolio": "🎨 Portfolio",
-        "scholarships": "🎓 Bourses & Opportunités",
-        "islamic_lib": "🕌 Bibliothèque Islamique",
-        "medical_lib": "🩺 Bibliothèque Médicale",
-        "lang_lib": "🌍 Langues & Linguistique",
-        "psych_lib": "🧠 Psychologie & Société",
-        "phil_lib": "🏛️ Philosophie & Pensée",
-        "dev_lib": "💡 Développement Personnel",
-        "novels_lib": "📖 Romans & Histoires",
-        "topics_lib": "📑 Thématiques & Guides",
-        "quotes": "✨ Citations Inspirantes",
-        "tasbeeh": "📿 Tasbih Numérique",
-        "pomodoro": "⏱️ Minuteur d'étude (Pomodoro)",
-        "faq": "💡 FAQ & Assistance",
-        "recommendations": "🌟 Recommandations",
-        "share": "📢 Partager le bot",
-        "follow": "🔗 Suivez-nous",
-        "contact": "💬 Contact direct",
-        "back": "⬅️ Menu principal",
-        "empty_sec": "Ressources en cours de préparation. 🪐",
-        "rec_prompt": "✍️ Envoyez vos suggestions :",
-        "rec_sent": "✅ Recommandation transmise.",
-        "share_text": "🪐 Découvrez le bot Dua Space :\nhttps://t.me/DuaSpaceHelperBot",
-        "social_text": "🪐 Chaîne: https://t.me/DuaSpace1 | Admin: @xdua1",
-        "faq_text": "💡 Toutes les ressources sont gratuites.",
-        "scholarships_text": "🎓 Guide des bourses d'études.",
-    },
-    "it": {
-        "welcome": "Benvenuto su Dua Space! 🪐\nScegli una sezione dai pulsanti qui sotto:",
-        "must_subscribe": "⚠️ **Iscrizione obbligatoria:** Unisciti al canale ufficiale.",
-        "sub_btn": "📢 Unisciti al canale",
-        "check_sub": "✅ Verifica iscrizione",
-        "sub_success": "🎉 Bot attivo.",
-        "sub_failed": "❌ Iscrizione non rilevata.",
-        "lang_btn": "🌐 Cambia lingua",
-        "quran_btn": "📖 Il Sacro Corano (114 Sure)",
-        "services": "🛍️ Servizi & Design",
-        "portfolio": "🎨 Portfolio",
-        "scholarships": "🎓 Borse di Studio",
-        "islamic_lib": "🕌 Biblioteca Islamica",
-        "medical_lib": "🩺 Biblioteca Medica",
-        "lang_lib": "🌍 Lingue Straniere",
-        "psych_lib": "🧠 Psicologia & Società",
-        "phil_lib": "🏛️ Filosofia & Pensiero",
-        "dev_lib": "💡 Crescita Personale",
-        "novels_lib": "📖 Romanzi & Storie",
-        "topics_lib": "📑 Articoli & Temi",
-        "quotes": "✨ Citazioni Celebri",
-        "tasbeeh": "📿 Tasbeeh Digitale",
-        "pomodoro": "⏱️ Timer Studio (Pomodoro)",
-        "faq": "💡 Domande Frequenti",
-        "recommendations": "🌟 Consigli dei membri",
-        "share": "📢 Condividi il bot",
-        "follow": "🔗 Seguici",
-        "contact": "💬 Contatto diretto",
-        "back": "⬅️ Menu principale",
-        "empty_sec": "Contenuti in arrivo. 🪐",
-        "rec_prompt": "✍️ Scrivi qui il tuo consiglio:",
-        "rec_sent": "✅ Suggerimento registrato.",
-        "share_text": "🪐 Scopri Dua Space Bot:\nhttps://t.me/DuaSpaceHelperBot",
-        "social_text": "🪐 Canale: https://t.me/DuaSpace1 | Admin: @xdua1",
-        "faq_text": "💡 Tutte le risorse sono gratuite.",
-        "scholarships_text": "🎓 Guide per borse di studio.",
     },
 }
 
@@ -310,6 +245,18 @@ def init_db():
                 active INTEGER NOT NULL DEFAULT 1
             );
 
+            CREATE TABLE IF NOT EXISTS orders (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                username TEXT,
+                service_id INTEGER,
+                service_title TEXT NOT NULL,
+                price TEXT NOT NULL DEFAULT '',
+                details TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'جديد',
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            );
+
             CREATE TABLE IF NOT EXISTS books (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 category TEXT NOT NULL,
@@ -317,6 +264,7 @@ def init_db():
                 author TEXT NOT NULL DEFAULT 'غير محدد',
                 description TEXT NOT NULL DEFAULT '',
                 file_id TEXT,
+                url TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             );
 
@@ -339,14 +287,22 @@ def init_db():
         )
         con.commit()
 
-        # إدراج الكتب الجاهزة فوراً وتفادي التكرار
-        for cat, b_title, b_auth, b_desc in PRELOADED_BOOKS:
+        # إدراج وتحديث الخدمات التلقائية
+        for title, desc, price in DEFAULT_SERVICES:
+            exists = con.execute("SELECT id FROM services WHERE title = ?", (title,)).fetchone()
+            if not exists:
+                con.execute("INSERT INTO services(title, description, price, active) VALUES(?, ?, ?, 1)", (title, desc, price))
+
+        # إدراج وتحديث الكتب بروابطها
+        for cat, b_title, b_auth, b_desc, b_url in PRELOADED_BOOKS:
             exists = con.execute("SELECT id FROM books WHERE title = ?", (b_title,)).fetchone()
             if not exists:
                 con.execute(
-                    "INSERT INTO books(category, title, author, description, file_id) VALUES(?, ?, ?, ?, NULL)",
-                    (cat, b_title, b_auth, b_desc)
+                    "INSERT INTO books(category, title, author, description, file_id, url) VALUES(?, ?, ?, ?, NULL, ?)",
+                    (cat, b_title, b_auth, b_desc, b_url)
                 )
+            else:
+                con.execute("UPDATE books SET url = ? WHERE title = ? AND (url IS NULL OR url = '')", (b_url, b_title))
         con.commit()
     finally:
         con.close()
@@ -407,11 +363,7 @@ def language_selection_keyboard():
             [
                 InlineKeyboardButton("🇸🇦 العربية", callback_data="setlang:ar"),
                 InlineKeyboardButton("🇬🇧 English", callback_data="setlang:en"),
-            ],
-            [
-                InlineKeyboardButton("🇫🇷 Français", callback_data="setlang:fr"),
-                InlineKeyboardButton("🇮🇹 Italiano", callback_data="setlang:it"),
-            ],
+            ]
         ]
     )
 
@@ -523,11 +475,11 @@ def admin_keyboard():
         [
             [
                 InlineKeyboardButton("👥 قائمة المستخدمين", callback_data="admin_users"),
-                InlineKeyboardButton("📊 الإحصائيات", callback_data="admin_stats"),
+                InlineKeyboardButton("📥 طلبات العملاء", callback_data="admin_orders"),
             ],
             [
                 InlineKeyboardButton("📢 إذاعة عامة (Broadcast)", callback_data="admin_broadcast"),
-                InlineKeyboardButton("📥 توصيات الأعضاء", callback_data="admin_recs"),
+                InlineKeyboardButton("📊 الإحصائيات", callback_data="admin_stats"),
             ],
             [
                 InlineKeyboardButton("📚 إضافة كتاب للمكتبات", callback_data="add_book_flow"),
@@ -578,6 +530,63 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=main_menu_keyboard(user.id),
         )
 
+# -------------------- تدفق طلب الخدمات --------------------
+
+async def start_order(update: Update, context: ContextTypes.DEFAULT_TYPE, service_id: int):
+    service = db_one("SELECT * FROM services WHERE id = ? AND active = 1", (service_id,))
+    if not service:
+        await update.callback_query.message.reply_text("عذرًا، هذه الخدمة غير متوفرة حالياً.")
+        return
+
+    context.user_data["flow"] = {"kind": "order_details", "service_id": service_id}
+    await update.callback_query.message.reply_text(
+        f"📝 تم اختيار: **{service['title']}**\n\n"
+        "يرجى كتابة تفاصيل طلبك في رسالة واحدة (المقاسات، الألوان، والمطلوب بالتفصيل):\n"
+        "للإلغاء أرسل /cancel."
+    )
+
+async def handle_order_text(update: Update, context: ContextTypes.DEFAULT_TYPE, flow):
+    details = (update.effective_message.text or "").strip()
+    service = db_one("SELECT * FROM services WHERE id = ? AND active = 1", (flow["service_id"],))
+    if not service:
+        context.user_data.pop("flow", None)
+        await update.effective_message.reply_text("عذرًا، الخدمة لم تعد متاحة.")
+        return
+
+    user = update.effective_user
+    save_user(user)
+
+    order_id = db_execute(
+        """
+        INSERT INTO orders(user_id, username, service_id, service_title, price, details, status)
+        VALUES(?, ?, ?, ?, ?, ?, 'جديد')
+        """,
+        (user.id, user.username or "", service["id"], service["title"], service["price"], details),
+    )
+    context.user_data.pop("flow", None)
+
+    await update.effective_message.reply_text(
+        f"✅ تم استلام طلبك برقم: #{order_id}\nسنراجعه ونتواصل معك بأقرب وقت 🪐",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("💬 متابعة مع الإدارة", url=CONTACT_URL)],
+                [InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")],
+            ]
+        ),
+    )
+
+    admin_text = (
+        f"📥 **طلب جديد رقم #{order_id}**\n\n"
+        f"الخدمة: {service['title']}\n"
+        f"العميل: {user.first_name} (@{user.username or 'بدون'})\n"
+        f"ID: `{user.id}`\n\n"
+        f"التفاصيل:\n{details}"
+    )
+    try:
+        await context.bot.send_message(chat_id=ADMIN_ID, text=admin_text)
+    except Exception:
+        pass
+
 # -------------------- معالجة نقرات الأزرار --------------------
 
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -590,65 +599,72 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data.startswith("setlang:"):
         lang_code = data.split(":", 1)[1]
         set_user_lang(user_id, lang_code)
-        is_sub = await is_user_subscribed(context.bot, user_id)
-        if not is_sub:
-            await query.message.reply_text(
-                get_t(user_id, "must_subscribe"),
-                reply_markup=force_sub_keyboard(user_id),
-                parse_mode="Markdown",
-            )
-            return
-
-        await query.message.reply_text(
-            get_t(user_id, "welcome"),
-            reply_markup=main_menu_keyboard(user_id),
-        )
+        await query.message.reply_text(get_t(user_id, "welcome"), reply_markup=main_menu_keyboard(user_id))
         return
 
     if data == "change_lang":
-        await query.message.reply_text(
-            "🌐 اختر لغتك المفضلة / Choose your preferred language:",
-            reply_markup=language_selection_keyboard(),
-        )
+        await query.message.reply_text("🌐 اختر لغتك المفضلة / Choose language:", reply_markup=language_selection_keyboard())
         return
 
     if data == "check_subscription":
         is_sub = await is_user_subscribed(context.bot, user_id)
         if is_sub:
             await query.message.reply_text(get_t(user_id, "sub_success"))
-            await query.message.reply_text(
-                get_t(user_id, "welcome"),
-                reply_markup=main_menu_keyboard(user_id),
-            )
+            await query.message.reply_text(get_t(user_id, "welcome"), reply_markup=main_menu_keyboard(user_id))
         else:
-            await query.message.reply_text(
-                get_t(user_id, "sub_failed"),
-                reply_markup=force_sub_keyboard(user_id),
-            )
+            await query.message.reply_text(get_t(user_id, "sub_failed"), reply_markup=force_sub_keyboard(user_id))
         return
 
     if not is_admin_user(user_id) and not await is_user_subscribed(context.bot, user_id):
-        await query.message.reply_text(
-            get_t(user_id, "must_subscribe"),
-            reply_markup=force_sub_keyboard(user_id),
-            parse_mode="Markdown",
-        )
+        await query.message.reply_text(get_t(user_id, "must_subscribe"), reply_markup=force_sub_keyboard(user_id), parse_mode="Markdown")
         return
 
     if data == "home":
         context.user_data.pop("flow", None)
-        await query.message.reply_text(
-            get_t(user_id, "welcome"),
-            reply_markup=main_menu_keyboard(user_id),
-        )
+        await query.message.reply_text(get_t(user_id, "welcome"), reply_markup=main_menu_keyboard(user_id))
         return
 
+    # 1. تفعيل زر الخدمات والتصميم
+    if data == "services":
+        rows = db_all("SELECT id, title, price FROM services WHERE active = 1 ORDER BY id ASC")
+        if not rows:
+            await query.message.reply_text("عذرًا، يجري تحديث الخدمات حالياً.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]))
+            return
+
+        buttons = [
+            [InlineKeyboardButton(f"{r['title']}", callback_data=f"show_service:{r['id']}")]
+            for r in rows
+        ]
+        buttons.append([InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")])
+        await query.message.reply_text("🛍️ **خدمات وحلول Dua Space:**\nيرجى اختيار الخدمة المطلوبة لمعرفة التفاصيل والطلب:", reply_markup=InlineKeyboardMarkup(buttons), parse_mode="Markdown")
+        return
+
+    if data.startswith("show_service:"):
+        s_id = int(data.split(":", 1)[1])
+        s = db_one("SELECT * FROM services WHERE id = ?", (s_id,))
+        if s:
+            text = (
+                f"✨ **{s['title']}**\n\n"
+                f"الوصف:\n{s['description']}\n\n"
+                f"السعر: {s['price']}"
+            )
+            kb = InlineKeyboardMarkup(
+                [
+                    [InlineKeyboardButton("📩 طلب هذه الخدمة الآن", callback_data=f"order_now:{s_id}")],
+                    [InlineKeyboardButton("💬 استفسار مباشر", url=CONTACT_URL)],
+                    [InlineKeyboardButton("⬅️ قائمة الخدمات", callback_data="services")],
+                ]
+            )
+            await query.message.reply_text(text, reply_markup=kb, parse_mode="Markdown")
+        return
+
+    if data.startswith("order_now:"):
+        await start_order(update, context, int(data.split(":", 1)[1]))
+        return
+
+    # 2. القرآن الكريم
     if data == "quran_groups":
-        await query.message.reply_text(
-            "📖 **القرآن الكريم كاملاً (114 سورة):**\nيرجى اختيار المجموعة لتصفح السور والاستماع إليها مباشرة بجودة عالية:",
-            reply_markup=quran_group_keyboard(),
-            parse_mode="Markdown",
-        )
+        await query.message.reply_text("📖 **القرآن الكريم كاملاً (114 سورة):**\nاختر المجموعة للاستماع والقراءة:", reply_markup=quran_group_keyboard(), parse_mode="Markdown")
         return
 
     if data.startswith("qpage:"):
@@ -670,44 +686,10 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 [InlineKeyboardButton("🔙 العودة للمصحف", callback_data="quran_groups")],
             ]
         )
-        await query.message.reply_text(f"✨ سورة **{s_name}** (رقمها في المصحف: {s_num})\nيمكنك الاستماع المباشر أو قراءة الآيات والتفسير عبر الروابط أدناه:", reply_markup=kb, parse_mode="Markdown")
+        await query.message.reply_text(f"✨ سورة **{s_name}** ({s_num})\nاستمع أو اقرأ عبر الروابط أدناه:", reply_markup=kb, parse_mode="Markdown")
         return
 
-    if data == "pomodoro_start":
-        kb = InlineKeyboardMarkup(
-            [
-                [InlineKeyboardButton("⏳ بدء جلسة مذاكرة (25 دقيقة)", callback_data="pomo_run:25")],
-                [InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")],
-            ]
-        )
-        await query.message.reply_text(
-            "⏱️ **مؤقت المذاكرة والتركيز (Pomodoro Timer):**\n\nتعتمد تقنية بومودورو على التركيز التام لمدة 25 دقيقة في المذاكرة، يليها 5 دقائق استراحة.\nاضغط أدناه للبدء:",
-            reply_markup=kb,
-            parse_mode="Markdown",
-        )
-        return
-
-    if data.startswith("pomo_run:"):
-        await query.message.reply_text("🚀 بدأت جلسة التركيز الآن (25 دقيقة)!\nركز في هدفك ومذاكرتك، وسيقوم البوت بتنبيهك فور انتهاء الوقت ✨")
-        asyncio.create_task(run_pomodoro(query.message.chat_id, context))
-        return
-
-    if data == "scholarships_info":
-        await query.message.reply_text(
-            get_t(user_id, "scholarships_text"),
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]),
-            parse_mode="Markdown",
-        )
-        return
-
-    if data == "faq_info":
-        await query.message.reply_text(
-            get_t(user_id, "faq_text"),
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]),
-            parse_mode="Markdown",
-        )
-        return
-
+    # 3. المكتبات وعرض الكتب مع زر التحميل والقراءة
     if data.startswith("cat:"):
         cat_key = data.split(":", 1)[1]
         cat_names = {
@@ -730,7 +712,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
 
         buttons = [
-            [InlineKeyboardButton(f"📖 {r['title']} - {r['author']}", callback_data=f"open_book:{r['id']}")]
+            [InlineKeyboardButton(f"📖 {r['title']}", callback_data=f"open_book:{r['id']}")]
             for r in rows
         ]
         buttons.append([InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")])
@@ -742,38 +724,57 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         b = db_one("SELECT * FROM books WHERE id = ?", (b_id,))
         if b:
             caption = f"📖 **{b['title']}**\n✍️ {b['author']}\n\n{b['description']}"
+            kb_list = []
+            if b["url"]:
+                kb_list.append([InlineKeyboardButton("📥 قراءة وتحميل الكتاب", url=b["url"])])
+            kb_list.append([InlineKeyboardButton(get_t(user_id, "back"), callback_data=f"cat:{b['category']}")])
+
             if b["file_id"]:
                 try:
-                    await context.bot.send_document(chat_id=query.message.chat_id, document=b["file_id"], caption=caption)
+                    await context.bot.send_document(chat_id=query.message.chat_id, document=b["file_id"], caption=caption, reply_markup=InlineKeyboardMarkup(kb_list))
                 except Exception:
-                    await query.message.reply_text(caption)
+                    await query.message.reply_text(caption, reply_markup=InlineKeyboardMarkup(kb_list))
             else:
-                await query.message.reply_text(caption)
+                await query.message.reply_text(caption, reply_markup=InlineKeyboardMarkup(kb_list), parse_mode="Markdown")
+        return
+
+    # 4. بقية الأقسام
+    if data == "pomodoro_start":
+        kb = InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("⏳ بدء جلسة مذاكرة (25 دقيقة)", callback_data="pomo_run:25")],
+                [InlineKeyboardButton("⬅️ القائمة الرئيسية", callback_data="home")],
+            ]
+        )
+        await query.message.reply_text("⏱️ **مؤقت المذاكرة (Pomodoro):**\n25 دقيقة تركيز تام بدون مشتتات.\nاضغط للبدء:", reply_markup=kb, parse_mode="Markdown")
+        return
+
+    if data.startswith("pomo_run:"):
+        await query.message.reply_text("🚀 بدأت الـ 25 دقيقة! ركز في هدفك وسينبهك البوت عند الانتهاء ✨")
+        asyncio.create_task(run_pomodoro(query.message.chat_id, context))
+        return
+
+    if data == "scholarships_info":
+        await query.message.reply_text(get_t(user_id, "scholarships_text"), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]), parse_mode="Markdown")
+        return
+
+    if data == "faq_info":
+        await query.message.reply_text(get_t(user_id, "faq_text"), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]), parse_mode="Markdown")
         return
 
     if data == "quotes":
         quote = random.choice(AUTO_POSTS)
-        kb = InlineKeyboardMarkup(
-            [
-                [InlineKeyboardButton("🔄 اقتباس آخر", callback_data="quotes")],
-                [InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")],
-            ]
-        )
+        kb = InlineKeyboardMarkup([[InlineKeyboardButton("🔄 اقتباس آخر", callback_data="quotes")], [InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]])
         await query.message.reply_text(f"✨ **إشراقة واقتباس ملهم:**\n\n{quote}", reply_markup=kb)
         return
 
     if data == "tasbeeh":
-        await query.message.reply_text(
-            "📿 **السبحة الإلكترونية التفاعلية:**\nاضغط على العداد للتسبيح:",
-            reply_markup=tasbeeh_keyboard(0, "سبحان الله"),
-            parse_mode="Markdown",
-        )
+        await query.message.reply_text("📿 **السبحة الإلكترونية التفاعلية:**", reply_markup=tasbeeh_keyboard(0, "سبحان الله"), parse_mode="Markdown")
         return
 
     if data.startswith("tcount:"):
         _, current_count, phrase = data.split(":", 2)
-        new_count = int(current_count) + 1
-        await query.edit_message_reply_markup(reply_markup=tasbeeh_keyboard(new_count, phrase))
+        await query.edit_message_reply_markup(reply_markup=tasbeeh_keyboard(int(current_count) + 1, phrase))
         return
 
     if data.startswith("tset:"):
@@ -788,18 +789,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if data == "share_bot":
         share_url = f"https://t.me/share/url?url=https://t.me/{BOT_USERNAME}&text={get_t(user_id, 'share_text')}"
-        kb = InlineKeyboardMarkup(
-            [
-                [InlineKeyboardButton("🚀 إرسال الرابط لأصدقائك الآن", url=share_url)],
-                [InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")],
-            ]
-        )
-        await query.message.reply_text("🪐 يسعدنا ويشرفنا مشاركتكم Dua Space مع أصدقائكم:", reply_markup=kb)
+        await query.message.reply_text("🪐 شارك رابط البوت مع أصدقائك:", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 إرسال الآن", url=share_url)], [InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]))
         return
 
     if data == "follow_us":
-        kb = InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]])
-        await query.message.reply_text(get_t(user_id, "social_text"), reply_markup=kb)
+        await query.message.reply_text(get_t(user_id, "social_text"), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]))
         return
 
     if data == "recommend":
@@ -810,17 +804,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "portfolio":
         rows = db_all("SELECT id, title FROM portfolio ORDER BY id DESC LIMIT 15")
         if not rows:
-            await query.message.reply_text(
-                "🎨 مرحباً بكم في معرض أعمال Dua Space!\nيجري حالياً رفع وتنسيق نماذج أعمالنا وتصاميمنا المميزة قريباً جداً 🪐",
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]),
-            )
+            await query.message.reply_text("🎨 معرض الأعمال: يجري رفع التصاميم قريباً 🪐", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")]]))
         else:
-            buttons = [
-                [InlineKeyboardButton(f"🖼️ {r['title']}", callback_data=f"show_port:{r['id']}")]
-                for r in rows
-            ]
+            buttons = [[InlineKeyboardButton(f"🖼️ {r['title']}", callback_data=f"show_port:{r['id']}")] for r in rows]
             buttons.append([InlineKeyboardButton(get_t(user_id, "back"), callback_data="home")])
-            await query.message.reply_text("🎨 نماذج من أعمال Dua Space:\nاختر العمل لمشاهدته:", reply_markup=InlineKeyboardMarkup(buttons))
+            await query.message.reply_text("🎨 نماذج أعمالنا:", reply_markup=InlineKeyboardMarkup(buttons))
         return
 
     if data.startswith("show_port:"):
@@ -828,12 +816,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         item = db_one("SELECT * FROM portfolio WHERE id = ?", (p_id,))
         if item:
             try:
-                await context.bot.send_photo(
-                    chat_id=query.message.chat_id,
-                    photo=item["file_id"],
-                    caption=f"🎨 **{item['title']}**\n\n{item['description']}",
-                    parse_mode="Markdown",
-                )
+                await context.bot.send_photo(chat_id=query.message.chat_id, photo=item["file_id"], caption=f"🎨 **{item['title']}**\n\n{item['description']}", parse_mode="Markdown")
             except Exception:
                 await query.message.reply_text(f"🎨 **{item['title']}**\n\n{item['description']}")
         return
@@ -845,6 +828,16 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "admin_home":
         await query.message.reply_text("🎛️ لوحة إدارة Dua Space الشاملة:", reply_markup=admin_keyboard())
 
+    elif data == "admin_orders":
+        rows = db_all("SELECT id, service_title, status FROM orders ORDER BY id DESC LIMIT 10")
+        if not rows:
+            await query.message.reply_text("لا توجد طلبات مسجلة بعد.", reply_markup=admin_keyboard())
+            return
+        text = "📥 **طلبات العملاء الواردة:**\n\n"
+        for r in rows:
+            text += f"• طلب #{r['id']} ({r['status']}) - {r['service_title']}\n"
+        await query.message.reply_text(text, reply_markup=admin_keyboard())
+
     elif data == "admin_autopost_now":
         post_text = random.choice(AUTO_POSTS) + "\n\n—\n🪐 Dua Space • مساحتكم للإبداع والمعرفة"
         try:
@@ -855,53 +848,28 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data == "admin_backup":
         if os.path.exists(DB_PATH):
-            await context.bot.send_document(
-                chat_id=user_id,
-                document=open(DB_PATH, "rb"),
-                caption=f"💾 نسخة احتياطية كاملة لقاعدة بيانات Dua Space.\nتاريخ: {datetime.utcnow().strftime('%Y-%m-%d %H:%M')}",
-            )
+            await context.bot.send_document(chat_id=user_id, document=open(DB_PATH, "rb"), caption=f"💾 نسخة احتياطية: {datetime.utcnow().strftime('%Y-%m-%d')}")
         else:
-            await query.message.reply_text("ملف قاعدة البيانات غير متوفر حالياً.")
+            await query.message.reply_text("ملف قاعدة البيانات غير متوفر.")
 
     elif data == "admin_users":
-        rows = db_all("SELECT user_id, username, first_name, lang, last_seen FROM users ORDER BY last_seen DESC LIMIT 50")
-        if not rows:
-            await query.message.reply_text("لا يوجد مستخدمون مسجلون بعد.")
-            return
-        text = f"👥 **قائمة مستخدمي البوت ({len(rows)}):**\n\n"
+        rows = db_all("SELECT user_id, username, first_name, lang FROM users ORDER BY last_seen DESC LIMIT 50")
+        text = f"👥 **مستخدمو البوت النشطين ({len(rows)}):**\n\n"
         for idx, u in enumerate(rows, 1):
             un = f"@{u['username']}" if u["username"] else "بدون يوزر"
-            text += f"{idx}. {u['first_name'] or 'مستخدم'} ({un})\n   • ID: `{u['user_id']}` | اللغة: {u['lang']}\n"
-        await query.message.reply_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ لوحة الإدارة", callback_data="admin_home")]]), parse_mode="Markdown")
+            text += f"{idx}. {u['first_name'] or 'مستخدم'} ({un}) - `{u['user_id']}`\n"
+        await query.message.reply_text(text, reply_markup=admin_keyboard(), parse_mode="Markdown")
 
     elif data == "admin_stats":
         u_count = db_one("SELECT COUNT(*) AS n FROM users")["n"]
         b_count = db_one("SELECT COUNT(*) AS n FROM books")["n"]
-        p_count = db_one("SELECT COUNT(*) AS n FROM portfolio")["n"]
-        r_count = db_one("SELECT COUNT(*) AS n FROM recommendations")["n"]
-        text = (
-            "📊 **تقرير إحصائيات Dua Space الشامل:**\n\n"
-            f"• إجمالي المستخدمين: {u_count}\n"
-            f"• إجمالي الكتب المسجلة: {b_count}\n"
-            f"• أعمال المعرض: {p_count}\n"
-            f"• توصيات الأعضاء: {r_count}\n"
-        )
-        await query.message.reply_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ لوحة الإدارة", callback_data="admin_home")]]))
+        o_count = db_one("SELECT COUNT(*) AS n FROM orders")["n"]
+        text = f"📊 **إحصائيات Dua Space:**\n\n• المستخدمين: {u_count}\n• الكتب: {b_count}\n• الطلبات: {o_count}\n"
+        await query.message.reply_text(text, reply_markup=admin_keyboard())
 
     elif data == "admin_broadcast":
         context.user_data["flow"] = {"kind": "broadcast"}
-        await query.message.reply_text("📢 أرسلي الرسالة التي تودين بثها لجميع المستخدمين:")
-
-    elif data == "admin_recs":
-        rows = db_all("SELECT username, content FROM recommendations ORDER BY id DESC LIMIT 15")
-        if not rows:
-            await query.message.reply_text("لا توجد توصيات مرسلة حتى الآن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ لوحة الإدارة", callback_data="admin_home")]]))
-            return
-        text = "🌟 **أحدث مقترحات الأعضاء:**\n\n"
-        for r in rows:
-            u = f"@{r['username']}" if r["username"] else "عضو"
-            text += f"• من: {u}\nالتوصية: {r['content']}\n—\n"
-        await query.message.reply_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ لوحة الإدارة", callback_data="admin_home")]]))
+        await query.message.reply_text("📢 أرسلي الرسالة التي تودين بثها للجميع:")
 
     elif data == "add_book_flow":
         kb = InlineKeyboardMarkup(
@@ -924,14 +892,12 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["flow"] = {"kind": "p_title"}
         await query.message.reply_text("اكتبي عنوان العمل أو التصميم:")
 
+# -------------------- دالة مؤقت بومودورو والنشر التلقائي --------------------
+
 async def run_pomodoro(chat_id, context):
     await asyncio.sleep(25 * 60)
     try:
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text="🔔 **انتهت الـ 25 دقيقة!**\nعمل رائع، خذ الآن استراحة لمدة 5 دقائق لإنعاش ذهنك ثم واصل إنجازك ✨",
-            parse_mode="Markdown",
-        )
+        await context.bot.send_message(chat_id=chat_id, text="🔔 **انتهت الـ 25 دقيقة!**\nعمل رائع، خذ استراحة 5 دقائق ✨", parse_mode="Markdown")
     except Exception:
         pass
 
@@ -942,10 +908,12 @@ async def channel_auto_poster(bot):
             selected = random.choice(AUTO_POSTS)
             text = f"{selected}\n\n—\n🪐 Dua Space • مساحتكم للإبداع والمعرفة"
             await bot.send_message(chat_id=CHANNEL_ID, text=text)
-            logger.info("Auto post published to channel successfully.")
+            logger.info("Auto post sent to channel.")
         except Exception as e:
             logger.warning(f"Auto post error: {e}")
             await asyncio.sleep(300)
+
+# -------------------- معالجة النصوص والملفات --------------------
 
 async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
@@ -954,6 +922,10 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     flow = context.user_data.get("flow")
+
+    if flow and flow.get("kind") == "order_details":
+        await handle_order_text(update, context, flow)
+        return
 
     if flow and flow.get("kind") == "rec_msg":
         content = msg.text.strip()
@@ -1042,8 +1014,10 @@ async def file_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.effective_message.reply_text("✅ تم حفظ ملف الكتاب وربطه بالقسم بنجاح!", reply_markup=admin_keyboard())
         return
 
+# -------------------- نقطة التشغيل --------------------
+
 async def handle_health(request):
-    return web.Response(text="Dua Space Complete Ecosystem Live 🪐", status=200)
+    return web.Response(text="Dua Space Live 🪐", status=200)
 
 async def main():
     if not BOT_TOKEN or not CHANNEL_ID or not ADMIN_ID:
