@@ -43,6 +43,7 @@ if ADMIN_ID:
     ADMIN_IDS.add(ADMIN_ID)
 
 CHANNEL_ID = os.getenv("CHANNEL_ID", "@DuaSpace1").strip()
+MY_CONTACT = "https://t.me/xdua1"
 DB_PATH = Path(os.getenv("DATABASE_PATH", "dua_space.db"))
 PORT = int(os.getenv("PORT", "10000"))
 PAGE_SIZE = 8
@@ -130,10 +131,11 @@ SEED_AZKAR = [
     ("بعد الصلاة", "أستغفر الله، أستغفر الله، أستغفر الله. اللهم أنت السلام ومنك السلام، تباركت يا ذا الجلال والإكرام."),
     ("بعد الصلاة", "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، اللهم لا مانع لما أعطيت، ولا معطي لما منعت، ولا ينفع ذا الجد منك الجد."),
     ("بعد الصلاة", "تسبيح 33، تحميد 33، تكبير 33، والتمام مائة: لا إله إلا الله وحده لا شريك له له الملك وله الحمد وهو على كل شيء قدير."),
-    ("أدعية وتفريج الكرب", "لا إله إلا أنت سبحانك إني كنت من الظالمين."),
-    ("أدعية وتفريج الكرب", "اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل، والبخل والجبن، وضلع الدين وغلبة الرجال."),
-    ("أدعية وتفريج الكرب", "يا مقلب القلوب ثبت قلبي على دينك."),
-    ("أدعية وتفريج الكرب", "ربنا آتنا في الدنيا حسنة وفي الآخرة حسنة وقنا عذاب النار."),
+    ("تفريج الكرب", "لا إله إلا أنت سبحانك إني كنت من الظالمين."),
+    ("تفريج الكرب", "اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل، والبخل والجبن، وضلع الدين وغلبة الرجال."),
+    ("تفريج الكرب", "يا مقلب القلوب ثبت قلبي على دينك."),
+    ("تفريج الكرب", "ربنا آتنا في الدنيا حسنة وفي الآخرة حسنة وقنا عذاب النار."),
+    ("تفريج الكرب", "حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم."),
 ]
 
 TASBEEH_PRESETS = [
@@ -215,7 +217,6 @@ def init_db():
         );
         """)
 
-        # غرس البيانات الأساسية
         if con.execute("SELECT COUNT(*) FROM materials").fetchone()[0] == 0:
             now = int(time.time())
             con.executemany(
@@ -228,7 +229,7 @@ def init_db():
         defaults = {
             "maintenance": "0",
             "force_sub": "1",
-            "welcome_ar": "أهلًا وسهلاً بك في منصة Dua Space 🌙✨\nبوابتك المعرفية الشاملة للقرآن، الأذكار، العلوم، والإنتاجية.",
+            "welcome_ar": "أهلًا وسهلاً بكم في منصة Dua Space 🌙✨\nبوابتكم المعرفية الشاملة للقرآن، الأذكار، العلوم، والإنتاجية.",
         }
         for key, value in defaults.items():
             con.execute("INSERT OR IGNORE INTO settings(key,value) VALUES(?,?)", (key, value))
@@ -275,7 +276,7 @@ def register_user(user):
         )
 
 
-# -------------------- فحص الاشتراك الإجباري الصارم --------------------
+# -------------------- فحص الاشتراك الإجباري --------------------
 
 async def check_subscription(user_id: int, context: ContextTypes.DEFAULT_TYPE) -> bool:
     if setting("force_sub") != "1" or is_admin(user_id):
@@ -286,15 +287,14 @@ async def check_subscription(user_id: int, context: ContextTypes.DEFAULT_TYPE) -
             return False
         return True
     except Exception as e:
-        log.warning(f"تعذر التحقق من اشتراك العضو (تأكدي من رفع البوت مشرفاً بالقناة): {e}")
-        # إذا تعذر التحقق لعدم رفع البوت مشرفاً، نسمح للأدمن فقط
+        log.warning(f"تنبيه فحص الاشتراك: {e}")
         return is_admin(user_id)
 
 
 def sub_required_markup():
     channel_clean = CHANNEL_ID.replace("@", "")
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("📢 اشترك في قناة Dua Space", url=f"https://t.me/{channel_clean}")],
+        [InlineKeyboardButton("📢 اشتركوا في قناة Dua Space", url=f"https://t.me/{channel_clean}")],
         [InlineKeyboardButton("✅ تأكيد الاشتراك والمتابعة", callback_data="check_sub_again")],
     ])
 
@@ -334,9 +334,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if not await check_subscription(user.id, context):
         await update.message.reply_text(
-            f"مرحباً بكِ في <b>Dua Space</b> 🌙🌿\n\n"
+            f"مرحباً بكم في <b>Dua Space</b> 🌙🌿\n\n"
             f"للوصول إلى جميع المصادر، المحاضرات، والتلاوات، يُرجى الانضمام إلى قناتنا أولاً:\n"
-            f"👉 <b>{CHANNEL_ID}</b>\n\nثم اضغطي على زر التأكيد بالأسفل:",
+            f"👉 <b>{CHANNEL_ID}</b>\n\nثم اضغطوا على زر التأكيد بالأسفل:",
             parse_mode="HTML",
             reply_markup=sub_required_markup(),
         )
@@ -355,7 +355,7 @@ def page_keyboard(prefix, page, total):
     return [nav, [InlineKeyboardButton("🏠 العودة للقائمة", callback_data="home")]]
 
 
-# -------------------- قسم القرآن الكريم الصوتي --------------------
+# -------------------- قسم القرآن الكريم الصوتي المضمون --------------------
 
 async def show_quran(query, page):
     total = len(SURAHS)
@@ -370,7 +370,7 @@ async def show_quran(query, page):
     rows.extend(page_keyboard("q", page, total))
     await query.edit_message_text(
         "📖 <b>فهرس سور القرآن الكريم (114 سورة كاملة)</b>\n"
-        "اختر السورة للاستماع الفوري إليها أو أضفها للمفضلة:",
+        "اضغطوا على أي سورة للاستماع الفوري إليها أو حفظها للمفضلة:",
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(rows),
     )
@@ -380,30 +380,33 @@ async def send_surah_audio(query, number, context):
     ar_name, verses = SURAHS[number - 1]
     await query.answer(f"جارٍ إرسال تلاوة سورة {ar_name}…")
     
-    audio_url = f"https://server8.mp3quran.net/afs/{number:03d}.mp3"
+    # رابطان معتمدان فائقان في السرعة
+    primary_url = f"https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/{number}.mp3"
     quran_reader_url = f"https://quran.com/{number}"
 
     caption = (
         f"📖 <b>سورة {html.escape(ar_name)}</b>\n"
         f"• عدد الآيات: {verses} آية\n"
         f"• القارئ: مشاري بن راشد العفاسي 🎧\n\n"
-        f"🔗 <a href='{quran_reader_url}'>اضغط هنا لقراءة السورة بالرسم العثماني المعتمد</a>"
+        f"🔗 <a href='{quran_reader_url}'>اضغطوا هنا لقراءة السورة بالرسم العثماني المعتمد</a>"
     )
     
     try:
         await context.bot.send_audio(
             chat_id=query.message.chat_id,
-            audio=audio_url,
+            audio=primary_url,
             title=f"سورة {ar_name}",
             performer="مشاري العفاسي",
             caption=caption,
             parse_mode="HTML",
         )
-    except Exception:
-        backup_audio = f"https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/{number}.mp3"
+    except Exception as e:
+        log.error(f"Error sending audio: {e}")
+        # سيرفر إضافي احتياطي مباشر
+        backup_url = f"https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/{number:03d}.mp3"
         await context.bot.send_audio(
             chat_id=query.message.chat_id,
-            audio=backup_audio,
+            audio=backup_url,
             title=f"سورة {ar_name}",
             performer="مشاري العفاسي",
             caption=caption,
@@ -415,22 +418,31 @@ async def send_surah_audio(query, number, context):
 
 async def show_azkar_menu(query):
     rows = [
-        [InlineKeyboardButton("🌅 أذكار الصباح", callback_data="az:الصباح"),
-         InlineKeyboardButton("🌆 أذكار المساء", callback_data="az:المساء")],
-        [InlineKeyboardButton("🌙 أذكار النوم", callback_data="az:النوم"),
-         InlineKeyboardButton("🕌 بعد الصلاة المكتوبة", callback_data="az:بعد الصلاة")],
-        [InlineKeyboardButton("🤲 تفريج الكرب وجوامع الدعاء", callback_data="az:أدعية وتفريج الكرب")],
+        [InlineKeyboardButton("🌅 أذكار الصباح", callback_data="az:morning"),
+         InlineKeyboardButton("🌆 أذكار المساء", callback_data="az:evening")],
+        [InlineKeyboardButton("🌙 أذكار النوم", callback_data="az:sleep"),
+         InlineKeyboardButton("🕌 بعد الصلاة المكتوبة", callback_data="az:prayer")],
+        [InlineKeyboardButton("🤲 تفريج الكرب وجوامع الدعاء", callback_data="az:relief")],
         [InlineKeyboardButton("📿 السبحة الإلكترونية الذكية", callback_data="tasbeeh")],
         [InlineKeyboardButton("🏠 العودة للقائمة", callback_data="home")],
     ]
     await query.edit_message_text(
-        "🤲 <b>واحة الأذكار والسبحة الرقمية</b>\nاختر الورد الذي تريده للبدء:",
+        "🤲 <b>واحة الأذكار والسبحة الرقمية</b>\nاختاروا الورد المناسب للبدء:",
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(rows),
     )
 
 
-async def show_azkar_content(query, category):
+async def show_azkar_content(query, cat_key):
+    cat_map = {
+        "morning": "الصباح",
+        "evening": "المساء",
+        "sleep": "النوم",
+        "prayer": "بعد الصلاة",
+        "relief": "تفريج الكرب",
+    }
+    category = cat_map.get(cat_key, "الصباح")
+
     with db() as con:
         rows = con.execute("SELECT text FROM azkar WHERE category=?", (category,)).fetchall()
     
@@ -439,11 +451,11 @@ async def show_azkar_content(query, category):
         items_text = "لا توجد أذكار مضافة في هذا القسم حالياً."
 
     kb = InlineKeyboardMarkup([
-        [InlineKeyboardButton("⭐ حفظ القسم للمفضلة", callback_data=f"favadd:az:{category}:{category}")],
+        [InlineKeyboardButton("⭐ حفظ القسم للمفضلة", callback_data=f"favadd:az:{cat_key}:{category}")],
         [InlineKeyboardButton("↩️ رجوع لقائمة الأذكار", callback_data="azkar")],
     ])
     await query.edit_message_text(
-        f"🤲 <b>{html.escape(category)}</b>\n\n{items_text}",
+        f"🤲 <b>أذكار {html.escape(category)}</b>\n\n{items_text}",
         parse_mode="HTML",
         reply_markup=kb,
     )
@@ -474,7 +486,7 @@ async def show_tasbeeh(query, user_id):
     )
 
 
-# -------------------- قسم خدمات التصميم الفاخر --------------------
+# -------------------- قسم خدمات التصميم المحدث --------------------
 
 def design_menu():
     rows = [
@@ -483,7 +495,7 @@ def design_menu():
         [InlineKeyboardButton("📄 تصاميم المطبوعات والبروشورات", callback_data="req_design:مطبوعات وبروشور")],
         [InlineKeyboardButton("💻 تصميم واجهات المستخدم (UI/UX)", callback_data="req_design:واجهات UI/UX")],
         [InlineKeyboardButton("🖼️ تعديل ومونتاج ودمج الصور الاحترافي", callback_data="req_design:تعديل صور وموكاب")],
-        [InlineKeyboardButton("💬 تواصل مباشر مع المصممة", url="https://t.me/elmore_citizen")],
+        [InlineKeyboardButton("💬 تواصل مباشر مع المصممة", url=MY_CONTACT)],
         [InlineKeyboardButton("🏠 العودة للقائمة", callback_data="home")],
     ]
     return InlineKeyboardMarkup(rows)
@@ -492,13 +504,13 @@ def design_menu():
 async def show_design(query):
     text = (
         "🎨 <b>استوديو تصميم Dua Space</b> ✨\n\n"
-        "نصنع لك تصاميم بصرية تجمع بين الإبداع والهوية المميزة.\n\n"
+        "نصنع لكم تصاميم بصرية تجمع بين الإبداع والهوية المميزة.\n\n"
         "<b>مجالات العمل:</b>\n"
         "• ابتكار الشعارات والهويات التجارية الكاملة.\n"
         "• تصاميم السوشيال ميديا الإعلانية.\n"
         "• تصميم الكتب والمجلات والمطبوعات.\n"
         "• واجهات الاستخدام (UI/UX).\n\n"
-        "👇 <i>اختاري الخدمة لتسجيل المواصفات، أو تواصلي مباشرة للاتفاق على التفاصيل والسعر المناسبين.</i>"
+        "👇 <i>اختاروا الخدمة لتسجيل المواصفات، أو تواصلوا مباشرة للاتفاق على التفاصيل والسعر المناسبين.</i>"
     )
     await query.edit_message_text(text, parse_mode="HTML", reply_markup=design_menu())
 
@@ -533,7 +545,7 @@ async def show_categories(query):
         [InlineKeyboardButton("🏠 العودة للقائمة", callback_data="home")],
     ]
     await query.edit_message_text(
-        "📚 <b>مكتبة المعارف الرقمية</b>\nاختر الباب العلمي الذي تبحث عن مصادره:",
+        "📚 <b>مكتبة المعارف الرقمية</b>\nاختاروا الباب العلمي المطلوب:",
         reply_markup=InlineKeyboardMarkup(rows),
     )
 
@@ -564,7 +576,7 @@ async def show_materials(query, category, page):
     )
 
 
-# -------------------- قسم المفضلة المصحح بالكامل --------------------
+# -------------------- قسم المفضلة --------------------
 
 async def show_favorites(query, user_id):
     with db() as con:
@@ -575,7 +587,7 @@ async def show_favorites(query, user_id):
     
     if not favs:
         kb = InlineKeyboardMarkup([[InlineKeyboardButton("🏠 العودة للقائمة", callback_data="home")]])
-        await query.edit_message_text("⭐ <b>محفوظاتك المفضلة فارغة حالياً.</b>\nيمكنك حفظ السور، الأذكار، والمواد بالضغط على علامة النجمة ⭐.", reply_markup=kb, parse_mode="HTML")
+        await query.edit_message_text("⭐ <b>محفوظاتكم المفضلة فارغة حالياً.</b>\nيمكنكم حفظ السور، الأذكار، والمواد بالضغط على علامة النجمة ⭐.", reply_markup=kb, parse_mode="HTML")
         return
 
     rows = []
@@ -594,7 +606,7 @@ async def show_favorites(query, user_id):
             rows.append([InlineKeyboardButton(f"📜 اقتباس: {title}", callback_data="quotes")])
 
     rows.append([InlineKeyboardButton("🏠 العودة للقائمة", callback_data="home")])
-    await query.edit_message_text("⭐ <b>قائمة محفوظاتي المفضلة</b>\nاضغط على أي عنصر لفتحه فوراً:", parse_mode="HTML", reply_markup=InlineKeyboardMarkup(rows))
+    await query.edit_message_text("⭐ <b>قائمة محفوظاتي المفضلة</b>\nاضغطوا على أي عنصر لفتحه فوراً:", parse_mode="HTML", reply_markup=InlineKeyboardMarkup(rows))
 
 
 # -------------------- لوحة تحكم الإدارة الكاملة --------------------
@@ -616,9 +628,9 @@ async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     text = (
         "🛡️ <b>لوحة القيادة والتحكم الشاملة — Dua Space</b>\n\n"
-        "أهلاً بكِ في مركز إدارة البوت ومحتواه بالكامل:\n\n"
+        "أهلاً بكم في مركز إدارة البوت ومحتواه بالكامل:\n\n"
         "<b>أوامر الإدارة المباشرة:</b>\n"
-        "• <code>/addmaterial القسم|العنوان</code> — ثم أرسلي نصاً أو ملف PDF/صوت/صورة.\n"
+        "• <code>/addmaterial القسم|العنوان</code> — ثم أرسلوا نصاً أو ملف PDF/صوت/صورة.\n"
         "• <code>/delmaterial الرقم</code> — لحذف مادة من المكتبة.\n"
         "• <code>/addzekr القسم|النص</code> — لإضافة ذكر جديد.\n"
         "• <code>/delzekr الرقم</code> — لحذف ذكر.\n"
@@ -643,12 +655,10 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         query = text.strip()
         results = []
         
-        # البحث في القرآن
         matched_surahs = [f"• سورة {s[0]} (رقم {i+1})" for i, s in enumerate(SURAHS) if query in s[0]]
         if matched_surahs:
             results.append("📖 <b>في القرآن الكريم:</b>\n" + "\n".join(matched_surahs[:5]))
             
-        # البحث في المكتبة
         with db() as con:
             mats = con.execute("SELECT id, title, category FROM materials WHERE title LIKE ? OR body LIKE ? LIMIT 6",
                                (f"%{query}%", f"%{query}%")).fetchall()
@@ -676,7 +686,7 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 )
             except Exception:
                 pass
-        await update.message.reply_text("✅ استلمنا تفاصيل طلبك بنجاح! سيتم التواصل معكِ قريباً لمناقشة التفاصيل والاتفاق 🌿")
+        await update.message.reply_text("✅ استلمنا تفاصيل طلبكم بنجاح! سيتم التواصل معكم قريباً لمناقشة التفاصيل والاتفاق 🌿")
         return
 
     # تذاكر الدعم
@@ -696,7 +706,7 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 )
             except Exception:
                 pass
-        await update.message.reply_text(f"تم إرسال رسالتك للإدارة بنجاح. رقم تذكرتك: #{ticket_id}")
+        await update.message.reply_text(f"تم إرسال رسالتكم للإدارة بنجاح. رقم تذكرتكم: #{ticket_id}")
         return
 
     # إضافة مادة كأدمن
@@ -720,7 +730,7 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(f"❌ تعذر النشر في القناة: {e}")
         return
 
-    await update.message.reply_text("استخدم الأزرار أدناه أو أرسل /start لفتح القائمة الرئيسية.")
+    await update.message.reply_text("استخدموا الأزرار أدناه أو أرسلوا /start لفتح القائمة الرئيسية.")
 
 
 async def on_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -762,10 +772,10 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     if data == "check_sub_again":
         if await check_subscription(user_id, context):
-            await query.edit_message_text("✅ تم التحقق من الاشتراك بنجاح! أهلاً بكِ في Dua Space 🌙")
+            await query.edit_message_text("✅ تم التحقق من الاشتراك بنجاح! أهلاً بكم في Dua Space 🌙")
             await send_home(update, context)
         else:
-            await query.answer("لم يتم التحقق من اشتراكك في القناة بعد! اشترك ثم اضغط تأكيد.", show_alert=True)
+            await query.answer("لم يتم التحقق من اشتراككم في القناة بعد! اشتركوا ثم اضغطوا تأكيد.", show_alert=True)
     elif data == "home":
         await send_home(update, context, edit=True)
     elif data.startswith("q:"):
@@ -798,7 +808,7 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["state"] = "design_order"
         context.user_data["design_type"] = design_name
         await query.message.reply_text(
-            f"اخترتِ: <b>{design_name}</b>\n\nأرسلي الآن وصفاً لما تحتاجينه وأي تفاصيل ترغبين بها وسنتواصل معكِ مباشرة للتنفيذ ✨",
+            f"اخترتم: <b>{design_name}</b>\n\nأرسلوا الآن وصفاً لما تحتاجونه وأي تفاصيل ترغبون بها وسنتواصل معكم مباشرة للتنفيذ ✨",
             parse_mode="HTML",
         )
     elif data == "quotes" or data == "quotes:next":
@@ -850,10 +860,10 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_favorites(query, user_id)
     elif data == "search":
         context.user_data["state"] = "search"
-        await query.message.reply_text("🔎 أرسلي الكلمة التي تبحثين عنها في القرآن أو المكتبة:")
+        await query.message.reply_text("🔎 أرسلوا الكلمة التي تبحثون عنها في القرآن أو المكتبة:")
     elif data == "support":
         context.user_data["state"] = "support"
-        await query.message.reply_text("✉️ اكتبي استفسارك أو رسالتك وسنرد عليكِ فوراً:")
+        await query.message.reply_text("✉️ اكتبوا استفساركم أو رسالتكم وسنرد عليكم فوراً:")
     elif data == "quiz":
         q, options, ans, exp = random.choice(QUIZ_BANK)
         context.user_data["quiz_data"] = (ans, exp)
@@ -876,12 +886,16 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("90 دقيقة ماراتون دراسي", callback_data="pom:90")],
             [InlineKeyboardButton("🏠 القائمة", callback_data="home")],
         ])
-        await query.edit_message_text("⏱️ <b>مؤقت الإنتاجية والمذاكرة (Pomodoro)</b>\nاختر مدة الجلسة:", reply_markup=kb)
+        await query.edit_message_text(
+            "⏱️ <b>مؤقت الإنتاجية والمذاكرة (Pomodoro)</b>\n\nاختاروا مدة الجلسة الدراسية:",
+            parse_mode="HTML",
+            reply_markup=kb,
+        )
     elif data.startswith("pom:"):
         mins = int(data.split(":")[1])
         if context.job_queue:
             context.job_queue.run_once(pomodoro_done, when=mins * 60, chat_id=query.message.chat_id)
-            await query.message.reply_text(f"بدأ مؤقت التركيز لمدة {mins} دقيقة! أبعدي المشتتات وبالتوفيق في دراستكِ 🌿")
+            await query.message.reply_text(f"بدأ مؤقت التركيز لمدة {mins} دقيقة! أبعدوا المشتتات وبالتوفيق في دراستكم 🌿")
         else:
             await query.message.reply_text(f"تم ضبط المنبه التقديري لجلسة {mins} دقيقة.")
     # لوحة الأدمن
@@ -905,7 +919,7 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text(f"وضع الصيانة: {'مفعّل 🛠' if new_val == '1' else 'معطّل ✅'}")
         elif act == "post_channel":
             context.user_data["state"] = "post_to_channel"
-            await query.message.reply_text("أرسلي الآن المنشور أو الذكر الذي تريدين نشره فوراً في القناة:")
+            await query.message.reply_text("أرسلوا الآن المنشور أو الذكر الذي تريدون نشره فوراً في القناة:")
         elif act == "do_backup":
             if DB_PATH.exists():
                 with DB_PATH.open("rb") as f:
@@ -914,7 +928,7 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def pomodoro_done(context: ContextTypes.DEFAULT_TYPE):
     try:
-        await context.bot.send_message(context.job.chat_id, "⏰ <b>انتهت جلسة التركيز المحددة بنجاح!</b>\nخذي استراحة قصيرة لتجديد نشاطكِ 🌿", parse_mode="HTML")
+        await context.bot.send_message(context.job.chat_id, "⏰ <b>انتهت جلسة التركيز المحددة بنجاح!</b>\nخذوا استراحة قصيرة لتجديد النشاط 🌿", parse_mode="HTML")
     except Exception:
         pass
 
@@ -931,7 +945,7 @@ async def add_material_cmd(update, context):
     cat, title = [x.strip() for x in raw.split("|", 1)]
     context.user_data["state"] = "admin_upload"
     context.user_data["upload_meta"] = (cat, title)
-    await update.message.reply_text(f"تم تهيئة قسم ({cat}). أرسلي الآن الرابط أو الملف (PDF/صوت/صورة) لحفظه فوراً.")
+    await update.message.reply_text(f"تم تهيئة قسم ({cat}). أرسلوا الآن الرابط أو الملف (PDF/صوت/صورة) لحفظه فوراً.")
 
 
 async def del_material_cmd(update, context):
@@ -1020,8 +1034,8 @@ async def reply_cmd(update, context):
         if row:
             con.execute("UPDATE tickets SET status='answered' WHERE id=?", (tid,))
     if row:
-        await context.bot.send_message(row["user_id"], f"💬 <b>رد الإدارة على استفسارك #{tid}:</b>\n\n{ans}", parse_mode="HTML")
-        await update.message.reply_text("تم إرسال الرد للعميل.")
+        await context.bot.send_message(row["user_id"], f"💬 <b>رد الإدارة على استفساركم #{tid}:</b>\n\n{ans}", parse_mode="HTML")
+        await update.message.reply_text("تم إرسال الرد للمستخدم.")
 
 
 async def backup_cmd(update, context):
@@ -1032,7 +1046,7 @@ async def backup_cmd(update, context):
             await update.message.reply_document(document=f, filename=DB_PATH.name, caption="🗄 نسخة احتياطية لقاعدة البيانات.")
 
 
-# -------------------- خادم ويب Render (Health Server) --------------------
+# -------------------- خادم ويب Render --------------------
 
 async def health(_req):
     return web.json_response({"status": "ok", "app": "Dua Space"})
