@@ -6,13 +6,10 @@ import os
 import random
 import sqlite3
 import time
-from datetime import timedelta
 from pathlib import Path
 
-import aiohttp
 from aiohttp import web
 from telegram import (
-    ChatPermissions,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     Update,
@@ -48,7 +45,7 @@ DB_PATH = Path(os.getenv("DATABASE_PATH", "dua_space.db"))
 PORT = int(os.getenv("PORT", "10000"))
 PAGE_SIZE = 8
 
-# -------------------- فهرس سور القرآن الـ 114 --------------------
+# -------------------- فهرس سور القرآن الـ 114 كاملاً --------------------
 
 SURAHS = [
     ("الفاتحة", 7), ("البقرة", 286), ("آل عمران", 200), ("النساء", 176),
@@ -82,35 +79,43 @@ SURAHS = [
     ("الفلق", 5), ("الناس", 6),
 ]
 
-# -------------------- المراجع والبيانات المبدئية --------------------
+# -------------------- قاعدة المعارف والمكتبة الشاملة --------------------
 
-SEED_MATERIALS = [
-    # اللغات الست المعتمدة
-    ("languages", "العربية — مجمع الملك سلمان العالمي", "منصة معتمدة لعلوم اللغة العربية والمعاجم الفصحى.", "https://ksaa.gov.sa/"),
-    ("languages", "العربية — معجم الدوحة التاريخي", "بوابة شاملة لتاريخ وتطور الألفاظ والمعاني في لغة الضاد.", "https://www.dohadictionary.org/"),
-    ("languages", "الإنجليزية — British Council", "دروس تفاعلية ومصادر قواعد واختبارات لجميع المستويات.", "https://learnenglish.britishcouncil.org/"),
-    ("languages", "الإنجليزية — BBC Learning English", "دورات صوتية ومقاطع فيديو لتطوير الاستماع والمفردات.", "https://www.bbc.co.uk/learningenglish/"),
-    ("languages", "التركية — Yunus Emre Enstitüsü", "البوابة الرسمية المعتمدة لتعليم اللغة التركية لغير الناطقين بها.", "https://turkce.yee.org.tr/"),
-    ("languages", "التركية — TurkishClass101", "دروس صوتية ومفردات وتراكيب يومية مبسطة.", "https://www.turkishclass101.com/"),
-    ("languages", "الكورية — King Sejong Institute", "مؤسسة الملك سيجونغ الرسمية لتعليم الكورية والثقافة الكورية.", "https://www.iksi.or.kr/"),
-    ("languages", "الكورية — Talk To Me In Korean", "أشهر منهاج تعليمي تفاعلي لإتقان اللغة الكورية المعاصرة.", "https://talktomeinkorean.com/"),
-    ("languages", "اليابانية — NHK World Japan", "دروس يومية ميسرة باللغة العربية لتعلم أساسيات اليابانية والكانجي.", "https://www.nhk.or.jp/lesson/arabic/"),
-    ("languages", "اليابانية — Marugoto Online", "منهاج ياباني معتمد قائم على المحادثة والمواقف الواقعية.", "https://www.marugoto.org/"),
-    ("languages", "الصينية — Confucius Institute", "بوابة معهد كونفوشيوس العالمي لتعليم لغة الماندرين وقواعدها.", "https://www.chinesecio.com/"),
-    ("languages", "الصينية — HelloChinese", "منهاج متكامل لتأسيس النطق والكتابة بنظام الرموز الصينية.", "https://www.hellochinese.cc/"),
-    # العلوم والطب والبرمجة
-    ("library", "البرمجة — التوثيق الرسمي لـ Python", "دليل المطورين والتوثيق المكتمل لكل مكتبات وخوارزميات بايثون.", "https://docs.python.org/3/"),
-    ("library", "البرمجة — MIT OpenCourseWare", "محاضرات ومناهج علوم الحاسب والذكاء الاصطناعي المجانية من MIT.", "https://ocw.mit.edu/"),
+FULL_MATERIALS = [
+    # 1. اللغات الست العالمية
+    ("languages", "العربية — مجمع الملك سلمان العالمي", "منصة معتمدة لعلوم اللغة العربية، الصرف، النحو، والمعاجم.", "https://ksaa.gov.sa/"),
+    ("languages", "العربية — معجم الدوحة التاريخي", "بوابة شاملة تبحث في تاريخ وتطور دلالات الألفاظ العربية عبر العصور.", "https://www.dohadictionary.org/"),
+    ("languages", "العربية — شبكة الألوكة اللغوية", "بحوث ومقالات وكتب متخصصة في البلاغة والأدب والنقد العربي.", "https://www.alukah.net/"),
+    ("languages", "الإنجليزية — British Council", "دروس تفاعلية، شروحات قواعد، واختبارات قياس مستوى مجانية.", "https://learnenglish.britishcouncil.org/"),
+    ("languages", "الإنجليزية — BBC Learning English", "دورات صوتية ومقاطع مرئية يومية لتطوير الاستماع والمحادثة والمفردات.", "https://www.bbc.co.uk/learningenglish/"),
+    ("languages", "الإنجليزية — Cambridge Dictionary", "قاموس كامبريدج المعتمد للنطق الصوتي والتعريفات الدقيقة والأمثلة.", "https://dictionary.cambridge.org/"),
+    ("languages", "التركية — Yunus Emre Enstitüsü", "البوابة الرسمية المعتمدة لتعليم اللغة التركية والثقافة من الصفر للاحتراف.", "https://turkce.yee.org.tr/"),
+    ("languages", "التركية — TurkishClass101", "دروس صوتية ومفردات وتراكيب يومية مبسطة مع تمارين تطبيقية.", "https://www.turkishclass101.com/"),
+    ("languages", "الكورية — King Sejong Institute", "مؤسسة الملك سيجونغ الرسمية لتعليم اللغة الكورية المعتمدة دولياً.", "https://www.iksi.or.kr/"),
+    ("languages", "الكورية — Talk To Me In Korean", "أشهر منهاج تعليمي تفاعلي يغطي كل قواعد ومستويات التوبك (TOPIK).", "https://talktomeinkorean.com/"),
+    ("languages", "اليابانية — NHK World Japan", "دروس يومية ميسرة باللغة العربية لشرح أحرف الكانا وقواعد المحادثة.", "https://www.nhk.or.jp/lesson/arabic/"),
+    ("languages", "اليابانية — Marugoto Online", "منهاج ياباني معتمد قائم على المعايير التعليمية الرسمية لمؤسسة اليابان.", "https://www.marugoto.org/"),
+    ("languages", "الصينية — Confucius Institute", "بوابة معهد كونفوشيوس العالمي لتعليم الماندرين والتحضير لاختبارات HSK.", "https://www.chinesecio.com/"),
+    ("languages", "الصينية — HelloChinese", "منهاج تأسيسي ممتاز للنطق الصوتي بالنغمات ورسم الرموز الصينية بدقة.", "https://www.hellochinese.cc/"),
+
+    # 2. العلوم والطب والبرمجة والأدب
+    ("library", "البرمجة — التوثيق الرسمي لـ Python", "دليل المطورين والتوثيق المكتمل لكل دوال ومكتبات بايثون القياسية.", "https://docs.python.org/3/"),
+    ("library", "البرمجة — MIT OpenCourseWare", "محاضرات ومناهج علوم الحاسب والذكاء الاصطناعي المجانية من جامعة MIT.", "https://ocw.mit.edu/"),
+    ("library", "البرمجة — Harvard CS50", "المساق العالمي الأشهر لتعلم أساسيات علوم الحاسب والتفكير البرمجي.", "https://cs50.harvard.edu/x/"),
     ("library", "الأحياء — OpenStax Biology", "مرجع جامعي أمريكي معتمد ومفتوح لعلوم الأحياء والوراثة وعلم الخلية.", "https://openstax.org/details/books/biology-2e"),
-    ("library", "الأحياء — NCBI Bookshelf", "مكتبة أبحاث وكتب الطب الحيوي من المعهد الوطني للصحة الأمريكي.", "https://www.ncbi.nlm.nih.gov/books/"),
+    ("library", "الأحياء — NCBI Bookshelf", "المكتبة الوطنية الأمريكية للطب والتقنية الحيوية والأبحاث الجينية.", "https://www.ncbi.nlm.nih.gov/books/"),
     ("library", "الطب والصحة — MedlinePlus", "موسوعة طبية تثقيفية موثوقة للأمراض وعلم وظائف الأعضاء والأدوية.", "https://medlineplus.gov/"),
     ("library", "العلوم — PhET Interactive Simulations", "محاكاة تفاعلية لتجارب الفيزياء، الكيمياء، والأحياء من جامعة كولورادو.", "https://phet.colorado.edu/"),
     ("library", "الأدب — Project Gutenberg", "أكبر مستودع رقمي مجاني لأمهات الكتب والروايات العالمية الكلاسيكية.", "https://www.gutenberg.org/"),
     ("library", "الفلسفة — Stanford Encyclopedia of Philosophy", "أشمل مرجع أكاديمي مفتوح ومحكم في الفلسفة والفكر الإنساني.", "https://plato.stanford.edu/"),
-    # السيرة النبوية
+    ("library", "الأبحاث — Google Scholar", "محرك البحث الأكاديمي الشامل عن الأوراق العلمية والرسائل الجامعية.", "https://scholar.google.com/"),
+
+    # 3. السيرة النبوية والمراجع الإسلامية
     ("seerah", "الرحيق المختوم — صفي الرحمن المباركفوري", "الكتاب الحائز على الجائزة الأولى في مسابقة السيرة النبوية العالمية.", "https://sunnah.com/"),
     ("seerah", "السيرة النبوية — ابن هشام", "المرجع التاريخي والوثائقي الأقدم والأشمل في تدوين وقائع السيرة العطرة.", "https://shamela.ws/"),
     ("seerah", "زاد المعاد في هدي خير العباد — ابن القيم", "مرجع فريد يستعرض فقه السيرة وهديه ﷺ في سائر شؤون الحياة.", "https://shamela.ws/"),
+    ("seerah", "فقه السيرة — د. محمد سعيد رمضان البوطي", "تحليل منهجي ودروس وعبر مستفادة من وقائع السيرة النبوية الشريفة.", "https://shamela.ws/"),
+    ("seerah", "موسوعة الدرر السنية — السيرة والحديث", "أشمل بوابة إلكترونية موثقة لتخريج الأحاديث وقراءة أحداث السيرة.", "https://dorar.net/"),
 ]
 
 SEED_AZKAR = [
@@ -175,7 +180,7 @@ QUIZ_BANK = [
     ("ما هي لغة البرمجة التي طورها 'خايدو فان روسم' في أوائل التسعينات؟", ["جافا", "بايثون (Python)", "سي بلس بلس", "روبي"], 1, "طوّر غايدو فان روسوم لغة بايثون لتكون قوية وواضحة وسهلة القراءة."),
 ]
 
-# -------------------- قاعدة البيانات --------------------
+# -------------------- قاعدة البيانات وتحديثها الإجباري --------------------
 
 def db():
     connection = sqlite3.connect(DB_PATH)
@@ -193,14 +198,16 @@ def init_db():
         CREATE TABLE IF NOT EXISTS materials(
             id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL,
             title TEXT NOT NULL, body TEXT DEFAULT '', url TEXT DEFAULT '',
-            file_id TEXT DEFAULT '', file_type TEXT DEFAULT '', created_at INTEGER
+            file_id TEXT DEFAULT '', file_type TEXT DEFAULT '', created_at INTEGER,
+            UNIQUE(category, title)
         );
         CREATE TABLE IF NOT EXISTS favorites(
             user_id INTEGER, item_type TEXT, item_id TEXT, title TEXT DEFAULT '',
             PRIMARY KEY(user_id, item_type, item_id)
         );
         CREATE TABLE IF NOT EXISTS azkar(
-            id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, text TEXT
+            id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, text TEXT,
+            UNIQUE(category, text)
         );
         CREATE TABLE IF NOT EXISTS tasbeeh(
             user_id INTEGER PRIMARY KEY, preset_index INTEGER DEFAULT 0, count INTEGER DEFAULT 0
@@ -217,14 +224,23 @@ def init_db():
         );
         """)
 
-        if con.execute("SELECT COUNT(*) FROM materials").fetchone()[0] == 0:
-            now = int(time.time())
-            con.executemany(
-                "INSERT INTO materials(category,title,body,url,created_at) VALUES(?,?,?,?,?)",
-                [(c, t, b, u, now) for c, t, b, u in SEED_MATERIALS],
+        # إدراج وتحديث كل المواد والروابط بشكل إجباري لضمان عدم وجود نقص
+        now = int(time.time())
+        for cat, title, body, url in FULL_MATERIALS:
+            con.execute(
+                """INSERT INTO materials(category, title, body, url, created_at)
+                   VALUES(?,?,?,?,?)
+                   ON CONFLICT(category, title) DO UPDATE SET
+                   body=excluded.body, url=excluded.url""",
+                (cat, title, body, url, now)
             )
-        if con.execute("SELECT COUNT(*) FROM azkar").fetchone()[0] == 0:
-            con.executemany("INSERT INTO azkar(category,text) VALUES(?,?)", SEED_AZKAR)
+
+        for cat, txt in SEED_AZKAR:
+            con.execute(
+                """INSERT INTO azkar(category, text) VALUES(?,?)
+                   ON CONFLICT(category, text) DO NOTHING""",
+                (cat, txt)
+            )
 
         defaults = {
             "maintenance": "0",
@@ -252,15 +268,6 @@ def set_setting(key, value):
 
 def is_admin(user_id):
     return user_id in ADMIN_IDS
-
-
-def hit(category):
-    with db() as con:
-        con.execute(
-            "INSERT INTO visits(category,count) VALUES(?,1) "
-            "ON CONFLICT(category) DO UPDATE SET count=count+1",
-            (category,),
-        )
 
 
 def register_user(user):
@@ -299,7 +306,7 @@ def sub_required_markup():
     ])
 
 
-# -------------------- القوائم والواجهات --------------------
+# -------------------- القائمة الرئيسية --------------------
 
 def main_menu():
     buttons = [
@@ -355,7 +362,7 @@ def page_keyboard(prefix, page, total):
     return [nav, [InlineKeyboardButton("🏠 العودة للقائمة", callback_data="home")]]
 
 
-# -------------------- قسم القرآن الكريم الصوتي المضمون --------------------
+# -------------------- قسم القرآن الكريم (فوري وعملي 100%) --------------------
 
 async def show_quran(query, page):
     total = len(SURAHS)
@@ -370,7 +377,7 @@ async def show_quran(query, page):
     rows.extend(page_keyboard("q", page, total))
     await query.edit_message_text(
         "📖 <b>فهرس سور القرآن الكريم (114 سورة كاملة)</b>\n"
-        "اضغطوا على أي سورة للاستماع الفوري إليها أو حفظها للمفضلة:",
+        "اضغطوا على أي سورة للاستماع الفوري إليها أو فتح المصحف الشريف:",
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(rows),
     )
@@ -378,40 +385,33 @@ async def show_quran(query, page):
 
 async def send_surah_audio(query, number, context):
     ar_name, verses = SURAHS[number - 1]
-    await query.answer(f"جارٍ إرسال تلاوة سورة {ar_name}…")
+    await query.answer(f"جارٍ فتح سورة {ar_name}…")
     
-    # رابطان معتمدان فائقان في السرعة
-    primary_url = f"https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/{number}.mp3"
+    # روابط مباشرة ومعتمدة وموثوقة
+    audio_direct_url = f"https://server8.mp3quran.net/afs/{number:03d}.mp3"
     quran_reader_url = f"https://quran.com/{number}"
 
-    caption = (
-        f"📖 <b>سورة {html.escape(ar_name)}</b>\n"
-        f"• عدد الآيات: {verses} آية\n"
-        f"• القارئ: مشاري بن راشد العفاسي 🎧\n\n"
-        f"🔗 <a href='{quran_reader_url}'>اضغطوا هنا لقراءة السورة بالرسم العثماني المعتمد</a>"
+    msg_text = (
+        f"📖 <b>سورة {html.escape(ar_name)}</b>\n\n"
+        f"• ترتيب السورة: <b>{number}</b> من 114\n"
+        f"• عدد الآيات: <b>{verses}</b> آية كريمة\n"
+        f"• القارئ المعتمد: <b>الشيخ مشاري بن راشد العفاسي</b> 🎧\n\n"
+        f"👇 <i>يمكنكم الاستماع الفوري السريع أو القراءة بالرسم العثماني عبر الأزرار:</i>"
     )
-    
-    try:
-        await context.bot.send_audio(
-            chat_id=query.message.chat_id,
-            audio=primary_url,
-            title=f"سورة {ar_name}",
-            performer="مشاري العفاسي",
-            caption=caption,
-            parse_mode="HTML",
-        )
-    except Exception as e:
-        log.error(f"Error sending audio: {e}")
-        # سيرفر إضافي احتياطي مباشر
-        backup_url = f"https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/{number:03d}.mp3"
-        await context.bot.send_audio(
-            chat_id=query.message.chat_id,
-            audio=backup_url,
-            title=f"سورة {ar_name}",
-            performer="مشاري العفاسي",
-            caption=caption,
-            parse_mode="HTML",
-        )
+
+    kb = InlineKeyboardMarkup([
+        [InlineKeyboardButton("🎧 استماع فوري عالي النقاء", url=audio_direct_url)],
+        [InlineKeyboardButton("📖 قراءة السورة في المصحف الشريف", url=quran_reader_url)],
+        [InlineKeyboardButton("⭐ حفظ السورة في المفضلة", callback_data=f"favadd:s:{number}:{ar_name}")],
+        [InlineKeyboardButton("↩️ العودة لفهرس السور", callback_data="q:0")],
+    ])
+
+    await query.message.reply_text(
+        msg_text,
+        parse_mode="HTML",
+        reply_markup=kb,
+        disable_web_page_preview=False,
+    )
 
 
 # -------------------- قسم الأذكار والسبحة الرقمية --------------------
@@ -486,7 +486,7 @@ async def show_tasbeeh(query, user_id):
     )
 
 
-# -------------------- قسم خدمات التصميم المحدث --------------------
+# -------------------- قسم خدمات التصميم --------------------
 
 def design_menu():
     rows = [
@@ -515,7 +515,7 @@ async def show_design(query):
     await query.edit_message_text(text, parse_mode="HTML", reply_markup=design_menu())
 
 
-# -------------------- قسم الاقتباسات ودرر الفلسفة --------------------
+# -------------------- قسم الاقتباسات --------------------
 
 async def show_quotes(query):
     idx = random.randint(0, len(QUOTES) - 1)
@@ -535,7 +535,7 @@ async def show_quotes(query):
     )
 
 
-# -------------------- قسم المكتبة والمراجع --------------------
+# -------------------- قسم المكتبة والمعارف والروابط --------------------
 
 async def show_categories(query):
     rows = [
@@ -545,32 +545,33 @@ async def show_categories(query):
         [InlineKeyboardButton("🏠 العودة للقائمة", callback_data="home")],
     ]
     await query.edit_message_text(
-        "📚 <b>مكتبة المعارف الرقمية</b>\nاختاروا الباب العلمي المطلوب:",
+        "📚 <b>مكتبة المعارف الرقمية</b>\nاختاروا الباب العلمي المطلوب لتصفح مرافقه وروابطه المعتمدة:",
         reply_markup=InlineKeyboardMarkup(rows),
     )
 
 
 async def show_materials(query, category, page):
     with db() as con:
-        items = con.execute("SELECT * FROM materials WHERE category=? ORDER BY id DESC", (category,)).fetchall()
+        items = con.execute("SELECT * FROM materials WHERE category=? ORDER BY id ASC", (category,)).fetchall()
     
     titles = {
-        "languages": "بوابات اللغات الست المعتمدة",
-        "library": "المراجع العلمية والبرمجية والأدب",
-        "seerah": "السيرة النبوية والتاريخ العطر",
+        "languages": "بوابات ومراجع اللغات الست",
+        "library": "المراجع العلمية والبرمجية والطبية",
+        "seerah": "السيرة النبوية والتاريخ الإسلامي",
     }
     
     rows = []
     slice_items = items[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
     for item in slice_items:
-        clean_title = item["title"][:40]
+        clean_title = item["title"][:42]
         rows.append([
             InlineKeyboardButton(clean_title, callback_data=f"mat:{item['id']}"),
             InlineKeyboardButton("⭐", callback_data=f"favadd:m:{item['id']}:{clean_title}"),
         ])
     rows.extend(page_keyboard(f"m:{category}", page, len(items)))
     await query.edit_message_text(
-        f"📚 <b>{html.escape(titles.get(category, category))}</b>",
+        f"📚 <b>{html.escape(titles.get(category, category))}</b>\n\n"
+        f"اضغطوا على اسم المرجع لفتحه والحصول على الرابط المباشر:",
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(rows),
     )
@@ -630,7 +631,7 @@ async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "🛡️ <b>لوحة القيادة والتحكم الشاملة — Dua Space</b>\n\n"
         "أهلاً بكم في مركز إدارة البوت ومحتواه بالكامل:\n\n"
         "<b>أوامر الإدارة المباشرة:</b>\n"
-        "• <code>/addmaterial القسم|العنوان</code> — ثم أرسلوا نصاً أو ملف PDF/صوت/صورة.\n"
+        "• <code>/addmaterial القسم|العنوان</code> — ثم أرسلوا نصاً أو رابطاً أو ملفاً.\n"
         "• <code>/delmaterial الرقم</code> — لحذف مادة من المكتبة.\n"
         "• <code>/addzekr القسم|النص</code> — لإضافة ذكر جديد.\n"
         "• <code>/delzekr الرقم</code> — لحذف ذكر.\n"
@@ -649,7 +650,6 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = (update.message.text or "").strip()
     state = context.user_data.get("state")
 
-    # البحث السريع
     if state == "search":
         context.user_data.pop("state", None)
         query = text.strip()
@@ -669,7 +669,6 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"🔎 <b>نتائج البحث عن:</b> {html.escape(query)}\n\n{reply_msg}", parse_mode="HTML")
         return
 
-    # استلام تفاصيل التصميم
     if state == "design_order":
         category = context.user_data.pop("design_type", "تصميم عام")
         context.user_data.pop("state", None)
@@ -689,7 +688,6 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("✅ استلمنا تفاصيل طلبكم بنجاح! سيتم التواصل معكم قريباً لمناقشة التفاصيل والاتفاق 🌿")
         return
 
-    # تذاكر الدعم
     if state == "support":
         context.user_data.pop("state", None)
         with db() as con:
@@ -709,7 +707,6 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"تم إرسال رسالتكم للإدارة بنجاح. رقم تذكرتكم: #{ticket_id}")
         return
 
-    # إضافة مادة كأدمن
     if state == "admin_upload" and is_admin(user.id):
         cat, title = context.user_data.get("upload_meta", ("library", "مادة جديدة"))
         is_url = text.startswith(("http://", "https://"))
@@ -783,7 +780,6 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data.startswith("qr:"):
         await send_surah_audio(query, int(data.split(":")[1]), context)
     elif data == "azkar":
-        hit("azkar")
         await show_azkar_menu(query)
     elif data.startswith("az:"):
         await show_azkar_content(query, data.split(":", 1)[1])
@@ -814,7 +810,6 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "quotes" or data == "quotes:next":
         await show_quotes(query)
     elif data == "cats":
-        hit("library")
         await show_categories(query)
     elif data.startswith("m:"):
         parts = data.split(":")
@@ -826,9 +821,18 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not item:
             await query.message.reply_text("المادة غير متوفرة.")
             return
-        caption = f"📚 <b>{html.escape(item['title'])}</b>\n\n{html.escape(item['body'] or '')}"
+
+        detail_text = (
+            f"📚 <b>{html.escape(item['title'])}</b>\n\n"
+            f"<b>نبذة عن المصدر:</b>\n{html.escape(item['body'] or 'مصدر تعليمي معتمد.')}\n\n"
+        )
+        buttons = []
         if item["url"]:
-            caption += f"\n\n🔗 {html.escape(item['url'])}"
+            buttons.append([InlineKeyboardButton("🌐 فتح الرابط المباشر للموقع", url=item["url"])])
+        
+        buttons.append([InlineKeyboardButton("⭐ حفظ للمفضلة", callback_data=f"favadd:m:{item_id}:{item['title'][:30]}")])
+        buttons.append([InlineKeyboardButton("↩️ رجوع للقسم", callback_data=f"m:{item['category']}:0")])
+
         if item["file_id"]:
             m_funcs = {
                 "document": context.bot.send_document,
@@ -838,14 +842,12 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             }
             fn = m_funcs.get(item["file_type"], context.bot.send_document)
             await fn(query.message.chat_id, item["file_id"], caption=item["title"])
+
         await query.message.reply_text(
-            caption,
+            detail_text,
             parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("⭐ حفظ للمفضلة", callback_data=f"favadd:m:{item_id}:{item['title'][:30]}")],
-                [InlineKeyboardButton("↩️ رجوع", callback_data=f"m:{item['category']}:0")],
-            ]),
-            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            disable_web_page_preview=False,
         )
     elif data.startswith("favadd:"):
         parts = data.split(":", 3)
@@ -898,7 +900,6 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text(f"بدأ مؤقت التركيز لمدة {mins} دقيقة! أبعدوا المشتتات وبالتوفيق في دراستكم 🌿")
         else:
             await query.message.reply_text(f"تم ضبط المنبه التقديري لجلسة {mins} دقيقة.")
-    # لوحة الأدمن
     elif data.startswith("admin:") and is_admin(user_id):
         act = data.split(":")[1]
         if act == "stats":
@@ -1077,7 +1078,7 @@ async def run():
 
     app = Application.builder().token(BOT_TOKEN).build()
 
-    # أوامر الإدارة الأساسية
+    # ربط المعالجات والأوامر
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("admin", admin_command))
     app.add_handler(CommandHandler("addmaterial", add_material_cmd))
@@ -1089,7 +1090,6 @@ async def run():
     app.add_handler(CommandHandler("reply", reply_cmd))
     app.add_handler(CommandHandler("backup", backup_cmd))
 
-    # التفاعلات والرسائل
     app.add_handler(CallbackQueryHandler(callback))
     app.add_handler(MessageHandler(filters.PHOTO | filters.VIDEO | filters.AUDIO | filters.Document.ALL, on_media))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, on_text))
