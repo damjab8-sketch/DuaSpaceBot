@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Dua Space Engine - Ultimate Multi-Language & Fully Managed Edition
+# Dua Space Bot - Stable, Clean & Fully Managed Edition
 # Python 3.11+ | PTB 21.10 | Render Free Compatible
 
 import os
@@ -26,7 +26,7 @@ from telegram.ext import (
     filters,
 )
 
-# الآيدي الخاص بكِ مثبت مباشرة لضمان الصلاحيات الإدارية المطلقة
+# تثبيت معرّف الإدارة لضمان الصلاحيات
 HARDCODED_ADMIN = 8669779200
 BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 
@@ -38,7 +38,7 @@ except ValueError:
 ADMIN_ID = ENV_ADMIN if ENV_ADMIN != 0 else HARDCODED_ADMIN
 CHANNEL_ID = os.getenv("CHANNEL_ID", "@DuaSpace1").strip()
 CHANNEL_URL = "https://t.me/DuaSpace1"
-DATABASE_PATH = os.getenv("DATABASE_PATH", "dua_space.db")
+DATABASE_PATH = os.getenv("DATABASE_PATH", "dua_space_v2.db")
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
@@ -46,9 +46,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger("DuaSpace")
 
-# ==================================================
-# قاعدة البيانات والزرع التلقائي للبيانات المتكاملة
-# ==================================================
+# ==========================================
+# قاعدة البيانات والتهيئة التلقائية للأقسام
+# ==========================================
 
 def db_connect():
     conn = sqlite3.connect(DATABASE_PATH, timeout=30)
@@ -66,7 +66,7 @@ def init_database():
             user_id INTEGER PRIMARY KEY,
             username TEXT DEFAULT '',
             full_name TEXT DEFAULT '',
-            language TEXT DEFAULT 'ar',
+            lang TEXT DEFAULT 'ar',
             joined_at TEXT NOT NULL,
             last_seen TEXT NOT NULL
         );
@@ -78,20 +78,16 @@ def init_database():
 
         CREATE TABLE IF NOT EXISTS categories (
             category_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name_ar TEXT NOT NULL,
-            name_en TEXT NOT NULL,
-            description_ar TEXT DEFAULT '',
-            description_en TEXT DEFAULT '',
+            name TEXT NOT NULL UNIQUE,
+            description TEXT DEFAULT '',
             position INTEGER DEFAULT 0
         );
 
         CREATE TABLE IF NOT EXISTS books (
             book_id INTEGER PRIMARY KEY AUTOINCREMENT,
             category_id INTEGER,
-            title_ar TEXT NOT NULL,
-            title_en TEXT NOT NULL,
-            description_ar TEXT DEFAULT '',
-            description_en TEXT DEFAULT '',
+            title TEXT NOT NULL,
+            description TEXT DEFAULT '',
             url TEXT DEFAULT '',
             file_id TEXT DEFAULT '',
             media_type TEXT DEFAULT 'text',
@@ -101,10 +97,8 @@ def init_database():
 
         CREATE TABLE IF NOT EXISTS designs (
             design_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title_ar TEXT NOT NULL,
-            title_en TEXT NOT NULL,
-            description_ar TEXT DEFAULT '',
-            description_en TEXT DEFAULT ''
+            title TEXT NOT NULL,
+            description TEXT DEFAULT ''
         );
 
         CREATE TABLE IF NOT EXISTS adhkar (
@@ -116,15 +110,13 @@ def init_database():
 
         CREATE TABLE IF NOT EXISTS quiz (
             quiz_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            question_ar TEXT NOT NULL,
-            question_en TEXT NOT NULL,
+            question TEXT NOT NULL,
             opt1 TEXT NOT NULL,
             opt2 TEXT NOT NULL,
             opt3 TEXT NOT NULL,
             opt4 TEXT NOT NULL,
             answer INTEGER NOT NULL,
-            explanation_ar TEXT NOT NULL,
-            explanation_en TEXT NOT NULL
+            explanation TEXT NOT NULL
         );
 
         CREATE TABLE IF NOT EXISTS tickets (
@@ -148,97 +140,88 @@ def init_database():
             "maintenance": "0",
             "force_subscription": "1",
             "welcome_ar": "أهلًا بكِ في Dua Space 🌙\n\nمساحتكِ المعرفية المتكاملة للتعلم، اللغات، الكتب، وخدمات التصميم الرقمي.",
-            "welcome_en": "Welcome to Dua Space 🌙\n\nYour comprehensive space for learning, languages, books, and creative design services.",
-            "design_intro_ar": "🎨 **خدمات التصميم الاحترافي من Dua Space:**\nنقدم تصاميم إبداعية عالية الدقة والاحترافية. يتم تحديد السعر والتفاصيل بالاتفاق المباشر وفق متطلباتكِ المحددة.",
-            "design_intro_en": "🎨 **Creative Design Services by Dua Space:**\nWe provide high-quality custom graphic designs. Pricing and specifications are tailored directly to your project needs.",
+            "welcome_en": "Welcome to Dua Space 🌙\n\nYour digital space for knowledge, books, languages, and custom design services.",
+            "design_intro": "🎨 **خدمات التصميم الرقمي من Dua Space:**\nنقدم تصاميم إبداعية مخصصة باحترافية عالية. تحديد المواصفات والأسعار يتم بالاتفاق المباشر وفق متطلباتكِ.",
         }
         for k, v in defaults.items():
             db.execute("INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", (k, v))
 
-        # زرع أقسام المكتبة المعرفية مع 6 لغات أساسية
+        # زرع أقسام المكتبة المعرفية
         default_cats = [
-            ("إسلاميات وعلوم دينية", "Islamic Studies", "المصاحف، التفسير، الحديث النبوي، والفقه", "Quran, Hadith, Tafsir and Islamic Jurisprudence", 1),
-            ("الطب والعلوم الصحية", "Medicine & Health", "مراجع التشريح، وظائف الأعضاء، وعلم الأحياء", "Anatomy, Physiology, Biology, and Medical Resources", 2),
-            ("تعلّم اللغات (6 لغات)", "Language Learning", "العربية، الإنجليزية، التركية، الكورية، اليابانية، والصينية", "Arabic, English, Turkish, Korean, Japanese, Chinese", 3),
-            ("الهندسة والتقنية", "Engineering & Tech", "البرمجة، الخوارزميات، والذكاء الاصطناعي", "Programming, Algorithms, AI, and Software Engineering", 4),
-            ("الأدب والروايات وتطوير الذات", "Literature & Self-Dev", "روائع الأدب العالمي، بناء العادات، والفلسفة", "Global Literature, Habit Building, and Personal Growth", 5),
+            ("إسلاميات", "المصاحف، التفسير، الحديث الشريف، والفقه الميسر", 1),
+            ("الطب والعلوم الصحية", "علم الأحياء، وظائف الأعضاء، والمراجع الطبية العالمية", 2),
+            ("تعلّم اللغات (6 لغات)", "العربية، الإنجليزية، التركية، الكورية، اليابانية، والصينية", 3),
+            ("الهندسة والتقنية", "البرمجة، هياكل البيانات، ومصادر علوم الحاسوب المفتوحة", 4),
+            ("الأدب والروايات وتطوير الذات", "أمهات الكتب الأدبية، الفلسفة، وبناء العادات", 5),
         ]
-        for c_ar, c_en, d_ar, d_en, pos in default_cats:
-            row = db.execute("SELECT category_id FROM categories WHERE name_ar = ?", (c_ar,)).fetchone()
+        for cname, cdesc, pos in default_cats:
+            row = db.execute("SELECT category_id FROM categories WHERE name = ?", (cname,)).fetchone()
             if not row:
-                db.execute("INSERT INTO categories (name_ar, name_en, description_ar, description_en, position) VALUES (?, ?, ?, ?, ?)",
-                           (c_ar, c_en, d_ar, d_en, pos))
+                db.execute("INSERT INTO categories (name, description, position) VALUES (?, ?, ?)", (cname, cdesc, pos))
 
-        # كتب ومراجع حقيقية ومصادر عالمية مباشرة (بدون روابط داخلية)
+        # زرع مراجع مفتوحة ومباشرة لكل قسم
         books_seed = [
-            # إسلاميات
-            ("إسلاميات وعلوم دينية", "المصحف الشريف والتفاسير (مجمع الملك فهد)", "The Holy Quran & Tafsir", "تصفح وتحميل القرآن الكريم وتفاسيره المعتمدة", "King Fahd Complex Digital Quran", "https://qurancomplex.gov.sa/"),
-            ("إسلاميات وعلوم دينية", "جامع صحيح البخاري وصحيح مسلم", "Sahih al-Bukhari & Muslim", "متون الحديث الصحيحة مع الشرح والتخريج", "Authentic Hadith Collections", "https://sunnah.com/"),
-            # الطب والعلوم
-            ("الطب والعلوم الصحية", "المكتبة الطبية الوطنية العالمية (PubMed)", "National Library of Medicine", "أكبر قاعدة أبحاث ومراجع طبية مجانية في العالم", "Global Biomedical Research Database", "https://pubmed.ncbi.nlm.nih.gov/"),
-            ("الطب والعلوم الصحية", "أطلس تشريح جسم الإنسان (OpenStax)", "Anatomy & Physiology Textbook", "كتاب منهجي مفتوح المصدر في تشريح ووظائف الأعضاء", "Peer-reviewed OpenStax Textbook", "https://openstax.org/details/books/anatomy-and-physiology-2e"),
-            # اللغات الستة
-            ("تعلّم اللغات (6 لغات)", "اللغة العربية: المعاجم وعلوم النحو (الباحث العربي)", "Arabic Lexicons & Grammar", "معاجم لسان العرب والقاموس المحيط وقواعد الفصحى", "Comprehensive Arabic Dictionaries", "https://baheth.net/"),
-            ("تعلّم اللغات (6 لغات)", "English: Oxford Open Learning & Grammar Guide", "English Grammar & Vocabulary", "دليل أوكسفورد الشامل لقواعد الإنجليزية وبناء المفردات", "Comprehensive Grammar Reference", "https://www.oxfordlearnersdictionaries.com/"),
-            ("تعلّم اللغات (6 لغات)", "Türkçe: Yunus Emre Enstitüsü Türkçe Öğrenim", "Turkish Language Portal", "المنهج التركي الرسمي لتعلم اللغة التركية من الصفر", "Official Turkish Learning Resources", "https://turkce.yee.org.tr/"),
-            ("تعلّم اللغات (6 لغات)", "한국어: National Institute of Korean Language (K-Learners)", "Korean Study Guide", "المعهد الوطني للغة الكورية وقواعد الهانغول للمبتدئين", "Official Korean Language Resources", "https://www.korean.go.kr/"),
-            ("تعلّم اللغات (6 لغات)", "日本語: Japan Foundation Japanese-Language Guide", "Japanese Learning Portal", "مؤسسة اليابان الرسمية لتعلم الهيراغانا والكانجي والمحادثة", "Official Japan Foundation Resources", "https://www.jpf.go.jp/"),
-            ("تعلّم اللغات (6 لغات)", "中文: Chinese Grammar Wiki & Hanzi Guide", "Mandarin Chinese Wiki", "مرجع قواعد لغة الماندرين وكتابة الرموز الصينية", "Mandarin Grammar & Stroke Order Portal", "https://resources.allsetlearning.com/chinese/grammar/"),
-            # الهندسة
-            ("الهندسة والتقنية", "بايثون الرسمية: توثيق ودروس المبتدئين", "Python Official Documentation", "المرجع الشامل للغة بايثون والمكتبات القياسية", "Official Python 3 Docs & Tutorials", "https://docs.python.org/3/tutorial/"),
-            ("الهندسة والتقنية", "MIT OpenCourseWare: علوم الحاسوب والبرمجة", "MIT Computer Science Portal", "محاضرات ومراجع معهد ماساتشوستس للتقنية مجاناً", "Free MIT Course Materials", "https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/"),
-            # الأدب وتطوير الذات
-            ("الأدب والروايات وتطوير الذات", "مكتبة غوتنبرغ العالمية (Project Gutenberg)", "Project Gutenberg Global Classics", "أكثر من 70 ألف كتاب ورواية كلاسيكية عالمية مجانية", "Free Classic World eBooks", "https://www.gutenberg.org/"),
-            ("الأدب والروايات وتطوير الذات", "مكتبة هنداوي المفتوحة (روايات وفلسفة)", "Hindawi Digital Library", "آلاف الروايات العربية والمترجمة وكتب تطوير الشخصية", "Free Arabic & Translated eBooks", "https://www.hindawi.org/books/"),
+            ("إسلاميات", "المصحف الشريف وتفاسيره المعتمدة", "مجمع الملك فهد لطباعة المصحف الشريف الرقمي", "https://qurancomplex.gov.sa/"),
+            ("إسلاميات", "جامع كتب الحديث (صحيح البخاري ومسلم)", "محرك البحث المتخصص في متون الحديث والتخريج", "https://sunnah.com/"),
+            ("الطب والعلوم الصحية", "المكتبة الوطنية الأمريكية للطب (PubMed)", "أكبر قاعدة مراجع وأبحاث طبية مجانية في العالم", "https://pubmed.ncbi.nlm.nih.gov/"),
+            ("الطب والعلوم الصحية", "كتاب تشريح ووظائف الأعضاء (OpenStax)", "كتاب علمي منهجي مفتوح المصدر ومحكّم", "https://openstax.org/details/books/anatomy-and-physiology-2e"),
+            ("تعلّم اللغات (6 لغات)", "اللغة العربية: المعاجم ولسان العرب (الباحث)", "معجم عربي متكامل للبحث في المعاجم وقواعد النحو", "https://baheth.net/"),
+            ("تعلّم اللغات (6 لغات)", "English: Oxford Learner's Grammar Portal", "دليل أوكسفورد الشامل لقواعد الإنجليزية وبناء المفردات", "https://www.oxfordlearnersdictionaries.com/"),
+            ("تعلّم اللغات (6 لغات)", "Türkçe: Yunus Emre Enstitüsü Türkçe Öğrenim", "المنهج التركي الرسمي لتعلم اللغة التركية من الصفر", "https://turkce.yee.org.tr/"),
+            ("تعلّم اللغات (6 لغات)", "한국어: المعهد الوطني للغة الكورية (K-Learners)", "المنهج الأساسي الرسمي لتعلم الهانغول الكوري", "https://www.korean.go.kr/"),
+            ("تعلّم اللغات (6 لغات)", "日本語: Japan Foundation Learning Resources", "بوابة مؤسسة اليابان الرسمية لتعلم الهيراغانا والكانجي", "https://www.jpf.go.jp/"),
+            ("تعلّم اللغات (6 لغات)", "中文: Chinese Grammar Wiki & Hanzi Guide", "المرجع الشامل لقواعد الماندرين وكتابة المقاطع الصينية", "https://resources.allsetlearning.com/chinese/grammar/"),
+            ("الهندسة والتقنية", "بايثون الرسمية: دليل المبتدئين وهياكل البيانات", "التوثيق الرسمي الكامل للغة بايثون والمكتبات القياسية", "https://docs.python.org/3/tutorial/"),
+            ("الهندسة والتقنية", "MIT OpenCourseWare: علوم الحاسوب والبرمجة", "المناهج والمحاضرات المفتوحة من معهد ماساتشوستس للتقنية", "https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/"),
+            ("الأدب والروايات وتطوير الذات", "مكتبة غوتنبرغ العالمية (Project Gutenberg)", "أكثر من 70 ألف كتاب ورواية كلاسيكية مجانية وقانونية", "https://www.gutenberg.org/"),
+            ("الأدب والروايات وتطوير الذات", "مؤسسة هنداوي: كتب الأدب وتطوير الشخصية", "مكتبة إلكترونية للروايات العالمية وكتب الفكر المترجمة", "https://www.hindawi.org/books/"),
         ]
-        for cat_ar, t_ar, t_en, d_ar, d_en, url in books_seed:
-            row = db.execute("SELECT category_id FROM categories WHERE name_ar = ?", (cat_ar,)).fetchone()
+        for cname, title, desc, url in books_seed:
+            row = db.execute("SELECT category_id FROM categories WHERE name = ?", (cname,)).fetchone()
             if row:
                 cid = row["category_id"]
-                exists = db.execute("SELECT 1 FROM books WHERE title_ar = ?", (t_ar,)).fetchone()
+                exists = db.execute("SELECT 1 FROM books WHERE title = ?", (title,)).fetchone()
                 if not exists:
-                    db.execute("INSERT INTO books (category_id, title_ar, title_en, description_ar, description_en, url, added_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                               (cid, t_ar, t_en, d_ar, d_en, url, now_text()))
+                    db.execute("INSERT INTO books (category_id, title, description, url, added_at) VALUES (?, ?, ?, ?, ?)",
+                               (cid, title, desc, url, now_text()))
 
-        # خدمات التصميم (بدون أسعار محددة مسبقاً)
-        design_services = [
-            ("تصميم الهويات البصرية والشعارات", "Brand Identity & Logo Design", "ابتكار شعارات احترافية، اختيار الألوان، وتصميم كتيب الهوية الكامل", "Custom logos, color schemes, and full corporate branding identity"),
-            ("تصاميم السوشيال ميديا والإعلانات", "Social Media & Ad Creative", "تصميم منشورات، بنرات، وقوالب إعلانية جذابة لمنصات التواصل", "High-conversion post graphics, covers, and promotional creative"),
-            ("تصميم أغلفة الكتب والمجلات", "Book & Publication Covers", "تصاميم أغلفة إبداعية جاهزة للطباعة والنشر الرقمي بجودة فائقة", "Striking front and back covers designed for print and digital publishing"),
-            ("تصميم العروض التقديمية والملفات التفاعلية", "Presentations & Pitch Decks", "تصميم شرائح PowerPoint و PDF تفاعلية للمشاريع والمحاضرات", "Professional, visually compelling slide decks and documents"),
-            ("تصميم بطاقات وتطبيقات المطبوعات", "Print & Stationery Materials", "تصميم كروت شخصية، فلايرات، بروشورات، ورول أب احترافي", "Business cards, flyers, brochures, and commercial print materials"),
+        # زرع خدمات التصميم (بدون أي أسعار مفروضة)
+        designs_seed = [
+            ("تصميم الهويات البصرية والشعارات الاحترافية", "شعار مخصص، اختيار الألوان والخطوط، وكتيب الهوية الكامل للعلامة."),
+            ("تصاميم السوشيال ميديا والإعلانات", "بوستات وقوالب مخصصة لانستغرام وتيليجرام بأعلى جودة وجاذبية."),
+            ("تصميم أغلفة الكتب والروايات", "تصميم متكامل للغلافين الأمامي والخلفي معدّ للطباعة والنشر الإلكتروني."),
+            ("تصميم العروض التقديمية (PowerPoint & PDF)", "شرائح تفاعلية وأنيقة للمحاضرات، المشاريع الدراسية، وحقائب الأعمال."),
+            ("تصميم الكروت والمطبوعات التجارية", "بطاقات شخصية، بروشورات، فلايرات، ولافتات إعلانية احترافية."),
         ]
-        for t_ar, t_en, d_ar, d_en in design_services:
-            exists = db.execute("SELECT 1 FROM designs WHERE title_ar = ?", (t_ar,)).fetchone()
+        for t, d in designs_seed:
+            exists = db.execute("SELECT 1 FROM designs WHERE title = ?", (t,)).fetchone()
             if not exists:
-                db.execute("INSERT INTO designs (title_ar, title_en, description_ar, description_en) VALUES (?, ?, ?, ?)",
-                           (t_ar, t_en, d_ar, d_en))
+                db.execute("INSERT INTO designs (title, description) VALUES (?, ?)", (t, d))
 
-        # باقة الأذكار
+        # أذكار
         adhkar_seed = [
             ("أذكار", "أَصْبَحْنَا وَأَصْبَحَ المُلْكُ لِلَّهِ، وَالحَمْدُ لِلَّهِ لا إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ.", "حفظ ونماء وطمأنينة اليوم وبركته"),
-            ("أذكار", "اللَّهُمَّ لا سَهْلَ إِلاَّ ما جَعَلْتَهُ سَهْلاً، وأَنْتَ تَجْعَلُ الحَزْنَ إِذَا شِئْتَ سَهْلاً.", "تيسير الحفظ والدراسة والأمور الصعبة"),
-            ("أذكار", "أَسْتَغْفِرُ اللَّهَ العَظِيمَ الَّذِي لا إِلَهَ إِلاَّ هُوَ الحَيُّ القَيُّومُ وَأَتُوبُ إِلَيْهِ.", "مغفرة الذنوب، سعة الرزق، وانشراح الصدر"),
-            ("أذكار", "لا حَوْلَ وَلا قُوَّةَ إِلاَّ بِاللَّهِ العَلِيِّ العَظِيمِ.", "كنز من كنوز الجنة ودفع للهم والحزن"),
-            ("أذكار", "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ العَظِيمِ.", "كلمتان خفيفتان على اللسان ثقيلتان في الميزان"),
+            ("أذكار", "اللَّهُمَّ لا سَهْلَ إِلاَّ ما جَعَلْتَهُ سَهْلاً، وأَنْتَ تَجْعَلُ الحَزْنَ إِذَا شِئْتَ سَهْلاً.", "تيسير المذاكرة والحفظ وتسهيل كل أمر عسير"),
+            ("أذكار", "أَسْتَغْفِرُ اللَّهَ العَظِيمَ الَّذِي لا إِلَهَ إِلاَّ هُوَ الحَيُّ القَيُّومُ وَأَتُوبُ إِلَيْهِ.", "مغفرة الذنوب وانشراح الصدر والسكينة"),
+            ("أذكار", "لا حَوْلَ وَلا قُوَّةَ إِلاَّ بِاللَّهِ العَلِيِّ العَظِيمِ.", "كنز من كنوز الجنة ودفع الهموم"),
         ]
         for c, t, r in adhkar_seed:
             exists = db.execute("SELECT 1 FROM adhkar WHERE text = ?", (t,)).fetchone()
             if not exists:
                 db.execute("INSERT INTO adhkar (category, text, reward) VALUES (?, ?, ?)", (c, t, r))
 
-        # بنك الأسئلة باللغتين
+        # أسئلة وتحديات
         quizzes = [
-            ("ما هو العضو الذي يضخ الدم لجميع أنحاء الجسم؟", "Which organ pumps blood throughout the human body?", "الرئة (Lung)", "القلب (Heart)", "الكبد (Liver)", "الكلى (Kidney)", 2, "القلب هو العضلة المركزية في جهاز الدوران.", "The heart is the central muscular organ of the circulatory system."),
-            ("كم عدد أركان الإسلام الأساسية؟", "How many are the fundamental Pillars of Islam?", "4", "5", "6", "7", 2, "بني الإسلام على خمس دعائم أساسية.", "Islam is founded upon five essential pillars."),
-            ("ما هي أصغر وحدة بنائية في الكائن الحي؟", "What is the basic structural unit of all living organisms?", "الخلية (Cell)", "الذرة (Atom)", "النسيج (Tissue)", "العضو (Organ)", 1, "الخلية هي الوحدة التركيبية والوظيفية الأساسية للحياة.", "The cell is the basic structural and functional unit of life."),
-            ("ما هو أكبر كواكب مجموعتنا الشمسية حجماً؟", "Which planet is the largest in our solar system?", "الأرض (Earth)", "زحل (Saturn)", "المشتري (Jupiter)", "المريخ (Mars)", 3, "كوكب المشتري هو الأكبر حجماً وكتلة في المجموعة الشمسية.", "Jupiter is by far the most massive and largest planet in the solar system."),
+            ("ما هو العضو الذي يضخ الدم لجميع أنحاء الجسم؟", "الرئة", "القلب", "الكبد", "الكلى", 2, "القلب هو المضخة المركزية لجهاز الدوران."),
+            ("كم عدد أركان الإسلام الأساسية؟", "4", "5", "6", "7", 2, "بني الإسلام على خمس دعائم أساسية."),
+            ("ما هي الوحدة الأساسية لبناء الكائنات الحية؟", "الخلية", "الذرة", "النسيج", "العضو", 1, "الخلية هي أصغر وحدة حية بنائية ووظيفية."),
+            ("ما هو أكبر كواكب مجموعتنا الشمسية حجماً؟", "الأرض", "زحل", "المشتري", "المريخ", 3, "المشتري هو الأكبر حجماً بين كافة كواكب المجموعة."),
         ]
-        for q_ar, q_en, o1, o2, o3, o4, ans, exp_ar, exp_en in quizzes:
-            exists = db.execute("SELECT 1 FROM quiz WHERE question_ar = ?", (q_ar,)).fetchone()
+        for q, o1, o2, o3, o4, ans, exp in quizzes:
+            exists = db.execute("SELECT 1 FROM quiz WHERE question = ?", (q,)).fetchone()
             if not exists:
-                db.execute("INSERT INTO quiz (question_ar, question_en, opt1, opt2, opt3, opt4, answer, explanation_ar, explanation_en) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                           (q_ar, q_en, o1, o2, o3, o4, ans, exp_ar, exp_en))
+                db.execute("INSERT INTO quiz (question, opt1, opt2, opt3, opt4, answer, explanation) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                           (q, o1, o2, o3, o4, ans, exp))
 
 def get_setting(key, default=""):
     with db_connect() as db:
@@ -249,18 +232,18 @@ def set_setting(key, value):
     with db_connect() as db:
         db.execute("INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value", (key, str(value)))
 
-def get_user_lang(user_id):
+def get_lang(uid):
     with db_connect() as db:
-        row = db.execute("SELECT language FROM users WHERE user_id = ?", (user_id,)).fetchone()
-    return row["language"] if row and row["language"] else "ar"
+        row = db.execute("SELECT lang FROM users WHERE user_id = ?", (uid,)).fetchone()
+    return row["lang"] if row and row["lang"] else "ar"
 
-def set_user_lang(user_id, lang):
+def set_lang(uid, lang):
     with db_connect() as db:
-        db.execute("UPDATE users SET language = ? WHERE user_id = ?", (lang, user_id))
+        db.execute("UPDATE users SET lang = ? WHERE user_id = ?", (lang, uid))
 
-# ==================================================
-# نظام الصلاحيات الإدارية المطلقة
-# ==================================================
+# ==========================================
+# الصلاحيات والتسجيل
+# ==========================================
 
 def is_owner(user_id: int) -> bool:
     return int(user_id) in (ADMIN_ID, HARDCODED_ADMIN)
@@ -273,7 +256,7 @@ def admin_only(func):
             if update.callback_query:
                 await update.callback_query.answer("⚠️ هذه اللوحة مخصصة لإدارة المنصة فقط.", show_alert=True)
             elif update.effective_message:
-                await update.effective_message.reply_text("⚠️ عذراً، هذا الأمر مخصص لمالكة المنصة فقط.")
+                await update.effective_message.reply_text("⚠️ هذا الأمر مخصص لمالكة المنصة فقط.")
             return
         return await func(update, context, *args, **kwargs)
     return wrapper
@@ -295,22 +278,22 @@ async def check_subscription(user_id: int, context: ContextTypes.DEFAULT_TYPE) -
     except Exception:
         return True
 
-# ==================================================
-# القوائم والواجهات متعددة اللغات
-# ==================================================
+# ==========================================
+# الواجهة الرئيسية للمستخدم
+# ==========================================
 
 def main_menu_keyboard(lang="ar"):
     if lang == "en":
         return InlineKeyboardMarkup([
             [InlineKeyboardButton("📚 Dua Space Library", callback_data="nav:library"), InlineKeyboardButton("🎨 Design Services", callback_data="nav:design")],
-            [InlineKeyboardButton("📿 Adhkar & Tasbeeh", callback_data="nav:adhkar"), InlineKeyboardButton("🧠 Quizzes & Trivia", callback_data="nav:quiz")],
+            [InlineKeyboardButton("📿 Adhkar & Tasbeeh", callback_data="nav:adhkar"), InlineKeyboardButton("🧠 Quiz & Trivia", callback_data="nav:quiz")],
             [InlineKeyboardButton("⏱️ Focus Timer (Pomodoro)", callback_data="nav:pomo"), InlineKeyboardButton("💬 Contact Support", callback_data="nav:support")],
             [InlineKeyboardButton("🌐 Language / اللغة", callback_data="nav:lang")],
         ])
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("📚 مكتبة Dua Space المعرفية", callback_data="nav:library"), InlineKeyboardButton("🎨 خدمات التصميم", callback_data="nav:design")],
         [InlineKeyboardButton("📿 الأذكار والسبحة الرقمية", callback_data="nav:adhkar"), InlineKeyboardButton("🧠 التحديات والمسابقات", callback_data="nav:quiz")],
-        [InlineKeyboardButton("⏱️ مؤقت التركيز (Pomodoro)", callback_data="nav:pomo"), InlineKeyboardButton("💬 تواصل مع الإدارة", callback_data="nav:support")],
+        [InlineKeyboardButton("⏱️ وقت التركيز (Pomodoro)", callback_data="nav:pomo"), InlineKeyboardButton("💬 تواصل مع الإدارة", callback_data="nav:support")],
         [InlineKeyboardButton("🌐 تغيير اللغة / Language", callback_data="nav:lang")],
     ])
 
@@ -321,7 +304,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     register_user(user)
-    lang = get_user_lang(user.id)
+    lang = get_lang(user.id)
 
     if get_setting("maintenance", "0") == "1" and not is_owner(user.id):
         txt = "🛠️ البوت حالياً في وضع التحديث والصيانة لتحسين التجربة. نعود إليكم بعد قليل!" if lang == "ar" else "🛠️ Dua Space is currently under maintenance. We will be back shortly!"
@@ -329,47 +312,42 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     if not await check_subscription(user.id, context):
-        if lang == "en":
-            kb = InlineKeyboardMarkup([
-                [InlineKeyboardButton("📢 Join our Official Channel", url=CHANNEL_URL)],
-                [InlineKeyboardButton("✅ Joined, Activate Bot", callback_data="nav:check_sub")]
-            ])
-            await msg.reply_text("Welcome to Dua Space 🌙\nPlease join our official channel to access all features:", reply_markup=kb)
-        else:
-            kb = InlineKeyboardMarkup([
-                [InlineKeyboardButton("📢 اشتركي في قناتنا الرسمية", url=CHANNEL_URL)],
-                [InlineKeyboardButton("✅ تم الاشتراك، تفعيل البوت", callback_data="nav:check_sub")]
-            ])
-            await msg.reply_text("أهلاً بكِ في Dua Space 🌙\nيرجى الانضمام لقناتنا الرسمية للاستفادة من كامل خدمات البوت:", reply_markup=kb)
+        btn_txt = "📢 الانضمام للقناة الرسمية" if lang == "ar" else "📢 Join our Official Channel"
+        check_txt = "✅ تم الاشتراك، تفعيل البوت" if lang == "ar" else "✅ Joined, Activate Bot"
+        sub_prompt = "أهلاً بكِ في Dua Space 🌙\nيرجى الانضمام لقناتنا الرسمية للاستمتاع بكافة المزايا:" if lang == "ar" else "Welcome to Dua Space 🌙\nPlease join our official channel to use the bot:"
+        kb = InlineKeyboardMarkup([
+            [InlineKeyboardButton(btn_txt, url=CHANNEL_URL)],
+            [InlineKeyboardButton(check_txt, callback_data="nav:check_sub")]
+        ])
+        await msg.reply_text(sub_prompt, reply_markup=kb)
         return
 
     welcome = get_setting("welcome_en" if lang == "en" else "welcome_ar")
     await msg.reply_text(welcome, reply_markup=main_menu_keyboard(lang))
 
-# ==================================================
-# التصفح والتفاعل
-# ==================================================
+# ==========================================
+# التصفح والتفاعل للمستخدمين
+# ==========================================
 
 async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     data = query.data
     uid = query.from_user.id
-    lang = get_user_lang(uid)
+    lang = get_lang(uid)
 
     if data == "nav:check_sub":
         if await check_subscription(uid, context):
             welcome = get_setting("welcome_en" if lang == "en" else "welcome_ar")
             await query.edit_message_text(welcome, reply_markup=main_menu_keyboard(lang))
         else:
-            await query.answer("لم يتم التحقق من الاشتراك في القناة بعد." if lang == "ar" else "Subscription check failed. Please join the channel.", show_alert=True)
+            await query.answer("لم يتم التحقق من اشتراكك في القناة بعد." if lang == "ar" else "Subscription verification failed. Please join the channel.", show_alert=True)
 
     elif data == "nav:home":
         context.user_data.pop("state", None)
         welcome = get_setting("welcome_en" if lang == "en" else "welcome_ar")
         await query.edit_message_text(welcome, reply_markup=main_menu_keyboard(lang))
 
-    # --- تبديل اللغة ---
     elif data == "nav:lang":
         kb = InlineKeyboardMarkup([
             [InlineKeyboardButton("🇸🇦 العربية", callback_data="setlang:ar"), InlineKeyboardButton("🇬🇧 English", callback_data="setlang:en")],
@@ -379,45 +357,30 @@ async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data.startswith("setlang:"):
         new_lang = data.split(":")[1]
-        set_user_lang(uid, new_lang)
-        await query.answer("تم تغيير اللغة بنجاح!" if new_lang == "ar" else "Language updated successfully!")
+        set_lang(uid, new_lang)
+        await query.answer("تم تغيير اللغة بنجاح!" if new_lang == "ar" else "Language changed successfully!")
         welcome = get_setting("welcome_en" if new_lang == "en" else "welcome_ar")
         await query.edit_message_text(welcome, reply_markup=main_menu_keyboard(new_lang))
 
-    # --- مكتبة الكتب والمراجع المفتوحة ---
+    # --- تصفح المكتبة ---
     elif data == "nav:library":
         with db_connect() as db:
-            cats = db.execute("SELECT category_id, name_ar, name_en FROM categories ORDER BY position, category_id").fetchall()
-        kb = []
-        for c in cats:
-            name = c["name_en"] if lang == "en" else c["name_ar"]
-            kb.append([InlineKeyboardButton(f"📂 {name}", callback_data=f"lib:cat:{c['category_id']}")])
+            cats = db.execute("SELECT category_id, name FROM categories ORDER BY position, category_id").fetchall()
+        kb = [[InlineKeyboardButton(f"📂 {c['name']}", callback_data=f"lib:cat:{c['category_id']}")] for c in cats]
         kb.append([InlineKeyboardButton("🏠 Main Menu" if lang == "en" else "🏠 القائمة الرئيسية", callback_data="nav:home")])
-        header = "📚 **Dua Space Digital Library:**\nSelect a field to view textbooks, research databases, and learning portals:" if lang == "en" else "📚 **مكتبة Dua Space الرقمية والمعرفية:**\nاختاري المجال المطلوب لتصفح المراجع، المصاحف، معاجم اللغات، والمصادر العالمية:"
+        header = "📚 **مكتبة Dua Space المعرفية:**\nاختاري القسم المطلوب لتصفح المراجع والمصادر والكتب المفتوحة:" if lang == "ar" else "📚 **Dua Space Knowledge Library:**\nSelect a section to explore textbooks, digital sources, and open references:"
         await query.edit_message_text(header, reply_markup=InlineKeyboardMarkup(kb), parse_mode="Markdown")
 
     elif data.startswith("lib:cat:"):
         cid = int(data.split(":")[2])
         with db_connect() as db:
-            cat = db.execute("SELECT * FROM categories WHERE category_id = ?", (cid,)).fetchone()
-            bks = db.execute("SELECT * FROM books WHERE category_id = ? ORDER BY book_id DESC", (cid,)).fetchall()
+            cat = db.execute("SELECT name, description FROM categories WHERE category_id = ?", (cid,)).fetchone()
+            bks = db.execute("SELECT book_id, title FROM books WHERE category_id = ? ORDER BY book_id DESC", (cid,)).fetchall()
 
-        c_name = cat["name_en"] if lang == "en" else cat["name_ar"]
-        c_desc = cat["description_en"] if lang == "en" else cat["description_ar"]
-
-        kb = []
-        for b in bks:
-            btitle = b["title_en"] if lang == "en" and b["title_en"] else b["title_ar"]
-            kb.append([InlineKeyboardButton(f"📖 {btitle}", callback_data=f"lib:view:{b['book_id']}")])
+        kb = [[InlineKeyboardButton(f"📖 {b['title']}", callback_data=f"lib:view:{b['book_id']}")] for b in bks]
         kb.append([InlineKeyboardButton("⬅️ Back to Categories" if lang == "en" else "⬅️ رجوع للأقسام", callback_data="nav:library")])
-
-        if lang == "en":
-            text = f"📂 **Category: {c_name}**\n_{c_desc}_\n\n"
-            text += "Available References & Materials:" if bks else "No materials added in this section yet."
-        else:
-            text = f"📂 **قسم: {c_name}**\n_{c_desc}_\n\n"
-            text += "المراجع والمصادر المتوفرة في هذا القسم:" if bks else "لا توجد مواد مضافة في هذا القسم حالياً."
-
+        text = f"📂 **قسم: {cat['name']}**\n_{cat['description']}_\n\n"
+        text += "المواد والمراجع المتوفرة:" if bks else "لا توجد مواد مضافة في هذا القسم حالياً."
         await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(kb), parse_mode="Markdown")
 
     elif data.startswith("lib:view:"):
@@ -425,60 +388,46 @@ async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE):
         with db_connect() as db:
             bk = db.execute("SELECT * FROM books WHERE book_id = ?", (bid,)).fetchone()
 
-        btitle = bk["title_en"] if lang == "en" and bk["title_en"] else bk["title_ar"]
-        bdesc = bk["description_en"] if lang == "en" and bk["description_en"] else bk["description_ar"]
-
         kb = []
         if bk["url"]:
-            btn_txt = "🌐 Open Direct Source / المرجع المباشر" if lang == "en" else "🌐 الدخول للمصدر المباشر المعتمد"
-            kb.append([InlineKeyboardButton(btn_txt, url=bk["url"])])
-        kb.append([InlineKeyboardButton("⬅️ Back" if lang == "en" else "⬅️ رجوع", callback_data=f"lib:cat:{bk['category_id']}")])
+            btn_lbl = "🌐 فتح المرجع / المصدر المعتمد" if lang == "ar" else "🌐 Open Direct Source"
+            kb.append([InlineKeyboardButton(btn_lbl, url=bk["url"])])
+        kb.append([InlineKeyboardButton("⬅️ Back" if lang == "en" else "⬅️ رجوع للقسم", callback_data=f"lib:cat:{bk['category_id']}")])
 
-        caption_txt = f"📖 **{btitle}**\n\n{bdesc or ''}"
+        caption_txt = f"📖 **{bk['title']}**\n\n{bk['description'] or ''}"
 
-        # إرسال الملف المباشر (PDF / فيديو / صورة) في الشات إن وجد
+        # إرسال الملف المباشر (PDF / فيديو / صورة) إن وجد
         if bk["file_id"]:
-            cid = query.from_user.id
             try:
                 if bk["media_type"] == "document":
-                    await context.bot.send_document(chat_id=cid, document=bk["file_id"], caption=caption_txt, parse_mode="Markdown")
+                    await context.bot.send_document(chat_id=uid, document=bk["file_id"], caption=caption_txt, parse_mode="Markdown")
                 elif bk["media_type"] == "video":
-                    await context.bot.send_video(chat_id=cid, video=bk["file_id"], caption=caption_txt, parse_mode="Markdown")
+                    await context.bot.send_video(chat_id=uid, video=bk["file_id"], caption=caption_txt, parse_mode="Markdown")
                 elif bk["media_type"] == "photo":
-                    await context.bot.send_photo(chat_id=cid, photo=bk["file_id"], caption=caption_txt, parse_mode="Markdown")
+                    await context.bot.send_photo(chat_id=uid, photo=bk["file_id"], caption=caption_txt, parse_mode="Markdown")
             except Exception as e:
-                logger.error("Failed sending media file: %s", e)
+                logger.error("Failed sending file: %s", e)
         else:
             await query.edit_message_text(caption_txt, reply_markup=InlineKeyboardMarkup(kb), parse_mode="Markdown")
 
-    # --- خدمات التصميم (بدون أسعار محددة) ---
+    # --- خدمات التصميم بدون أسعار مفروضة ---
     elif data == "nav:design":
         with db_connect() as db:
             items = db.execute("SELECT * FROM designs").fetchall()
-        intro = get_setting("design_intro_en" if lang == "en" else "design_intro_ar")
-        text = f"{intro}\n\n"
+        text = get_setting("design_intro") + "\n\n"
         for itm in items:
-            t = itm["title_en"] if lang == "en" else itm["title_ar"]
-            d = itm["description_en"] if lang == "en" else itm["description_ar"]
-            text += f"▫️ **{t}**\n_{d}_\n\n"
+            text += f"▫️ **{itm['title']}**\n_{itm['description']}_\n\n"
 
-        if lang == "en":
-            text += "📩 To request any design service or discuss details, click the button below:"
-            kb = [
-                [InlineKeyboardButton("✍️ Request a Design Service", callback_data="order:design")],
-                [InlineKeyboardButton("🏠 Main Menu", callback_data="nav:home")]
-            ]
-        else:
-            text += "📩 لطلب أي خدمة وتحديد المواصفات والاتفاق المباشر، اضغطي على زر طلب تصميم:"
-            kb = [
-                [InlineKeyboardButton("✍️ طلب خدمة تصميم الآن", callback_data="order:design")],
-                [InlineKeyboardButton("🏠 القائمة الرئيسية", callback_data="nav:home")]
-            ]
+        text += "📩 لطلب أي خدمة وتحديد المواصفات المطلوبة، اضغطي على زر طلب تصميم للاتفاق المباشر:"
+        kb = [
+            [InlineKeyboardButton("✍️ طلب خدمة تصميم الآن", callback_data="order:design")],
+            [InlineKeyboardButton("🏠 Main Menu" if lang == "en" else "🏠 القائمة الرئيسية", callback_data="nav:home")]
+        ]
         await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(kb), parse_mode="Markdown")
 
     elif data == "order:design":
         context.user_data["state"] = "waiting_design_order"
-        prompt = "🎨 Please write your design requirements in one message, and our team will get in touch directly:" if lang == "en" else "🎨 أرسلي مواصفات التصميم الذي ترغبين به وسنتواصل معكِ للاتفاق على التفاصيل فوراً:"
+        prompt = "🎨 أرسلي مواصفات التصميم الذي ترغبين به في رسالة واحدة وسنتواصل معكِ فوراً:" if lang == "ar" else "🎨 Please describe your design project, and we will get back to you directly:"
         await query.message.reply_text(prompt)
 
     # --- واحة الأذكار والسبحة ---
@@ -523,18 +472,17 @@ async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.answer("تم تصفير العداد.")
         await handle_navigation(update, context)
 
-    # --- مؤقت بومودورو للتركيز والمذاكرة ---
+    # --- مؤقت بومودورو للتركيز ---
     elif data == "nav:pomo":
-        txt = "⏱️ Focus timer started for 25 minutes! Work hard and stay focused 🎯" if lang == "en" else "⏱️ بدأ مؤقت التركيز لمدة 25 دقيقة! استثمري وقتكِ في الإنجاز والدراسة 🎯"
+        txt = "⏱️ بدأ مؤقت التركيز لمدة 25 دقيقة! استثمري وقتكِ في الدراسة والإنجاز 🎯" if lang == "ar" else "⏱️ Focus session started for 25 minutes! Stay focused and productive 🎯"
         await query.message.reply_text(txt)
         asyncio.create_task(pomo_timer(query.message.chat_id, context, lang))
 
-    # --- بنك المسابقات والتحديات ---
+    # --- التحديات والمسابقات ---
     elif data == "nav:quiz":
         with db_connect() as db:
             q = db.execute("SELECT * FROM quiz ORDER BY RANDOM() LIMIT 1").fetchone()
         context.user_data["current_q"] = dict(q)
-        q_title = q["question_en"] if lang == "en" else q["question_ar"]
         kb = [
             [InlineKeyboardButton(q["opt1"], callback_data="q:ans:1")],
             [InlineKeyboardButton(q["opt2"], callback_data="q:ans:2")],
@@ -542,55 +490,52 @@ async def handle_navigation(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton(q["opt4"], callback_data="q:ans:4")],
             [InlineKeyboardButton("🏠 Main Menu" if lang == "en" else "🏠 الرئيسية", callback_data="nav:home")]
         ]
-        text = f"🧠 **{q_title}**\n\nChoose the correct answer:" if lang == "en" else f"🧠 **{q_title}**\n\nاختاري الإجابة الصحيحة:"
+        text = f"🧠 **سؤال التحدي والمعرفة:**\n\n{q['question']}\n\nاختاري الإجابة الصحيحة:"
         await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(kb), parse_mode="Markdown")
 
     elif data.startswith("q:ans:"):
         choice = int(data.split(":")[2])
         q = context.user_data.get("current_q")
         if not q:
-            await query.edit_message_text("Session expired.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔄 New Question", callback_data="nav:quiz")]]))
+            await query.edit_message_text("انتهت الجلسة.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔄 سؤال جديد", callback_data="nav:quiz")]]))
             return
         correct = (choice == q["answer"])
-        exp = q["explanation_en"] if lang == "en" else q["explanation_ar"]
-        header = ("🎉 Correct! Outstanding." if correct else "❌ Incorrect answer.") if lang == "en" else ("🎉 إجابة صحيحة وممتازة جداً!" if correct else "❌ إجابة غير صحيحة.")
-        text = f"{header}\n\n💡 **Explanation / الشرح:**\n{exp}"
+        res = "🎉 إجابة صحيحة وممتازة!" if correct else "❌ إجابة غير صحيحة، حظاً أوفر في السؤال القادم."
+        text = f"{res}\n\n💡 **الشرح والتوضيح:**\n{q['explanation']}"
         kb = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🧠 Next Question / سؤال آخر", callback_data="nav:quiz")],
-            [InlineKeyboardButton("🏠 Main Menu / الرئيسية", callback_data="nav:home")]
+            [InlineKeyboardButton("🧠 سؤال آخر", callback_data="nav:quiz")],
+            [InlineKeyboardButton("🏠 الرئيسية", callback_data="nav:home")]
         ])
         await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
 
-    # --- الدعم والتواصل ---
     elif data == "nav:support":
         context.user_data["state"] = "waiting_support_ticket"
-        txt = "💬 Send your inquiry or feedback, and administration will review it immediately:" if lang == "en" else "💬 اكتبي رسالتكِ أو استفساركِ بالتفصيل وسيصل مباشرة للإدارة للرد عليكِ:"
-        await query.message.reply_text(txt)
+        await query.message.reply_text("💬 اكتبي رسالتكِ أو استفساركِ بالتفصيل وسيصل مباشرة إلى الإدارة للرد عليكِ:")
 
 async def pomo_timer(chat_id, context, lang="ar"):
     await asyncio.sleep(25 * 60)
     try:
-        txt = "🔔 **25-minute focus session finished!** Take a 5-minute break to recharge ✨" if lang == "en" else "🔔 **انتهت جلسة الـ 25 دقيقة!** أحسنتِ، خذي استراحة 5 دقائق لتجديد النشاط ✨"
+        txt = "🔔 **انتهت جلسة الـ 25 دقيقة!** أحسنتِ، خذي استراحة 5 دقائق لتجديد النشاط ✨" if lang == "ar" else "🔔 **25-minute focus session completed!** Take a 5-minute break ✨"
         await context.bot.send_message(chat_id=chat_id, text=txt, parse_mode="Markdown")
     except Exception:
         pass
 
-# ==================================================
-# لوحة القيادة الإدارية الشاملة والمطلقة (/admin)
-# ==================================================
+# ==========================================
+# لوحة القيادة الإدارية الشاملة (/admin)
+# ==========================================
 
 def admin_home_keyboard():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("📊 إحصائيات المنصة الحية", callback_data="adm:stats")],
-        [InlineKeyboardButton("📂 إدارة أقسام المكتبة", callback_data="adm:cats"), InlineKeyboardButton("➕ إضافة مادة/كتاب/PDF", callback_data="adm:add_book")],
+        [InlineKeyboardButton("📂 إدارة أقسام المكتبة", callback_data="adm:cats"), InlineKeyboardButton("➕ إضافة مادة / PDF / رابط", callback_data="adm:add_book")],
         [InlineKeyboardButton("🎨 خدمات التصميم والنصوص", callback_data="adm:designs"), InlineKeyboardButton("📢 إذاعة عامة للجميع", callback_data="adm:broadcast")],
         [InlineKeyboardButton("⚙️ إعدادات الترحيب والاشتراك والصيانة", callback_data="adm:settings")],
-        [InlineKeyboardButton("👀 العودة كـ مستخدم عادي", callback_data="nav:home")]
+        [InlineKeyboardButton("👀 العودة لواجهة المستخدم", callback_data="nav:home")]
     ])
 
 @admin_only
 async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.effective_message.reply_text("👑 **أهلاً بكِ في لوحة التحكم الإدارية المطلقة لـ Dua Space:**\nلديكِ الصلاحية الكاملة لتعديل كل شيء دون المساس بالأكواد:", reply_markup=admin_home_keyboard(), parse_mode="Markdown")
+    await update.effective_message.reply_text("👑 **لوحة التحكم الشاملة لمالكة المنصة:**\nكل الصلاحيات متاحة لكِ هنا مباشرة وبسهولة:", reply_markup=admin_home_keyboard(), parse_mode="Markdown")
 
 @admin_only
 async def admin_actions(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -600,7 +545,7 @@ async def admin_actions(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if data == "adm:home":
         context.user_data.pop("adm_state", None)
-        await query.edit_message_text("👑 **لوحة التحكم الإدارية الشاملة:**", reply_markup=admin_home_keyboard(), parse_mode="Markdown")
+        await query.edit_message_text("👑 **لوحة التحكم الشاملة لمالكة المنصة:**", reply_markup=admin_home_keyboard(), parse_mode="Markdown")
 
     elif data == "adm:stats":
         with db_connect() as db:
@@ -615,49 +560,49 @@ async def admin_actions(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"📂 عدد الأقسام النشطة: `{c_cnt}`\n"
             f"💬 التذاكر المفتوحة قيد الانتظار: `{t_cnt}`"
         )
-        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("↩️ رجوع", callback_data="adm:home")]]), parse_mode="Markdown")
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("↩️ رجوع للوحة الإدارة", callback_data="adm:home")]]), parse_mode="Markdown")
 
     # --- إدارة الأقسام ---
     elif data == "adm:cats":
         with db_connect() as db:
             cats = db.execute("SELECT * FROM categories ORDER BY position, category_id").fetchall()
-        kb = [[InlineKeyboardButton(f"🗑️ حذف: {c['name_ar']}", callback_data=f"adm:delcat:{c['category_id']}")] for c in cats]
+        kb = [[InlineKeyboardButton(f"🗑️ حذف: {c['name']}", callback_data=f"adm:delcat:{c['category_id']}")] for c in cats]
         kb.append([InlineKeyboardButton("➕ إنشاء قسم جديد تماماً", callback_data="adm:new_cat")])
         kb.append([InlineKeyboardButton("↩️ رجوع", callback_data="adm:home")])
-        await query.edit_message_text("📂 **إدارة أقسام المكتبة:**\nاضغطي على أي قسم لحذفه بالكامل ومسح كتبه، أو اضغطي لإنشاء قسم جديد:", reply_markup=InlineKeyboardMarkup(kb), parse_mode="Markdown")
+        await query.edit_message_text("📂 **إدارة أقسام المكتبة:**\nاضغطي على أي قسم لحذفه بالكامل ومسح محتوياته، أو أضيفي قسماً جديداً:", reply_markup=InlineKeyboardMarkup(kb), parse_mode="Markdown")
 
     elif data.startswith("adm:delcat:"):
         cid = int(data.split(":")[2])
         with db_connect() as db:
             db.execute("DELETE FROM categories WHERE category_id = ?", (cid,))
-        await query.answer("تم حذف القسم وكافة مواده بنجاح.")
+        await query.answer("تم حذف القسم بنجاح.")
         await admin_actions(update, context)
 
     elif data == "adm:new_cat":
-        context.user_data["adm_state"] = "waiting_new_cat_name_ar"
-        await query.message.reply_text("➕ أرسلي اسم القسم الجديد بالعربي:")
+        context.user_data["adm_state"] = "waiting_new_cat_name"
+        await query.message.reply_text("➕ أرسلي اسم القسم الجديد الآن:")
 
-    # --- إضافة مادة / PDF / فيديو للمكتبة ---
+    # --- إضافة كتاب أو PDF أو فيديو ---
     elif data == "adm:add_book":
         with db_connect() as db:
-            cats = db.execute("SELECT category_id, name_ar FROM categories").fetchall()
-        kb = [[InlineKeyboardButton(c["name_ar"], callback_data=f"adm:selcat:{c['category_id']}")] for c in cats]
+            cats = db.execute("SELECT category_id, name FROM categories").fetchall()
+        kb = [[InlineKeyboardButton(c["name"], callback_data=f"adm:selcat:{c['category_id']}")] for c in cats]
         kb.append([InlineKeyboardButton("↩️ إلغاء", callback_data="adm:home")])
-        await query.edit_message_text("اختاري القسم الذي تريدين إرفاق المادة أو الكتاب إليه:", reply_markup=InlineKeyboardMarkup(kb))
+        await query.edit_message_text("اختاري القسم الذي تريدين إضافة المادة إليه:", reply_markup=InlineKeyboardMarkup(kb))
 
     elif data.startswith("adm:selcat:"):
         cid = int(data.split(":")[2])
         context.user_data["adm_target_cid"] = cid
-        context.user_data["adm_state"] = "waiting_book_title_ar"
-        await query.message.reply_text("📖 أرسلي عنوان الكتاب أو المادة بالعربي:")
+        context.user_data["adm_state"] = "waiting_book_title"
+        await query.message.reply_text("📖 أرسلي عنوان الكتاب أو المادة أو المحاضرة:")
 
     # --- إدارة خدمات التصميم والنصوص ---
     elif data == "adm:designs":
         with db_connect() as db:
             ds = db.execute("SELECT * FROM designs").fetchall()
-        kb = [[InlineKeyboardButton(f"🗑️ حذف: {d['title_ar']}", callback_data=f"adm:deldes:{d['design_id']}")] for d in ds]
+        kb = [[InlineKeyboardButton(f"🗑️ حذف: {d['title']}", callback_data=f"adm:deldes:{d['design_id']}")] for d in ds]
         kb.append([InlineKeyboardButton("➕ إضافة خدمة تصميم جديدة", callback_data="adm:new_design")])
-        kb.append([InlineKeyboardButton("✏️ تعديل النص التمهيدي لقسم التصميم", callback_data="adm:edit_des_intro")])
+        kb.append([InlineKeyboardButton("✏️ تعديل النص التمهيدي للقسم", callback_data="adm:edit_des_intro")])
         kb.append([InlineKeyboardButton("↩️ رجوع", callback_data="adm:home")])
         await query.edit_message_text("🎨 **إدارة خدمات التصميم (بدون أسعار محددة):**", reply_markup=InlineKeyboardMarkup(kb), parse_mode="Markdown")
 
@@ -669,8 +614,8 @@ async def admin_actions(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await admin_actions(update, context)
 
     elif data == "adm:new_design":
-        context.user_data["adm_state"] = "waiting_design_title_ar"
-        await query.message.reply_text("أرسلي اسم خدمة التصميم الجديدة بالعربي:")
+        context.user_data["adm_state"] = "waiting_design_title"
+        await query.message.reply_text("أرسلي اسم خدمة التصميم الجديدة:")
 
     elif data == "adm:edit_des_intro":
         context.user_data["adm_state"] = "waiting_design_intro_text"
@@ -681,7 +626,7 @@ async def admin_actions(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["adm_state"] = "waiting_broadcast"
         await query.message.reply_text("📢 أرسلي الرسالة التي تريدين إذاعتها لجميع مستخدمي المنصة الآن:")
 
-    # --- الإعدادات الشاملة ---
+    # --- الإعدادات الشاملة والنظام ---
     elif data == "adm:settings":
         sub = get_setting("force_subscription", "1")
         maint = get_setting("maintenance", "0")
@@ -689,8 +634,8 @@ async def admin_actions(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton(f"🔐 الاشتراك الإجباري: {'مفعّل ✅' if sub == '1' else 'معطّل ❌'}", callback_data="adm:toggle_sub")],
             [InlineKeyboardButton(f"🛠️ وضع الصيانة: {'مفعّل ✅' if maint == '1' else 'معطّل ❌'}", callback_data="adm:toggle_maint")],
             [InlineKeyboardButton("✏️ تعديل رسالة الترحيب بالعربي", callback_data="adm:set_welcome_ar")],
-            [InlineKeyboardButton("✏️ تعديل رسالة الترحيب بالإنجليزية", callback_data="adm:set_welcome_en")],
-            [InlineKeyboardButton("↩️ رجوع", callback_data="adm:home")]
+            [InlineKeyboardButton("✏️ تعديل رسالة الترحيب بالإنجليزي", callback_data="adm:set_welcome_en")],
+            [InlineKeyboardButton("↩️ رجوع للوحة الإدارة", callback_data="adm:home")]
         ])
         await query.edit_message_text("⚙️ **إعدادات المنصة والتحكم بالنظام:**", reply_markup=kb, parse_mode="Markdown")
 
@@ -714,9 +659,9 @@ async def admin_actions(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["adm_state"] = "waiting_welcome_text_en"
         await query.message.reply_text("Send the new English welcome message:")
 
-# ==================================================
-# معالج الرسائل، الملفات، والصور
-# ==================================================
+# ==========================================
+# استلام الرسائل والملفات
+# ==========================================
 
 async def handle_incoming_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
@@ -728,7 +673,7 @@ async def handle_incoming_messages(update: Update, context: ContextTypes.DEFAULT
     u_state = context.user_data.get("state")
     a_state = context.user_data.get("adm_state")
 
-    # استلام طلب تصميم من مستخدم
+    # استلام طلب تصميم من المستخدم
     if u_state == "waiting_design_order":
         context.user_data.pop("state", None)
         await msg.reply_text("✅ استلمنا طلبكِ بنجاح وسنتواصل معكِ فوراً لمناقشة التفاصيل والاتفاق!")
@@ -747,21 +692,13 @@ async def handle_incoming_messages(update: Update, context: ContextTypes.DEFAULT
             await context.bot.send_message(chat_id=ADMIN_ID, text=f"💬 **تذكرة دعم جديدة (#{tid}):**\nمن: {user.full_name} (`{user.id}`)\nالرسالة:\n{text}\n\nللرد: `/reply {tid} نص الرد`", parse_mode="Markdown")
         return
 
-    # إجراءات الأدمن المباشرة
+    # عمليات المالك والإدارة
     if is_owner(user.id) and a_state:
-        if a_state == "waiting_new_cat_name_ar":
-            context.user_data["temp_cat_ar"] = text
-            context.user_data["adm_state"] = "waiting_new_cat_name_en"
-            await msg.reply_text("أرسلي اسم القسم بالإنجليزية:")
-            return
-
-        elif a_state == "waiting_new_cat_name_en":
-            cat_ar = context.user_data.pop("temp_cat_ar")
-            cat_en = text
+        if a_state == "waiting_new_cat_name":
             with db_connect() as db:
-                db.execute("INSERT INTO categories (name_ar, name_en, description_ar, description_en) VALUES (?, ?, 'قسم جديد', 'New Section')", (cat_ar, cat_en))
+                db.execute("INSERT INTO categories (name, description) VALUES (?, 'قسم معرفي متجدد')", (text,))
             context.user_data.pop("adm_state", None)
-            await msg.reply_text(f"✅ تم إنشاء القسم: **{cat_ar}** بنجاح ومتاح للجميع الآن!", parse_mode="Markdown")
+            await msg.reply_text(f"✅ تم إنشاء القسم: **{text}** بنجاح ومتاح للجميع الآن!", parse_mode="Markdown")
             return
 
         elif a_state == "waiting_welcome_text_ar":
@@ -777,7 +714,7 @@ async def handle_incoming_messages(update: Update, context: ContextTypes.DEFAULT
             return
 
         elif a_state == "waiting_design_intro_text":
-            set_setting("design_intro_ar", text)
+            set_setting("design_intro", text)
             context.user_data.pop("adm_state", None)
             await msg.reply_text("✅ تم تحديث النص التمهيدي لقسم التصميم بنجاح!")
             return
@@ -797,23 +734,22 @@ async def handle_incoming_messages(update: Update, context: ContextTypes.DEFAULT
             await msg.reply_text(f"📢 اكتملت الإذاعة بنجاح! تم الإرسال إلى {sent} مستخدم.")
             return
 
-        # مراحل إضافة مادة أو ملف للمكتبة
-        elif a_state == "waiting_book_title_ar":
-            context.user_data["temp_b_title_ar"] = text
-            context.user_data["adm_state"] = "waiting_book_desc_ar"
+        elif a_state == "waiting_book_title":
+            context.user_data["temp_b_title"] = text
+            context.user_data["adm_state"] = "waiting_book_desc"
             await msg.reply_text("أرسلي وصفاً مختصراً للمادة (أو اكتبي: لا يوجد):")
             return
 
-        elif a_state == "waiting_book_desc_ar":
-            context.user_data["temp_b_desc_ar"] = "" if text == "لا يوجد" else text
+        elif a_state == "waiting_book_desc":
+            context.user_data["temp_b_desc"] = "" if text == "لا يوجد" else text
             context.user_data["adm_state"] = "waiting_book_file"
-            await msg.reply_text("📥 الآن أرسلي **ملف الـ PDF**، أو **الفيديو**، أو **الصورة**، أو **رابط المصدر المباشر**:")
+            await msg.reply_text("📥 الآن أرسلي **ملف PDF**، أو **فيديو**، أو **صورة**، أو **رابط مباشر**:")
             return
 
         elif a_state == "waiting_book_file":
             cid = context.user_data.get("adm_target_cid", 1)
-            t_ar = context.user_data.pop("temp_b_title_ar", "مادة معرفية")
-            d_ar = context.user_data.pop("temp_b_desc_ar", "")
+            t = context.user_data.pop("temp_b_title", "مادة معرفية")
+            d = context.user_data.pop("temp_b_desc", "")
             context.user_data.pop("adm_state", None)
 
             fid, m_type, b_url = "", "text", ""
@@ -827,31 +763,29 @@ async def handle_incoming_messages(update: Update, context: ContextTypes.DEFAULT
                 b_url = text
 
             with db_connect() as db:
-                db.execute("INSERT INTO books (category_id, title_ar, title_en, description_ar, description_en, url, file_id, media_type, added_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                           (cid, t_ar, t_ar, d_ar, d_ar, b_url, fid, m_type, now_text()))
-            await msg.reply_text(f"✅ تمت إضافة **{t_ar}** إلى القسم المحدد بنجاح ومتاح للتحميل والتصفح الآن!", parse_mode="Markdown")
+                db.execute("INSERT INTO books (category_id, title, description, url, file_id, media_type, added_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                           (cid, t, d, b_url, fid, m_type, now_text()))
+            await msg.reply_text(f"✅ تمت إضافة **{t}** بنجاح ومتاح للتحميل والتصفح داخل القسم الآن!", parse_mode="Markdown")
             return
 
-        # إضافة خدمة تصميم جديدة
-        elif a_state == "waiting_design_title_ar":
-            context.user_data["temp_des_ar"] = text
-            context.user_data["adm_state"] = "waiting_design_desc_ar"
+        elif a_state == "waiting_design_title":
+            context.user_data["temp_des_title"] = text
+            context.user_data["adm_state"] = "waiting_design_desc"
             await msg.reply_text("أرسلي وصفاً تفصيلياً لخدمة التصميم:")
             return
 
-        elif a_state == "waiting_design_desc_ar":
-            t_ar = context.user_data.pop("temp_des_ar")
-            d_ar = text
+        elif a_state == "waiting_design_desc":
+            t = context.user_data.pop("temp_des_title")
+            d = text
             with db_connect() as db:
-                db.execute("INSERT INTO designs (title_ar, title_en, description_ar, description_en) VALUES (?, ?, ?, ?)",
-                           (t_ar, t_ar, d_ar, d_ar))
+                db.execute("INSERT INTO designs (title, description) VALUES (?, ?)", (t, d))
             context.user_data.pop("adm_state", None)
-            await msg.reply_text(f"✅ تمت إضافة خدمة التصميم: **{t_ar}** بنجاح!", parse_mode="Markdown")
+            await msg.reply_text(f"✅ تمت إضافة خدمة التصميم: **{t}** بنجاح!", parse_mode="Markdown")
             return
 
-# ==================================================
-# أوامر الإشراف في المجموعات (مع كشف المشرف المتخفي)
-# ==================================================
+# ==========================================
+# أوامر الإشراف في المجموعات
+# ==========================================
 
 async def is_group_admin(chat, user, bot):
     if user.id in [chat.id, 1087968824, 777000] or is_owner(user.id):
@@ -961,12 +895,12 @@ async def cmd_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.effective_message.reply_text(f"تعذر الإرسال: {e}")
 
-# ==================================================
-# خادم الويب المدمج لـ Render ونقطة الانطلاق
-# ==================================================
+# ==========================================
+# تشغيل خادم الويب والتطبيق
+# ==========================================
 
 async def handle_health(request):
-    return web.Response(text="Dua Space Engine: 100% Operational", status=200)
+    return web.Response(text="Dua Space Engine: 100% Active", status=200)
 
 async def main():
     if not BOT_TOKEN:
@@ -1005,7 +939,7 @@ async def main():
         await application.initialize()
         await application.start()
         await application.updater.start_polling(drop_pending_updates=False)
-        logger.info("Dua Space Ultimate Engine started successfully.")
+        logger.info("Dua Space Engine is completely ready and running.")
         await asyncio.Event().wait()
     finally:
         await application.updater.stop()
