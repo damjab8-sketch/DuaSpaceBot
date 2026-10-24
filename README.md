@@ -1,2 +1,4 @@
-# DuaSpaceBot
-Telegram bot for Dua Space channel
+python-telegram-bot[job-queue]==21.10
+aiohttp>=3.9,<4
+
+
