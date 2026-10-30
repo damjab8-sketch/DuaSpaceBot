@@ -290,8 +290,8 @@ async def check_subscription(user_id: int, context: ContextTypes.DEFAULT_TYPE) -
         return True
     try:
         member = await context.bot.get_chat_member(CHANNEL_ID, user_id)
-        if member.status in (ChatMemberStatus.LEFT, ChatMemberStatus.BANNED):
-            return False
+        if member.status in (ChatMemberStatus.LEFT, ChatMemberStatus.BANNED
+                                 return False
         return True
     except Exception as e:
         log.warning(f"تنبيه فحص الاشتراك: {e}")
@@ -581,8 +581,7 @@ async def show_materials(query, category, page):
 
 async def show_favorites(query, user_id):
     with db() as con:
-        favs = con.execute(
-            "SELECT item_type, item_id, title FROM favorites WHERE user_id=? ORDER BY rowid DESC LIMIT 30",
+        favs = con.execute(LIMIT 30",
             (user_id,),
         ).fetchall()
     
@@ -672,20 +671,31 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if state == "design_order":
         category = context.user_data.pop("design_type", "تصميم عام")
         context.user_data.pop("state", None)
-        for admin_id in ADMIN_IDS:
+        admin_ids = set(ADMIN_IDS)
+        admin_ids.discard(0)
+        delivered = 0
+        for admin_id in admin_ids:
             try:
                 await context.bot.send_message(
                     admin_id,
                     f"🎨 <b>طلب تصميم جديد!</b>\n\n"
                     f"• <b>النوع:</b> {html.escape(category)}\n"
                     f"• <b>العميل:</b> {html.escape(user.full_name)} (ID: <code>{user.id}</code>)\n"
-                    f"• <b>المعرف:</b> @{user.username or 'بدون معرف'}\n\n"
+                    f"• <b>المعرف:</b> @{html.escape(user.username or 'بدون معرف')}\n\n"
                     f"<b>التفاصيل:</b>\n{html.escape(text)}",
                     parse_mode="HTML",
                 )
+                delivered += 1
             except Exception:
-                pass
-        await update.message.reply_text("✅ استلمنا تفاصيل طلبكم بنجاح! سيتم التواصل معكم قريباً لمناقشة التفاصيل والاتفاق 🌿")
+                log.exception("تعذر إرسال طلب التصميم إلى الإدارة (admin_id=%s)", admin_id)
+        if delivered:
+            await update.message.reply_text(
+                "✅ تم إرسال طلبك إلى المصممة بنجاح! ستتواصل معك لمناقشة التفاصيل والاتفاق 🌿"
+            )
+        else:
+            await update.message.reply_text(
+                "⚠️ تعذر إرسال الطلب للإدارة. يرجى التواصل مباشرة مع المصممة عبر @xdua1."
+            )
         return
 
     if state == "support":
@@ -731,10 +741,50 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def on_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not is_admin(update.effective_user.id) or context.user_data.get("state") != "admin_upload":
+    user = update.effective_user
+    msg = update.message
+
+    # مرفقات العميل أثناء إنشاء طلب تصميم: إرسال نسخة مباشرة إلى الإدارة.
+    # يرسل العميل الملفات أولاً ثم يرسل وصف الطلب النصي لإكماله.
+    if context.user_data.get("state") == "design_order":
+        admin_ids = set(ADMIN_IDS)
+        admin_ids.discard(0)
+        delivered = 0
+        for admin_id in admin_ids:
+            try:
+                await context.bot.send_message(
+                    chat_id=admin_id,
+                    text=(
+                        "📎 <b>مرفق لطلب تصميم</b>\n"
+                        f"العميل: {html.escape(user.full_name)}\n"
+                        f"المعرّف: <code>{user.id}</code>\n"
+                        f"حساب تيليجرام: @{html.escape(user.username or 'غير متوفر')}\n"
+                        f"نوع الخدمة: {html.escape(context.user_data.get('design_type', 'تصميم عام'))}"
+                    ),
+                    parse_mode="HTML",
+                )
+                await context.bot.copy_message(
+                    chat_id=admin_id,
+                    from_chat_id=msg.chat_id,
+                    message_id=msg.message_id,
+                )
+                delivered += 1
+            except Exception:
+                log.exception("تعذر إرسال مرفق طلب التصميم إلى الإدارة (admin_id=%s)", admin_id)
+
+        if delivered:
+            await msg.reply_text(
+                "✅ وصل المرفق إلى المصممة. أرسلي الآن وصف الطلب في رسالة نصية لإكمال الإرسال."
+            )
+        else:
+            await msg.reply_text(
+                "⚠️ تعذر تسليم المرفق للإدارة الآن. تأكدي أن حساب الإدارة بدأ محادثة مع البوت، ثم حاولي مجددًا."
+            )
+        return
+
+    if not is_admin(user.id) or context.user_data.get("state") != "admin_upload":
         return
     cat, title = context.user_data.get("upload_meta", ("library", "ملف مرفوع"))
-    msg = update.message
     file_id, file_type = "", ""
     if msg.document:
         file_id, file_type = msg.document.file_id, "document"
@@ -804,7 +854,10 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["state"] = "design_order"
         context.user_data["design_type"] = design_name
         await query.message.reply_text(
-            f"اخترتم: <b>{design_name}</b>\n\nأرسلوا الآن وصفاً لما تحتاجونه وأي تفاصيل ترغبون بها وسنتواصل معكم مباشرة للتنفيذ ✨",
+            f"اخترتم: <b>{html.escape(design_name)}</b>\n\n"
+            "أرسلوا الصور أو الملفات المرجعية أولاً (إن وجدت)، ثم أرسلوا في رسالة واحدة "
+            "وصف التصميم والمقاس والنصوص والألوان والموعد المطلوب. "
+            "سيُرسل الوصف والمرفقات إلى إدارة البوت للتواصل معكم ✨",
             parse_mode="HTML",
         )
     elif data == "quotes" or data == "quotes:next":
@@ -820,8 +873,10 @@ async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             item = con.execute("SELECT * FROM materials WHERE id=?", (item_id,)).fetchone()
         if not item:
             await query.message.reply_text("المادة غير متوفرة.")
-            return
 
+            "SELECT item_type, item_id, title FROM favorites WHERE user_id=? ORDER BY rowid DESC
+            return
+            
         detail_text = (
             f"📚 <b>{html.escape(item['title'])}</b>\n\n"
             f"<b>نبذة عن المصدر:</b>\n{html.escape(item['body'] or 'مصدر تعليمي معتمد.')}\n\n"
